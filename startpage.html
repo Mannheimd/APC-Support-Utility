@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Act! Premium Cloud Support Utility | Start Page</title>
+</head>
+<body onload = function helloThere()>
+  <h1>
+    Welcome to the Act! Premium Cloud Support Utility
+  </h1>
+  <p id="testthing">hello</p>
+  <script>
+    document.getElementById("testthing").innerHTML = "NoFunctionTest";
+    function helloThere() {
+      document.getElementById("testthing").innerHTML = "YesFunctionTest";
+      loadDoc();
+    }
+  </script>
+  <script>
+    function loadDoc() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          parseXml(this);
+          document.getElementById("testthing").innerHTML = "Got to 1";
+        }
+        else
+        {
+          document.getElementById("testthing").innerHTML = "Failed to load";
+        }
+      };
+      xhttp.open("GET", "/resources/data/jenkinsEnvironments.xml", true);
+      xhttp.send();
+      document.getElementById("testthing").innerHTML = "Got to 2";
+    }
+
+    function parseXml(xml)
+    {
+      document.getElementById("testthing").innerHTML = "Got to 3";
+      var xmlDoc = xml.responseXml;
+      var environmentList = []
+      var xmlNodeList = xmlDoc.getElementsByTagName("environment");
+      for (var i = 0; i < xmlNodeList.length; i++)
+      {
+        var name = xmlNodeList[i].getElementsByTagName("name")[0].childNodes[0].nodeValue
+        var id = xmlNodeList[i].getElementsByTagName("id")[0].childNodes[0].nodeValue
+        var isProduction = xmlNodeList[i].getElementsByTagName("isProduction")[0].childNodes[0].nodeValue
+        var url = xmlNodeList[i].getElementsByTagName("url")[0].childNodes[0].nodeValue
+        var environment = {name:name, id:id, isProduction:isProduction, url:url};
+        environmentList[environmentList.length] = environment;
+      }
+
+      document.getElementById("testthing").innerHTML = "Got to 4";
+      document.getElementById("testthing").innerHTML = environmentList[0].name;
+    }
+  </script>
+</body>
+</html>

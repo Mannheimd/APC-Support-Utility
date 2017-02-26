@@ -1,0 +1,51 @@
+Folder structure: http://stackoverflow.com/questions/24199004/best-practice-to-organize-javascript-library-css-folder-structure
+
+
+Start page
+- Gather login credentials (stored in browser?)
+	- Refer to Login page
+- Get user access level
+	- Via Jenkins job?
+	- Via .xml file on server listing CloudOps2 and CloudOps3 personnel?
+
+Login page
+- Input:
+	- Username
+	- API Key
+- Link to Jenkins page and instructions to retrieve API key
+
+
+Master layout
+- Header
+	- User's name
+	- User's access level
+	- Configuration options?
+
+Lookup page
+- Input:
+	- LookupType
+	- LookupValue
+	- Environment
+		- Pulled from .xml file on server
+- Script: build array or .json file with input parameters
+- Worker: run lookupCustomer.js
+- Retrieve array or .json file with output
+- Display output
+- Options to run other jobs based on output
+	- For later iteration
+
+
+lookupCustomer.js
+- Takes:
+	- Environment
+	- LookupType
+	- LookupValue
+	- Username
+	- API Key
+- Performs:
+	- POST to create LookupCustomer build, takes Location to find the queued build
+	- GET to monitor the build status, then get the final build location
+	- GET to monitor the final build status, then get data when complete
+	- Parse output to separate out all data, put it into machine-readable format
+- Returns:
+	- All the stuff that's thrown out by the LookupCustomer job
