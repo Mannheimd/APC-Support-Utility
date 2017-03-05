@@ -2,30 +2,44 @@
 <html>
 <head>
   <title>Act! Premium Cloud Support Utility | Start Page</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-  <h1>
-    Welcome to the Act! Premium Cloud Support Utility
-  </h1>
-  <p id="testthing">hello</p>
-
-  <script>
+<script>
     // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
-    $(document).ready(loadJenkinsEnvironments());
+    $(document).ready(loadJenkinsEnvironmentsXml());
 
-    function loadJenkinsEnvironments() {
-      var pageLoc = window.location.href;
-      var pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
-      $.get(pageContainer + '/resources/data/jenkinsEnvironments.xml', function(data) {
-        parseXml(data);
-      });
+    function loadJenkinsEnvironmentsXml() {
+        var pageLoc = window.location.href;
+        var pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
+
+        $.ajax({
+            type: "GET",
+            url: pageContainer + "/resources/data/jenkinsEnvironments.xml",
+            async:true,
+            dataType: "xml",
+            success: (function(data){
+                readJenkinsEnvironmentsXml(data);
+            })
+        });
     }
 
-    function parseXml(xml) {
-      document.getElementById("testthing").innerHTML = "Got to 3";
-      var xmlDoc = $.parseXml(xml);
+    function readJenkinsEnvironmentsXml(xmlData){
+        var environmentList = [];
+
+        $(xmlData).find('environment').each(function(){
+            var name = $(this).find("name").text(),
+                id = $(this).find("id").text(),
+                isProduction = $(this).find("isProduction").text(),
+                url = $(this).find("url").text();
+
+            environmentList[environmentList.length] = ({name:name, id:id, isProduction:isProduction, url:url});
+        });
     }
-  </script>
+</script>
+<h1>
+  Welcome to the Act! Premium Cloud Support Utility
+</h1>
+
 </body>
 </html>
