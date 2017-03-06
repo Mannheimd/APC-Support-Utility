@@ -50,13 +50,16 @@
                 text: this.name
             }))
         })
-
-        alert(selectHtml);
-        alert($("#environmentSelect").innerHTML);
     }
 
     function onEnvironmentSelectChange() {
-        $("#step2").html('2. <a href="https://cloudops-jenkins-ust1.hostedtest.act.com:8443/me/configure" target="_blank">Click here</a>');
+        var jenkinsUrl = "";
+        $(environmentList).each(function(){
+            if ((this.id == $("#environmentSelect").val())) {
+                jenkinsUrl = this.url;
+            }
+        })
+        $("#step2").html('2. <a href="' + jenkinsUrl + '/me/configure" target="_blank">Click here</a>');
         $("#step2").show();
         $("#step3").show();
         $("#step4").show();
@@ -64,10 +67,10 @@
     }
 
     function submitForm() {
-        alert("It's working!");
-        // create authentication token, then store it using localStorage.setItem()
-        location.reload();
-        return false;
+        var loginToken = window.btoa($("#userNameBox").val() + ":" + $("#apiTokenBox").val());
+        localStorage.setItem($("#environmentSelect").val() + "LoginToken", loginToken);
+        alert(localStorage.getItem($("#environmentSelect").val() + "LoginToken"));
+        //location.reload();
     }
 </script>
 <h1>
@@ -76,7 +79,7 @@
 <p id="step1">
     1. Choose a server:
     <select id="environmentSelect" onchange="onEnvironmentSelectChange()">
-        <option disabled selected value>Select a server</option>
+        <option disabled selected value="default">Select a server</option>
     </select>
 </p>
 <p hidden id="step2">
@@ -85,13 +88,15 @@
     3. Log in using the credentials you were provided for this Jenkins server
 </p>
 <p hidden id="step4">
-    4. Click the "Shop API Token" button
+    4. Click the "Show API Token" button
 </p>
 <form hidden id="step5" action="javascript:submitForm();">
     5. Copy the User ID and API Token into the boxes below<br/>
-    User ID: <input type="username" name="User ID"><br/>
-    API Token: <input type="password" name="API Token"><br/><br/>
+    User ID: <input type="username" name="User ID" id="userNameBox"><br/>
+    API Token: <input type="password" name="API Token" id="apiTokenBox"><br/><br/>
     6. Save your changes <Input type="submit" value="Save">
 </form>
+<p id="testP">
+</p>
 </body>
 </html>
