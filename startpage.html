@@ -6,13 +6,19 @@
 </head>
 <body>
 <script>
+    var environmentList = []; //Lists all of the available Jenkins environments
+    var pageLoc = "";
+    var pageContainer = "";
+
     // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
-    $(document).ready(loadJenkinsEnvironmentsXml());
+    $(document).ready(function(){
+        pageLoc = window.location.href;
+        pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
+
+        loadJenkinsEnvironmentsXml()
+    });
 
     function loadJenkinsEnvironmentsXml() {
-        var pageLoc = window.location.href;
-        var pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
-
         $.ajax({
             type: "GET",
             url: pageContainer + "/resources/data/jenkinsEnvironments.xml",
@@ -25,8 +31,6 @@
     }
 
     function readJenkinsEnvironmentsXml(xmlData){
-        var environmentList = [];
-
         $(xmlData).find('environment').each(function(){
             var name = $(this).find("name").text(),
                 id = $(this).find("id").text(),
@@ -35,11 +39,27 @@
 
             environmentList[environmentList.length] = ({name:name, id:id, isProduction:isProduction, url:url});
         });
+
+        checkConfiguredJenkinsEnvironments();
+    }
+
+    function checkConfiguredJenkinsEnvironments() {
+        var configuredEnvsHtml = "";
+
+        $(environmentList).each(function(){
+            if (localStorage.getItem(this.id + "LoginToken")) {
+                configuredEnvsHtml = configuredEnvsHtml + this.name + "<br>";
+            }
+        })
+
+        $("#configuredServers").html(configuredEnvsHtml);
     }
 </script>
-<h1>
-  Welcome to the Act! Premium Cloud Support Utility
-</h1>
+<h1>Welcome to the Act! Premium Cloud Support Utility</h1>
+<h3>Configured Jenkins servers:</h3>
+<p id="configuredServers">
+</p>
+<button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure servers</button>
 
 </body>
 </html>

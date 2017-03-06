@@ -4,11 +4,12 @@
       <option name="frameworkName" value="jQuery" />
       <option name="frameworkVersion" value="1.1." />
       <sourceFilesUrls>
-        <item url="file://$USER_HOME$/Downloads/jquery-3.1.1.js" />
+        <item url="file://$PROJECT_DIR$/../jquery-3.1.1.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$USER_HOME$/Downloads/jquery-3.1.1.js" />
+      <root url="file://$PROJECT_DIR$/../jquery-3.1.1.js" />
     </CLASSES>
     <DOCUMENTATION>
       <root url="http://api.jquery.com" />

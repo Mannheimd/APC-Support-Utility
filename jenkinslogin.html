@@ -1,17 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Act! Premium Cloud Support Utility | Jenkins Login</title>
+    <title>Act! Premium Cloud Support Utility | Jenkins Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-  <h1>
-    Jenkins Login
-  </h1>
-  <h2>
-    Please select environment and enter your Jenkins User ID and API Token below.
-  </h2>
-  <p>
-    To locate your API Token, go to
-  </p>
+<script>
+    var environmentList = []; //Lists all of the available Jenkins environments
+    var pageLoc = "";
+    var pageContainer = "";
+
+    // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
+    $(document).ready(function() {
+        pageLoc = window.location.href;
+        pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
+
+        loadJenkinsEnvironmentsXml()
+    });
+
+    function loadJenkinsEnvironmentsXml() {
+        $.ajax({
+            type: "GET",
+            url: pageContainer + "/resources/data/jenkinsEnvironments.xml",
+            async:true,
+            dataType: "xml",
+            success: (function(data){
+                readJenkinsEnvironmentsXml(data);
+            })
+        });
+    }
+
+    function readJenkinsEnvironmentsXml(xmlData){
+        $(xmlData).find('environment').each(function(){
+            var name = $(this).find("name").text(),
+                id = $(this).find("id").text(),
+                isProduction = $(this).find("isProduction").text(),
+                url = $(this).find("url").text();
+
+            environmentList[environmentList.length] = ({name:name, id:id, isProduction:isProduction, url:url});
+        });
+
+        populateEnvironmentSelect()
+    }
+
+    function populateEnvironmentSelect(){
+        $(environmentList).each(function(){
+            $("#environmentSelect").append($('<option>', {
+                value: this.id,
+                text: this.name
+            }))
+        })
+
+        alert(selectHtml);
+        alert($("#environmentSelect").innerHTML);
+    }
+
+    function onEnvironmentSelectChange() {
+        $("#step2").html('2. <a href="https://cloudops-jenkins-ust1.hostedtest.act.com:8443/me/configure" target="_blank">Click here</a>');
+        $("#step2").show();
+        $("#step3").show();
+        $("#step4").show();
+        $("#step5").show();
+    }
+
+    function submitForm() {
+        alert("It's working!");
+        // create authentication token, then store it using localStorage.setItem()
+        location.reload();
+        return false;
+    }
+</script>
+<h1>
+    Configure your Jenkins server logins
+</h1>
+<p id="step1">
+    1. Choose a server:
+    <select id="environmentSelect" onchange="onEnvironmentSelectChange()">
+        <option disabled selected value>Select a server</option>
+    </select>
+</p>
+<p hidden id="step2">
+</p>
+<p hidden id="step3">
+    3. Log in using the credentials you were provided for this Jenkins server
+</p>
+<p hidden id="step4">
+    4. Click the "Shop API Token" button
+</p>
+<form hidden id="step5" action="javascript:submitForm();">
+    5. Copy the User ID and API Token into the boxes below<br/>
+    User ID: <input type="username" name="User ID"><br/>
+    API Token: <input type="password" name="API Token"><br/><br/>
+    6. Save your changes <Input type="submit" value="Save">
+</form>
 </body>
 </html>
