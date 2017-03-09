@@ -7,8 +7,6 @@
 <body>
 <script>
     var environmentList = []; //Lists all of the available Jenkins environments
-    var pageLoc = "";
-    var pageContainer = "";
 
     // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
     $(document).ready(function() {
@@ -21,7 +19,7 @@
     function loadJenkinsEnvironmentsXml() {
         $.ajax({
             type: "GET",
-            url: pageContainer + "/resources/data/jenkinsEnvironments.xml",
+            url: "resources/data/jenkinsEnvironments.xml",
             async:true,
             dataType: "xml",
             success: (function(data){
@@ -69,7 +67,6 @@
     function submitForm() {
         var loginToken = window.btoa($("#userNameBox").val() + ":" + $("#apiTokenBox").val());
         localStorage.setItem($("#environmentSelect").val() + "LoginToken", loginToken);
-        alert(localStorage.getItem($("#environmentSelect").val() + "LoginToken"));
         //location.reload();
     }
 </script>
