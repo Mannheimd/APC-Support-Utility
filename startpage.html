@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Act! Premium Cloud Support Utility | Start Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -7,109 +8,137 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
     <style>
-        #configuredServers .ui-selecting { background: #c3c3c3; }
-        #configuredServers .ui-selected{ background: #878787; color: white; }
-        #configuredServers { list-style-type: none; margin: 0; padding: 0;}
+        #configuredServers .ui-selecting {
+            background: #c3c3c3;
+        }
+        
+        #configuredServers .ui-selected {
+            background: #878787;
+            color: white;
+        }
+        
+        #configuredServers {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
+
 <body>
-<script>
-    var environmentList = []; //Lists all of the available Jenkins environments
+    <script>
+        var environmentList = []; //Lists all of the available Jenkins environments
 
-    // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
-    $(document).ready(function(){
-        pageLoc = window.location.href;
-        pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
+        // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
+        $(document).ready(function() {
+            pageLoc = window.location.href;
+            pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
 
-        loadJenkinsEnvironmentsXml()
-    });
-
-    function loadJenkinsEnvironmentsXml() {
-        $.ajax({
-            type: "GET",
-            url: "resources/data/jenkinsEnvironments.xml",
-            async:true,
-            dataType: "xml",
-            success: (function(data){
-                readJenkinsEnvironmentsXml(data);
-            })
-        });
-    }
-
-    function readJenkinsEnvironmentsXml(xmlData) {
-        $(xmlData).find('environment').each(function(){
-            var name = $(this).find("name").text(),
-                id = $(this).find("id").text(),
-                isProduction = $(this).find("isProduction").text(),
-                url = $(this).find("url").text();
-
-            environmentList[environmentList.length] = ({name:name, id:id, isProduction:isProduction, url:url});
+            loadJenkinsEnvironmentsXml()
         });
 
-        checkConfiguredJenkinsEnvironments();
-    }
+        function loadJenkinsEnvironmentsXml() {
+            $.ajax({
+                type: "GET",
+                url: "resources/data/jenkinsEnvironments.xml",
+                async: true,
+                dataType: "xml",
+                success: (function(data) {
+                    readJenkinsEnvironmentsXml(data);
+                })
+            });
+        }
 
-    function checkConfiguredJenkinsEnvironments() {
-        var configuredEnvsHtml = "";
+        function readJenkinsEnvironmentsXml(xmlData) {
+            $(xmlData).find('environment').each(function() {
+                var name = $(this).find("name").text(),
+                    id = $(this).find("id").text(),
+                    isProduction = $(this).find("isProduction").text(),
+                    url = $(this).find("url").text();
 
-        $(environmentList).each(function(){
-            if (localStorage.getItem(this.id + "LoginToken")) {
-                configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
-                getJenkinsUserInfo(this.id);
-            }
-        });
-
-        $("#configuredServers")
-            .html(configuredEnvsHtml)
-            .selectable({
-                selected: function(event, ui) {
-                    $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
-                        function(key,value){
-                            $(value).find('*').removeClass("ui-selected");
-                        }
-                    )
-                }
-            })
-    }
-
-    function getJenkinsUserInfo(environmentId) {
-        var requestUrl = "";
-        var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
-
-        $("#tempOutput").html(authToken);
-
-        $(environmentList).each(function(){
-            if (this.id == environmentId) {
-                requestUrl = this.url + "/me/api/xml";
-                $.ajax({
-                    method: "GET",
-                    url: requestUrl,
-                    async:true,
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader("Authorization", "Basic Y21hbmRlcnMudGVjaDphNDczMjVmMGU5ZDhhODc3NTc2ZWRkNjg3ZmExYTdiNA==");
-                    },
-                    dataType: "jsonp xml",
-                    success: (function(data) {
-                        $("#tempOutput").html(data);
-                    }),
-                    error: (function(data, error) {
-
-                    })
+                environmentList[environmentList.length] = ({
+                    name: name,
+                    id: id,
+                    isProduction: isProduction,
+                    url: url
                 });
-            }
-        });
-    }
-</script>
-<span>
+            });
+
+            checkConfiguredJenkinsEnvironments();
+        }
+
+        function checkConfiguredJenkinsEnvironments() {
+            var configuredEnvsHtml = "";
+
+            $(environmentList).each(function() {
+                if (localStorage.getItem(this.id + "LoginToken")) {
+                    configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
+                    getJenkinsUserInfo(this.id);
+                }
+            });
+
+            $("#configuredServers")
+                .html(configuredEnvsHtml)
+                .selectable({
+                    selected: function(event, ui) {
+                        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
+                            function(key, value) {
+                                $(value).find('*').removeClass("ui-selected");
+                            }
+                        )
+                    }
+                })
+        }
+
+        function getJenkinsUserInfo(environmentId) {
+            var requestUrl = "";
+            var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
+
+            $("#tempOutput").html(authToken);
+
+            $(environmentList).each(function() {
+                if (this.id == environmentId) {
+                    //requestUrl = this.url + "/me/api/xml";
+                    /*$.ajax({
+                        method: "GET",
+                        url: requestUrl,
+                        async:true,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("Authorization", "Basic Y21hbmRlcnMudGVjaDphNDczMjVmMGU5ZDhhODc3NTc2ZWRkNjg3ZmExYTdiNA==");
+                        },
+                        dataType: "jsonp xml",
+                        success: (function(data) {
+                            $("#tempOutput").html(data);
+                        }),
+                        error: (function(data, error) {
+
+                        })
+                    });*/
+
+                    $.ajax({
+                        method: "GET",
+                        url: "resources/php/apirequester.php",
+                        async: true,
+                        dataType: "xml",
+                        success: (function(data) {
+                            $("#tempOutput").html(data);
+                        })
+                    })
+                }
+            });
+        }
+    </script>
+    <span>
     <h1>Welcome to the Act! Premium Cloud Support Utility</h1>
 </span>
-<span>
+    <span>
     <h3>Configured Jenkins servers:</h3>
     <ul id="configuredServers">
     </ul>
 </span>
-<button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure servers</button>
-<p id="tempOutput"></p>
+    <button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure servers</button>
+    <p id="tempOutput"></p>
 
 </body>
+
 </html>
