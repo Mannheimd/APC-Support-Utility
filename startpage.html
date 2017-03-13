@@ -94,11 +94,9 @@
             var requestUrl = "";
             var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
 
-            $("#tempOutput").html(authToken);
-
             $(environmentList).each(function() {
                 if (this.id == environmentId) {
-                    //requestUrl = this.url + "/me/api/xml";
+                    requestUrl = this.url + "/me/api/xml";
                     /*$.ajax({
                         method: "GET",
                         url: requestUrl,
@@ -117,26 +115,38 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "resources/php/apirequester.php",
+                        url: "resources/php/apirequester.php?url=" + requestUrl + "&token=" + authToken,
                         async: true,
-                        dataType: "xml",
+                        dataType: "text",
                         success: (function(data) {
-                            $("#tempOutput").html(data);
+                            var xmlData = $.parseXML(data);
+                            $xml = $(xmlData);
+                            readJenkinsUserData($xml, environmentId);
+                        }),
+                        error: (function() {
+                            var elementId = "envSelector" + environmentId;
+                            $("#" + elementId).append(" - Connection failed");
                         })
                     })
                 }
             });
+        }
+
+        function readJenkinsUserData($xml, environmentId) {
+            var fullname = $xml.find('user property user fullName').text();
+
+            var elementId = "envSelector" + environmentId;
+            $("#" + elementId).append(" - " + fullname);
         }
     </script>
     <span>
     <h1>Welcome to the Act! Premium Cloud Support Utility</h1>
 </span>
     <span>
-    <h3>Configured Jenkins servers:</h3>
+    <h3>Select a Jenkins server:</h3><button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure</button>
     <ul id="configuredServers">
     </ul>
 </span>
-    <button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure servers</button>
     <p id="tempOutput"></p>
 
 </body>
