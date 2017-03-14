@@ -31,12 +31,15 @@
 
         // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
         $(document).ready(function() {
-            pageLoc = window.location.href;
-            pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
-
             loadJenkinsEnvironmentsXml()
         });
 
+
+        /* Pulls data from the jenkinsEnvironments.xml
+
+        Called by:
+        $(document).ready()
+        */
         function loadJenkinsEnvironmentsXml() {
             $.ajax({
                 type: "GET",
@@ -44,11 +47,17 @@
                 async: true,
                 dataType: "xml",
                 success: (function(data) {
-                    readJenkinsEnvironmentsXml(data);
+                    readJenkinsEnvironmentsXml(data); // Pass the output for parsing
                 })
             });
         }
 
+
+        /* Get Jenkins environment data from the XML
+
+        Called by:
+        loadJenkinsEnvironmentsXml()
+        */
         function readJenkinsEnvironmentsXml(xmlData) {
             $(xmlData).find('environment').each(function() {
                 var name = $(this).find("name").text(),
@@ -67,6 +76,12 @@
             checkConfiguredJenkinsEnvironments();
         }
 
+
+        /* Check which environments have a stored login token
+
+        Called by:
+        readJenkinsEnvironmentsXml()
+        */
         function checkConfiguredJenkinsEnvironments() {
             var configuredEnvsHtml = "";
 
@@ -90,6 +105,12 @@
                 })
         }
 
+
+        /* For each 'configured' Jenkins server, test login
+
+        Called by:
+        checkConfiguredJenkinsEnvironments()
+        */
         function getJenkinsUserInfo(environmentId) {
             var requestUrl = "";
             var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
@@ -97,23 +118,24 @@
             $(environmentList).each(function() {
                 if (this.id == environmentId) {
                     requestUrl = this.url + "/me/api/xml";
-                    /*$.ajax({
+                    $.ajax({
                         method: "GET",
                         url: requestUrl,
-                        async:true,
+                        async: true,
+                        crossDomain: true,
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader("Authorization", "Basic Y21hbmRlcnMudGVjaDphNDczMjVmMGU5ZDhhODc3NTc2ZWRkNjg3ZmExYTdiNA==");
                         },
-                        dataType: "jsonp xml",
+                        dataType: "text",
                         success: (function(data) {
                             $("#tempOutput").html(data);
                         }),
-                        error: (function(data, error) {
-
+                        error: (function() {
+                            alert("Failed")
                         })
-                    });*/
+                    });
 
-                    $.ajax({
+                    /*$.ajax({
                         method: "GET",
                         url: "resources/php/apirequester.php?url=" + requestUrl + "&token=" + authToken,
                         async: true,
@@ -127,7 +149,7 @@
                             var elementId = "envSelector" + environmentId;
                             $("#" + elementId).append(" - Connection failed");
                         })
-                    })
+                    })*/
                 }
             });
         }

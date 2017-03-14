@@ -12,9 +12,6 @@
 
         // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
         $(document).ready(function() {
-            pageLoc = window.location.href;
-            pageContainer = pageLoc.substring(0, pageLoc.lastIndexOf('/'));
-
             loadJenkinsEnvironmentsXml()
         });
 
@@ -104,6 +101,10 @@
                             var xmlData = $.parseXML(data);
                             $xml = $(xmlData)
                             readJenkinsUserData($xml, environmentId);
+                        }),
+                        error: (function() {
+                            var elementId = "envSelector" + environmentId;
+                            $("#" + elementId).append(" - Connection failed");
                         })
                     })
                 }
