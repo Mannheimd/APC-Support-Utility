@@ -4,6 +4,14 @@
 <head>
     <title>Act! Premium Cloud Support Utility | Jenkins Login</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <style>
+        #configuredServers {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,18 +24,29 @@
         });
 
         function loadJenkinsEnvironmentsXml() {
+            /* Pulls data on Jenkins environments from jenkinsEnvironments.xml
+
+            Called by:
+            $(document).ready()
+            */
             $.ajax({
                 type: "GET",
                 url: "resources/data/jenkinsEnvironments.xml",
                 async: true,
                 dataType: "xml",
                 success: (function(data) {
-                    readJenkinsEnvironmentsXml(data);
+                    readJenkinsEnvironmentsXml(data); // Pass the output for parsing
                 })
             });
         }
 
         function readJenkinsEnvironmentsXml(xmlData) {
+            /* Get Jenkins environment data from the XML
+
+            Called by:
+            loadJenkinsEnvironmentsXml()
+            */
+
             $(xmlData).find('environment').each(function() {
                 var name = $(this).find("name").text(),
                     id = $(this).find("id").text(),
@@ -47,15 +66,22 @@
         }
 
         function checkConfiguredJenkinsEnvironments() {
+            /* Check which environments have a stored login token
+
+            Called by:
+            readJenkinsEnvironmentsXml()
+            */
+
             var configuredEnvsHtml = "";
 
             $(environmentList).each(function() {
                 if (localStorage.getItem(this.id + "LoginToken")) {
                     configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
-                    getJenkinsUserInfo(this.id);
+                    getJenkinsUserInfo(this.id); // For each configured server, try to get the user's data from Jenkins
                 }
             });
 
+            // Build the selectable list of Jenkins servers
             $("#configuredServers")
                 .html(configuredEnvsHtml)
                 .selectable({
@@ -70,48 +96,47 @@
         }
 
         function getJenkinsUserInfo(environmentId) {
+            /* For each 'configured' Jenkins server, run a GET request to pull the user's data from Jenkins
+
+            Called by:
+            checkConfiguredJenkinsEnvironments()
+            */
+
             var requestUrl = "";
             var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
 
             $(environmentList).each(function() {
                 if (this.id == environmentId) {
                     requestUrl = this.url + "/me/api/xml";
-                    /*$.ajax({
-                        method: "GET",
-                        url: requestUrl,
-                        async:true,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader("Authorization", "Basic Y21hbmRlcnMudGVjaDphNDczMjVmMGU5ZDhhODc3NTc2ZWRkNjg3ZmExYTdiNA==");
-                        },
-                        dataType: "jsonp xml",
-                        success: (function(data) {
-                            $("#tempOutput").html(data);
-                        }),
-                        error: (function(data, error) {
-
-                        })
-                    });*/
-
                     $.ajax({
                         method: "GET",
-                        url: "resources/php/apirequester.php?url=" + requestUrl + "&token=" + authToken,
+                        url: requestUrl,
                         async: true,
+                        crossDomain: true,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("Authorization", authToken);
+                        },
                         dataType: "text",
                         success: (function(data) {
                             var xmlData = $.parseXML(data);
-                            $xml = $(xmlData)
+                            $xml = $(xmlData);
                             readJenkinsUserData($xml, environmentId);
                         }),
                         error: (function() {
                             var elementId = "envSelector" + environmentId;
-                            $("#" + elementId).append(" - Connection failed");
+                            $("#" + elementId).append(' - Connection failed');
                         })
-                    })
+                    });
                 }
             });
         }
 
         function readJenkinsUserData($xml, environmentId) {
+            /* Read the username from the passed XML, print it next to the server name
+
+            Called by:
+            getJenkinsUserInfo()
+            */
             var fullname = $xml.find('user property user fullName').text();
 
             var elementId = "envSelector" + environmentId;
@@ -150,26 +175,31 @@
     <h1>
         Configure your Jenkins server logins
     </h1>
-    <p id="step1">
-        1. Choose a server:
-        <select id="environmentSelect" onchange="onEnvironmentSelectChange()">
-        <option disabled selected value="default">Select a server</option>
-    </select>
-    </p>
-    <p hidden id="step2">
-    </p>
-    <p hidden id="step3">
-        3. Log in using the credentials you were provided for this Jenkins server
-    </p>
-    <p hidden id="step4">
-        4. Click the "Show API Token" button
-    </p>
-    <form hidden id="step5" action="javascript:submitForm();">
-        5. Copy the User ID and API Token into the boxes below<br/> User ID: <input type="username" name="User ID" id="userNameBox"><br/> API Token: <input type="password" name="API Token" id="apiTokenBox"><br/><br/> 6. Save your changes
-        <Input type="submit" value="Save">
-    </form>
-    <ul id="configuredServers">
-    </ul>
+    <div>
+        <p>Current server status:</p>
+        <ul id="configuredServers">
+        </ul>
+    </div>
+    <div>
+        <p id="step1">
+            1. Choose a server:
+            <select id="environmentSelect" onchange="onEnvironmentSelectChange()">
+            <option disabled selected value="default">Select a server</option>
+        </select>
+        </p>
+        <p hidden id="step2">
+        </p>
+        <p hidden id="step3">
+            3. Log in using the credentials you were provided for this Jenkins server
+        </p>
+        <p hidden id="step4">
+            4. Click the "Show API Token" button
+        </p>
+        <form hidden id="step5" action="javascript:submitForm();">
+            5. Copy the User ID and API Token into the boxes below<br/> User ID: <input type="username" name="User ID" id="userNameBox"><br/> API Token: <input type="password" name="API Token" id="apiTokenBox"><br/><br/> 6. Save your changes
+            <Input type="submit" value="Save">
+        </form>
+    </div>
 </body>
 
 </html>

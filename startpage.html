@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html>
 
 <head>
@@ -22,6 +22,19 @@
             margin: 0;
             padding: 0;
         }
+
+        .pageHeader {
+            text-align: center;
+        }
+
+        .serverSelection {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: 20;
+            margin-bottom: 10;
+        }
     </style>
 </head>
 
@@ -34,13 +47,16 @@
             loadJenkinsEnvironmentsXml()
         });
 
+        $("#lookupCustomerSubmit").click(function () {
+            lookupCustomer();
+        })
 
-        /* Pulls data from the jenkinsEnvironments.xml
-
-        Called by:
-        $(document).ready()
-        */
         function loadJenkinsEnvironmentsXml() {
+            /* Pulls data on Jenkins environments from jenkinsEnvironments.xml
+
+            Called by:
+            $(document).ready()
+            */
             $.ajax({
                 type: "GET",
                 url: "resources/data/jenkinsEnvironments.xml",
@@ -52,13 +68,13 @@
             });
         }
 
-
-        /* Get Jenkins environment data from the XML
-
-        Called by:
-        loadJenkinsEnvironmentsXml()
-        */
         function readJenkinsEnvironmentsXml(xmlData) {
+            /* Get Jenkins environment data from the XML
+
+            Called by:
+            loadJenkinsEnvironmentsXml()
+            */
+
             $(xmlData).find('environment').each(function() {
                 var name = $(this).find("name").text(),
                     id = $(this).find("id").text(),
@@ -76,22 +92,23 @@
             checkConfiguredJenkinsEnvironments();
         }
 
-
-        /* Check which environments have a stored login token
-
-        Called by:
-        readJenkinsEnvironmentsXml()
-        */
         function checkConfiguredJenkinsEnvironments() {
+            /* Check which environments have a stored login token
+
+            Called by:
+            readJenkinsEnvironmentsXml()
+            */
+
             var configuredEnvsHtml = "";
 
             $(environmentList).each(function() {
                 if (localStorage.getItem(this.id + "LoginToken")) {
                     configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
-                    getJenkinsUserInfo(this.id);
+                    getJenkinsUserInfo(this.id); // For each configured server, try to get the user's data from Jenkins
                 }
             });
 
+            // Build the selectable list of Jenkins servers
             $("#configuredServers")
                 .html(configuredEnvsHtml)
                 .selectable({
@@ -101,17 +118,18 @@
                                 $(value).find('*').removeClass("ui-selected");
                             }
                         )
+                        $(".lookupCustomer").show();
                     }
                 })
         }
 
-
-        /* For each 'configured' Jenkins server, test login
-
-        Called by:
-        checkConfiguredJenkinsEnvironments()
-        */
         function getJenkinsUserInfo(environmentId) {
+            /* For each 'configured' Jenkins server, run a GET request to pull the user's data from Jenkins
+
+            Called by:
+            checkConfiguredJenkinsEnvironments()
+            */
+
             var requestUrl = "";
             var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
 
@@ -124,21 +142,8 @@
                         async: true,
                         crossDomain: true,
                         beforeSend: function(xhr) {
-                            xhr.setRequestHeader("Authorization", "Basic Y21hbmRlcnMudGVjaDphNDczMjVmMGU5ZDhhODc3NTc2ZWRkNjg3ZmExYTdiNA==");
+                            xhr.setRequestHeader("Authorization", authToken);
                         },
-                        dataType: "text",
-                        success: (function(data) {
-                            $("#tempOutput").html(data);
-                        }),
-                        error: (function() {
-                            alert("Failed")
-                        })
-                    });
-
-                    /*$.ajax({
-                        method: "GET",
-                        url: "resources/php/apirequester.php?url=" + requestUrl + "&token=" + authToken,
-                        async: true,
                         dataType: "text",
                         success: (function(data) {
                             var xmlData = $.parseXML(data);
@@ -147,29 +152,55 @@
                         }),
                         error: (function() {
                             var elementId = "envSelector" + environmentId;
-                            $("#" + elementId).append(" - Connection failed");
+                            $("#" + elementId).append(' - Connection failed');
                         })
-                    })*/
+                    });
                 }
             });
         }
 
         function readJenkinsUserData($xml, environmentId) {
+            /* Read the username from the passed XML, print it next to the server name
+
+            Called by:
+            getJenkinsUserInfo()
+            */
             var fullname = $xml.find('user property user fullName').text();
 
             var elementId = "envSelector" + environmentId;
             $("#" + elementId).append(" - " + fullname);
         }
+
+        function lookupCustomer() {
+            alert("It's working!");
+        }
+
     </script>
-    <span>
-    <h1>Welcome to the Act! Premium Cloud Support Utility</h1>
-</span>
-    <span>
-    <h3>Select a Jenkins server:</h3><button id="configureButton" onclick="location.href = pageContainer + '/jenkinslogin.html';">Configure</button>
-    <ul id="configuredServers">
-    </ul>
-</span>
-    <p id="tempOutput"></p>
+<h1 class="pageHeader">Welcome to the Act! Premium Cloud Support Utility</h1>
+<div class="serverSelection">
+    <div class="serverSelection" style="width: 190;">
+        <h3 style="margin: 0px">Select a Jenkins server:</h3>
+        <a href="jenkinsLogin.html" target="_blank">Configure servers</a>
+    </div>
+    <div class="serverSelection">
+        <ul id="configuredServers">
+        </ul>
+    </div>
+</div>
+<div class="lookupCustomer" hidden>
+    <select id="lookupCustomerBy">
+        <option selected value="SiteName">Site Name</option>
+        <option value="EmailAddress">Email Address</option>
+        <option value="ZuoraAccount">Account Number</option>
+        <option value="ZuoraSubscription">Subscription Number</option>
+        <option value="IITID">IIT ID</option>
+    </select>
+    <input id="lookupCustomerValue" type="text">
+    <button id="lookupCustomerSubmit">Search</button>
+    <button id="lookupCustomerReset">Reset lookup</button>
+</div>
+<div class="lookupResults" hidden>
+</div>
 
 </body>
 
