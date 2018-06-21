@@ -5,7 +5,7 @@
     <title>Act! Premium Cloud Support Utility | Start Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<script src="/js/test.js"></script>
+    <script src="resources/javascript/jenkins.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
 </head>
@@ -16,137 +16,14 @@
 
         // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
         $(document).ready(function() {
-            loadJenkinsEnvironmentsXml()
-			test()
+            getJenkinsServers(function (data) {
+                alert("Loaded Jenkins servers");
+            });
         });
 
         $("#lookupCustomerSubmit").click(function () {
             lookupCustomer();
         })
-
-        function loadJenkinsEnvironmentsXml() {
-            /* Pulls data on Jenkins environments from jenkinsEnvironments.xml
-
-            Called by:
-            $(document).ready()
-            */
-            $.ajax({
-                type: "GET",
-                url: "resources/data/jenkinsEnvironments.xml",
-                async: true,
-                dataType: "xml",
-                success: (function(data) {
-                    readJenkinsEnvironmentsXml(data); // Pass the output for parsing
-                })
-            });
-        }
-
-        function readJenkinsEnvironmentsXml(xmlData) {
-            /* Get Jenkins environment data from the XML
-
-            Called by:
-            loadJenkinsEnvironmentsXml()
-            */
-
-            $(xmlData).find('environment').each(function() {
-                var name = $(this).find("name").text(),
-                    id = $(this).find("id").text(),
-                    isProduction = $(this).find("isProduction").text(),
-                    url = $(this).find("url").text();
-
-                environmentList[environmentList.length] = ({
-                    name: name,
-                    id: id,
-                    isProduction: isProduction,
-                    url: url
-                });
-            });
-
-            checkConfiguredJenkinsEnvironments();
-        }
-
-        function checkConfiguredJenkinsEnvironments() {
-            /* Check which environments have a stored login token
-
-            Called by:
-            readJenkinsEnvironmentsXml()
-            */
-
-            var configuredEnvsHtml = "";
-
-            $(environmentList).each(function() {
-                if (localStorage.getItem(this.id + "LoginToken")) {
-                    configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
-                    getJenkinsUserInfo(this.id); // For each configured server, try to get the user's data from Jenkins
-                }
-            });
-
-            // Build the selectable list of Jenkins servers
-            $("#configuredServers")
-                .html(configuredEnvsHtml)
-                .selectable({
-                    selected: function(event, ui) {
-                        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
-                            function(key, value) {
-                                $(value).find('*').removeClass("ui-selected");
-                            }
-                        )
-                        $(".lookupCustomer").show();
-                    }
-                })
-        }
-
-        function getJenkinsUserInfo(environmentId) {
-            /* For each 'configured' Jenkins server, run a GET request to pull the user's data from Jenkins
-
-            Called by:
-            checkConfiguredJenkinsEnvironments()
-            */
-
-            var requestUrl = "";
-            var authToken = "Basic " + localStorage.getItem(environmentId + "LoginToken");
-
-            $(environmentList).each(function() {
-                if (this.id == environmentId) {
-                    requestUrl = this.url + "/me/api/xml";
-                    $.ajax({
-                        method: "GET",
-                        url: requestUrl,
-                        async: true,
-                        crossDomain: true,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader("Authorization", authToken);
-                        },
-                        dataType: "text",
-                        success: (function(data) {
-                            var xmlData = $.parseXML(data);
-                            $xml = $(xmlData);
-                            readJenkinsUserData($xml, environmentId);
-                        }),
-                        error: (function() {
-                            var elementId = "envSelector" + environmentId;
-                            $("#" + elementId).append(' - Connection failed');
-                        })
-                    });
-                }
-            });
-        }
-
-        function readJenkinsUserData($xml, environmentId) {
-            /* Read the username from the passed XML, print it next to the server name
-
-            Called by:
-            getJenkinsUserInfo()
-            */
-            var fullname = $xml.find('user property user fullName').text();
-
-            var elementId = "envSelector" + environmentId;
-            $("#" + elementId).append(" - " + fullname);
-        }
-
-        function lookupCustomer() {
-            alert("It's working!");
-        }
 
     </script>
 <h1 class="pageHeader">Welcome to the Act! Premium Cloud Support Utility</h1>
