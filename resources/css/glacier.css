@@ -3,6 +3,19 @@ body
     font-family: Arial, Helvetica, sans-serif
 }
 
+.pageHeader {
+    text-align: center;
+}
+
+.serverSelection {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 20;
+    margin-bottom: 10;
+}
+
 #configuredServers .ui-selecting {
     background: #c3c3c3;
 }
@@ -16,17 +29,4 @@ body
     list-style-type: none;
     margin: 0;
     padding: 0;
-}
-
-.pageHeader {
-    text-align: center;
-}
-
-.serverSelection {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: 20;
-    margin-bottom: 10;
 }
