@@ -1,6 +1,11 @@
 $(document).ready(function() {
     getJenkinsServers(function () {
-        changePage("pageContainer", "glacierMainUI");
+        if (configuredServerCount == 0) {
+            changePage("pageContainer", "glacierConfig");
+        }
+        else {
+            changePage("pageContainer", "glacierMainUI");
+        }
     });
 });
 

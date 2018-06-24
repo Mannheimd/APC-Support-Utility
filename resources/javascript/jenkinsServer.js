@@ -1,4 +1,6 @@
 var jenkinsServerArray;
+var configuredServerCount = 0;
+
 function getJenkinsServers (callback, forceReload = false) {
     if (jenkinsServerArray != null && !forceReload) {
         callback();
@@ -13,7 +15,7 @@ function getJenkinsServers (callback, forceReload = false) {
                 for (var i = 0; i < data.servers.length; i++) { // Create a jenkinsServer object, store it in jenkinsServerArray
                     jenkinsServerArray.push(new jenkinsServer(data.servers[i]));
                 }
-                callback(data);
+                callback();
             })
         });
     }
@@ -32,5 +34,6 @@ function jenkinsServer (jsonData) {
 jenkinsServer.prototype.getAuthInfo = function() {
     if (localStorage.getItem(this.id + "LoginToken")) {
         this.isConfigured = true;
+        configuredServerCount++;
     }
 }

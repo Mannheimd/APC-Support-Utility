@@ -4,97 +4,10 @@
 <head>
     <title>Act! Premium Cloud Support Utility | Jenkins Login</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-    <style>
-        #configuredServers {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 </head>
 
 <body>
     <script>
-        var environmentList = []; //Lists all of the available Jenkins environments
-
-        // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
-        $(document).ready(function() {
-            loadJenkinsEnvironmentsXml()
-        });
-
-        function loadJenkinsEnvironmentsXml() {
-            /* Pulls data on Jenkins environments from jenkinsEnvironments.xml
-
-            Called by:
-            $(document).ready()
-            */
-            $.ajax({
-                type: "GET",
-                url: "resources/data/jenkinsEnvironments.xml",
-                async: true,
-                dataType: "xml",
-                success: (function(data) {
-                    readJenkinsEnvironmentsXml(data); // Pass the output for parsing
-                })
-            });
-        }
-
-        function readJenkinsEnvironmentsXml(xmlData) {
-            /* Get Jenkins environment data from the XML
-
-            Called by:
-            loadJenkinsEnvironmentsXml()
-            */
-
-            $(xmlData).find('environment').each(function() {
-                var name = $(this).find("name").text(),
-                    id = $(this).find("id").text(),
-                    isProduction = $(this).find("isProduction").text(),
-                    url = $(this).find("url").text();
-
-                environmentList[environmentList.length] = ({
-                    name: name,
-                    id: id,
-                    isProduction: isProduction,
-                    url: url
-                });
-            });
-
-            populateEnvironmentSelect();
-            checkConfiguredJenkinsEnvironments();
-        }
-
-        function checkConfiguredJenkinsEnvironments() {
-            /* Check which environments have a stored login token
-
-            Called by:
-            readJenkinsEnvironmentsXml()
-            */
-
-            var configuredEnvsHtml = "";
-
-            $(environmentList).each(function() {
-                if (localStorage.getItem(this.id + "LoginToken")) {
-                    configuredEnvsHtml = configuredEnvsHtml + '<li id="envSelector' + this.id + '">' + this.name + '</li>';
-                    getJenkinsUserInfo(this.id); // For each configured server, try to get the user's data from Jenkins
-                }
-            });
-
-            // Build the selectable list of Jenkins servers
-            $("#configuredServers")
-                .html(configuredEnvsHtml)
-                .selectable({
-                    selected: function(event, ui) {
-                        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected").each(
-                            function(key, value) {
-                                $(value).find('*').removeClass("ui-selected");
-                            }
-                        )
-                    }
-                })
-        }
-
         function getJenkinsUserInfo(environmentId) {
             /* For each 'configured' Jenkins server, run a GET request to pull the user's data from Jenkins
 
@@ -151,21 +64,7 @@
                 }))
             })
         }
-
-        function onEnvironmentSelectChange() {
-            var jenkinsUrl = "";
-            $(environmentList).each(function() {
-                if ((this.id == $("#environmentSelect").val())) {
-                    jenkinsUrl = this.url;
-                }
-            })
-            $("#step2").html('2. <a href="' + jenkinsUrl + '/me/configure" target="_blank">Click here</a>');
-            $("#step2").show();
-            $("#step3").show();
-            $("#step4").show();
-            $("#step5").show();
-        }
-
+        
         function submitForm() {
             var loginToken = window.btoa($("#userNameBox").val() + ":" + $("#apiTokenBox").val());
             localStorage.setItem($("#environmentSelect").val() + "LoginToken", loginToken);
