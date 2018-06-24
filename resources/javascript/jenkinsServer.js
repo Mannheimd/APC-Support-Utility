@@ -26,12 +26,17 @@ function jenkinsServer (jsonData) {
     this.id = jsonData.id;
     this.isProduction = jsonData.isProduction;
     this.url = jsonData.url;
-    this.configListItemId = "jenkinsServerConfigListItem" + this.id;
+    this.configListItemId = null;
     this.isConfigured = false;
     this.userName = null;
     this.apiToken = null;
 
-    this.createListItem();
+    this.setConfigListItemId();
+    this.createConfigListListItem();
+}
+
+jenkinsServer.prototype.setConfigListItemId = function() {
+    this.configListItemId = "jenkinsServerConfigListItem" + this.id;
 }
 
 jenkinsServer.prototype.getAuthInfo = function() {
@@ -41,18 +46,38 @@ jenkinsServer.prototype.getAuthInfo = function() {
     }
 }
 
-jenkinsServer.prototype.replaceIds = function(server, html) {
-    html = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId, function(convertedHtml) {
-        server.addListItem(convertedHtml);
-    })
-}
-
-jenkinsServer.prototype.createListItem = function() {
+jenkinsServer.prototype.createConfigListListItem = function() {
     jenkinsServerConfigListItemTemplate(this, function(server, html) {
-        data = server.replaceIds(server, html);
+        data = server.replaceConfigListIds(server, html);
     })
 }
 
-jenkinsServer.prototype.addListItem = function(html) {
+jenkinsServer.prototype.replaceConfigListIds = function(server, html) {
+    html = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId, function(convertedHtml) {
+        server.addConfigListListItem(convertedHtml, server.populateConfigListFields, server);
+    })
+}
+
+jenkinsServer.prototype.addConfigListListItem = function(html, callback, server) {
     $("#jenkinsServerConfigList").append(html);
+    callback(server);
+}
+
+jenkinsServer.prototype.populateConfigListFields = function(server) {
+    $("#" + server.configListItemId + "Name").text(server.name);
+    $("#" + server.configListItemId + "LoginStatus").text(server.getLoginStatus);
+    $("#" + server.configListItemId + "Button").text(server.getButtonText);
+    $("#" + server.configListItemId + "Button").attr("disabled", server.getButtonState);
+}
+
+jenkinsServer.prototype.getLoginStatus = function() {
+    return "Implement login status"
+}
+
+jenkinsServer.prototype.getButtonText = function() {
+    return "Implement button text"
+}
+
+jenkinsServer.prototype.getButtonState = function() {
+    return "";
 }
