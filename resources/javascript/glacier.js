@@ -1,17 +1,19 @@
 $(document).ready(function() {
-    getJenkinsServers(function () {
-        if (configuredServerCount == 0) {
-            changePage("pageContainer", "glacierConfig");
-        }
-        else {
-            changePage("pageContainer", "glacierMainUI");
-        }
-    });
+    getJenkinsServers(determineStartPage);
 });
+
+function determineStartPage() {
+    if (configuredServerCount == 0) {
+        changePage("pageContainer", "glacierConfig");
+    }
+    else {
+        changePage("pageContainer", "glacierMainUI");
+    }
+}
 
 $("#lookupCustomerSubmit").click(function () {
     lookupCustomer();
-})
+});
 
 function changePage(pageClass, pageContainerId) {
     $("." + pageClass).each(function() {

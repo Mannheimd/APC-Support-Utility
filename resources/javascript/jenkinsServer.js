@@ -26,9 +26,12 @@ function jenkinsServer (jsonData) {
     this.id = jsonData.id;
     this.isProduction = jsonData.isProduction;
     this.url = jsonData.url;
+    this.configListItemId = "jenkinsServerConfigListItem" + this.id;
     this.isConfigured = false;
     this.userName = null;
     this.apiToken = null;
+
+    this.createListItem();
 }
 
 jenkinsServer.prototype.getAuthInfo = function() {
@@ -36,4 +39,20 @@ jenkinsServer.prototype.getAuthInfo = function() {
         this.isConfigured = true;
         configuredServerCount++;
     }
+}
+
+jenkinsServer.prototype.replaceIds = function(server, html) {
+    html = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId, function(convertedHtml) {
+        server.addListItem(convertedHtml);
+    })
+}
+
+jenkinsServer.prototype.createListItem = function() {
+    jenkinsServerConfigListItemTemplate(this, function(server, html) {
+        data = server.replaceIds(server, html);
+    })
+}
+
+jenkinsServer.prototype.addListItem = function(html) {
+    $("#jenkinsServerConfigList").append(html);
 }
