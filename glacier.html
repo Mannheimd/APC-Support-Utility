@@ -6,26 +6,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="resources/javascript/jenkins.js"></script>
+    <script src="resources/javascript/glacier.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
 </head>
 
 <body>
-    <script>
-        var environmentList = []; //Lists all of the available Jenkins environments
-
-        // On page load, read /resources/data/jenkinsEnvironments.xml for the list of Jenkins environments that are available to connect to.
-        $(document).ready(function() {
-            getJenkinsServers(function (data) {
-                alert("Loaded Jenkins servers");
-            });
-        });
-
-        $("#lookupCustomerSubmit").click(function () {
-            lookupCustomer();
-        })
-
-    </script>
 <h1 class="pageHeader">Welcome to the Act! Premium Cloud Support Utility</h1>
 <div class="serverSelection">
     <div class="serverSelection" style="width: 190;">
