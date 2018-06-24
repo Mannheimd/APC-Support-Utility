@@ -2,42 +2,24 @@
 <html>
 
 <head>
-    <title>Act! Premium Cloud Support Utility | Start Page</title>
+    <title>Glacier</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="resources/javascript/jenkins.js"></script>
+    <script src="resources/javascript/jenkinsServer.js"></script>
     <script src="resources/javascript/glacier.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
 </head>
 
 <body>
-<h1 class="pageHeader">Welcome to the Act! Premium Cloud Support Utility</h1>
-<div class="serverSelection">
-    <div class="serverSelection" style="width: 190;">
-        <h3 style="margin: 0px">Select a Jenkins server:</h3>
-        <a href="jenkinsLogin.html" target="_blank">Configure servers</a>
-    </div>
-    <div class="serverSelection">
-        <ul id="configuredServers">
-        </ul>
-    </div>
+<div class="pageContainer" id="loadingPage">
+    <p>Loading...</p>
 </div>
-<div class="lookupCustomer" hidden>
-    <select id="lookupCustomerBy">
-        <option selected value="SiteName">Site Name</option>
-        <option value="EmailAddress">Email Address</option>
-        <option value="ZuoraAccount">Account Number</option>
-        <option value="ZuoraSubscription">Subscription Number</option>
-        <option value="IITID">IIT ID</option>
-    </select>
-    <input id="lookupCustomerValue" type="text">
-    <button id="lookupCustomerSubmit">Search</button>
-    <button id="lookupCustomerReset">Reset lookup</button>
+<div class="pageContainer" id="glacierMainUI">
+    <p>Main UI</p>
 </div>
-<div class="lookupResults" hidden>
+<div class="pageContainer" id="glacierConfig">
+    <p>Main UI</p>
 </div>
-
 </body>
-
 </html>
