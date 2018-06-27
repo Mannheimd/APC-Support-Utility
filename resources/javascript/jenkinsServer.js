@@ -47,12 +47,11 @@ jenkinsServer.prototype.getAuthInfo = function() {
 }
 
 jenkinsServer.prototype.createConfigListListItem = function() {
-    jenkinsServerConfigListItemTemplate(this, function(server, html) {
-        data = server.replaceConfigListIds(server, html);
-    })
+    this.replaceConfigListIds($("#jenkinsServerConfigListItemTemplate").html());
 }
 
-jenkinsServer.prototype.replaceConfigListIds = function(server, html) {
+jenkinsServer.prototype.replaceConfigListIds = function(html) {
+    var server = this;
     html = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId, function(convertedHtml) {
         server.addConfigListListItem(convertedHtml, server.populateConfigListFields, server);
     })

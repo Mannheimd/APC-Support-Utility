@@ -11,6 +11,17 @@
     <script src="resources/javascript/utils.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
+    <script id="jenkinsServerConfigListItemTemplate">
+        <div class="listItem" id="{{configListItemId}}">
+            <div>
+                <h3 id="{{configListItemId}}Name"></h3>
+            </div>
+            <div class="flexRow">
+                <p id="{{configListItemId}}LoginStatus"></p>
+                <button id="{{configListItemId}}Button" disabled></button>
+            </div>
+        </div>
+    </script>
 </head>
 
 <body>
