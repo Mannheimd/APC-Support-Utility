@@ -20,6 +20,18 @@
                 <p id="{{configListItemId}}LoginStatus"></p>
                 <button id="{{configListItemId}}Button" disabled></button>
             </div>
+            <div id="{{configListItemId}}LoginSection">
+                <form id="{{configListItemId}}LoginForm">
+                    <div class="flexRow">
+                        <p>Username:</p>
+                        <input type="text" name="username"></input>
+                    </div>
+                    <div class="flexRow">
+                        <p>API Token:</p>
+                        <input type="text" name="apiToken"></input>
+                    </div>
+                </form>
+            </div>
         </div>
     </script>
 </head>
@@ -33,7 +45,7 @@
     <p>Main UI</p>
 </div>
 <div class="pageContainer topCentered" id="glacierConfig">
-    <div class="container500px" id="jenkinsServerConfigList">
+    <div class="container400px" id="jenkinsServerConfigList">
     </div>
 </div>
 </body>

@@ -32,6 +32,10 @@ h3 {
     width: 500px;
 }
 
+.container400px {
+    width: 400px;
+}
+
 .flexRow {
     display: flex;
     justify-content: space-between;
