@@ -21,6 +21,10 @@ function getJenkinsServers (callback, forceReload = false) {
     }
 }
 
+function loginJenkinsServer () {
+    
+}
+
 function jenkinsServer (jsonData) {
     this.name = jsonData.name;
     this.id = jsonData.id;
@@ -28,18 +32,17 @@ function jenkinsServer (jsonData) {
     this.url = jsonData.url;
     this.configListItemId = null;
     this.isConfigured = false;
-    this.userName = null;
-    this.apiToken = null;
 
     this.setConfigListItemId();
     this.createConfigListListItem();
+    //this.checkIfConfigured();
 }
 
 jenkinsServer.prototype.setConfigListItemId = function() {
     this.configListItemId = "jenkinsServerConfigListItem" + this.id;
 }
 
-jenkinsServer.prototype.getAuthInfo = function() {
+jenkinsServer.prototype.checkIfConfigured = function() {
     if (localStorage.getItem(this.id + "LoginToken")) {
         this.isConfigured = true;
         configuredServerCount++;
@@ -64,19 +67,28 @@ jenkinsServer.prototype.addConfigListListItem = function(html, callback, server)
 
 jenkinsServer.prototype.populateConfigListFields = function(server) {
     $("#" + server.configListItemId + "Name").text(server.name);
-    $("#" + server.configListItemId + "LoginStatus").text(server.getLoginStatus);
-    $("#" + server.configListItemId + "Button").text(server.getButtonText);
-    $("#" + server.configListItemId + "Button").attr("disabled", server.getButtonState);
+    if (this.isConfigured) {
+        this.testLogin(function() {
+            $("#" + this.configListItemId + "LoginStatus").text(this.getLoginStatus);
+            $("#" + this.configListItemId + "Button").attr("disabled", this.getButtonState);
+        })
+    }
+}
+
+jenkinsServer.prototype.testLogin = function(callback) {
+    
 }
 
 jenkinsServer.prototype.getLoginStatus = function() {
-    return "Implement login status"
-}
-
-jenkinsServer.prototype.getButtonText = function() {
-    return "Implement button text"
+    return "Implement login status";
 }
 
 jenkinsServer.prototype.getButtonState = function() {
     return "";
+}
+
+jenkinsServer.prototype.forgetServer = function() {
+    if (localStorage.getItem(this.id + "LoginToken")) {
+        localStorage.removeItem(this.id + "LoginToken");
+    }
 }
