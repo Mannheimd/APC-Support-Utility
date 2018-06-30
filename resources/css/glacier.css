@@ -1,32 +1,64 @@
-body
-{
-    font-family: Arial, Helvetica, sans-serif
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-.pageHeader {
-    text-align: center;
-}
-
-.serverSelection {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-right: 20;
-    margin-bottom: 10;
-}
-
-#configuredServers .ui-selecting {
-    background: #c3c3c3;
-}
-
-#configuredServers .ui-selected {
-    background: #878787;
-    color: white;
-}
-
-#configuredServers {
-    list-style-type: none;
+p {
     margin: 0;
-    padding: 0;
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form {
+    margin: 0;
+}
+
+.pageContainer {
+    display: none;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%)
+}
+
+.topCentered {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.container500px {
+    width: 500px;
+}
+
+.container400px {
+    width: 400px;
+}
+
+.flexRow {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.listItem {
+    padding: 5px;
+    border-bottom: 1px solid #dfe3e6;
+}
+
+.hidden {
+    display: none;
+}
+
+#loadingPage {
+    display: block;
+    text-align: center;
 }
