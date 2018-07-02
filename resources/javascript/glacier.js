@@ -1,5 +1,10 @@
 $(document).ready(function() {
-    getJenkinsServers(determineStartPage);
+    var startupFunctions = [
+        getJenkinsServers(),
+        determineStartPage()
+    ]
+    
+    functionSeries(startupFunctions);
 });
 
 function determineStartPage() {

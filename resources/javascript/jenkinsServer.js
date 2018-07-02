@@ -1,7 +1,7 @@
 var jenkinsServerArray;
 var configuredServerCount = 0;
 
-function getJenkinsServers (callback, forceReload = false) {
+function getJenkinsServers (forceReload = false) {
     if (jenkinsServerArray != null && !forceReload) {
         callback();
     }
@@ -15,7 +15,6 @@ function getJenkinsServers (callback, forceReload = false) {
                 for (var i = 0; i < data.servers.length; i++) { // Create a jenkinsServer object, store it in jenkinsServerArray
                     jenkinsServerArray.push(new jenkinsServer(data.servers[i]));
                 }
-                callback();
             })
         });
     }

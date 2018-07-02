@@ -20,7 +20,7 @@ function functionSeries(functionArray) {
             return;
         }
         var func = functionArray[sequenceNum];
-        $.when(func()).always(function() {
+        $.when(func).always(function() {
             sequenceNum++;
             runFunction();
         });
