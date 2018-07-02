@@ -21,31 +21,27 @@ function getJenkinsServers (callback, forceReload = false) {
     }
 }
 
-function loginJenkinsServer () {
-    
-}
-
 function jenkinsServer (jsonData) {
     this.name = jsonData.name;
     this.id = jsonData.id;
     this.isProduction = jsonData.isProduction;
     this.url = jsonData.url;
     this.configListItemId = null;
-    this.isConfigured = false;
 
     this.setConfigListItemId();
     this.createConfigListListItem();
-    //this.checkIfConfigured();
+    if (this.hasStoredLogin()) {
+        configuredServerCount++;
+    }
 }
 
 jenkinsServer.prototype.setConfigListItemId = function() {
     this.configListItemId = "jenkinsServerConfigListItem" + this.id;
 }
 
-jenkinsServer.prototype.checkIfConfigured = function() {
+jenkinsServer.prototype.hasStoredLogin = function() {
     if (localStorage.getItem(this.id + "LoginToken")) {
-        this.isConfigured = true;
-        configuredServerCount++;
+        return true;
     }
 }
 
