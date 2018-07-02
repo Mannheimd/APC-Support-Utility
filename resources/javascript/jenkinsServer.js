@@ -26,47 +26,48 @@ function jenkinsServer (jsonData) {
     this.isProduction = jsonData.isProduction;
     this.url = jsonData.url;
     this.configListItemId = null;
-
-    this.setConfigListItemId();
-    this.createConfigListListItem();
-    if (this.hasStoredLogin()) {
+    this.configListItemHtml = null;
+    
+    this.insertConfigListItem();
+    if (this.getLoginToken()) {
         configuredServerCount++;
     }
+}
+
+jenkinsServer.prototype.insertConfigListItem = function() {
+    functionArray = [
+        this.setConfigListItemId(),
+        this.processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html()),
+        this.addConfigListListItem(),
+        this.updateConfigListItemFields()
+    ]
 }
 
 jenkinsServer.prototype.setConfigListItemId = function() {
     this.configListItemId = "jenkinsServerConfigListItem" + this.id;
 }
 
-jenkinsServer.prototype.hasStoredLogin = function() {
-    if (localStorage.getItem(this.id + "LoginToken")) {
-        return true;
-    }
+jenkinsServer.prototype.processConfigListItemTemplate = function(html) {
+    this.configListItemHtml = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId)
 }
 
-jenkinsServer.prototype.createConfigListListItem = function() {
-    this.replaceConfigListIds($("#jenkinsServerConfigListItemTemplate").html());
+jenkinsServer.prototype.addConfigListListItem = function() {
+    $("#jenkinsServerConfigList").append(this.configListItemHtml);
 }
 
-jenkinsServer.prototype.replaceConfigListIds = function(html) {
-    var server = this;
-    html = replaceAllInstances(html, "{{configListItemId}}", this.configListItemId, function(convertedHtml) {
-        server.addConfigListListItem(convertedHtml, server.populateConfigListFields, server);
-    })
-}
-
-jenkinsServer.prototype.addConfigListListItem = function(html, callback, server) {
-    $("#jenkinsServerConfigList").append(html);
-    callback(server);
-}
-
-jenkinsServer.prototype.populateConfigListFields = function(server) {
-    $("#" + server.configListItemId + "Name").text(server.name);
+jenkinsServer.prototype.updateConfigListItemFields = function() {
+    $("#" + this.configListItemId + "Name").text(this.name);
     if (this.isConfigured) {
         this.testLogin(function() {
             $("#" + this.configListItemId + "LoginStatus").text(this.getLoginStatus);
             $("#" + this.configListItemId + "Button").attr("disabled", this.getButtonState);
         })
+    }
+}
+
+jenkinsServer.prototype.getLoginToken = function() {
+    if (localStorage.getItem(this.id + "LoginToken")) {
+        return true;
     }
 }
 

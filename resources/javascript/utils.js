@@ -1,9 +1,9 @@
-function replaceAllInstances(text, replaceThis, withThis, callback) {
+function replaceAllInstances(text, replaceThis, withThis) {
     while (text.indexOf(replaceThis) != -1)
     {
         text = text.replace(replaceThis, withThis);
     }
-    callback(text);
+    return text;
 }
 
 /*
