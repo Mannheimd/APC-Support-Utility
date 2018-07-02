@@ -27,20 +27,22 @@ function jenkinsServer (jsonData) {
     this.url = jsonData.url;
     this.configListItemId = null;
     this.configListItemHtml = null;
+    this.jenkinsApi = new jenkinsApi(this);
+    this.jenkinsUserInfo = null;
     
     this.insertConfigListItem();
     if (this.getLoginToken()) {
         configuredServerCount++;
     }
+
+    this.jenkinsApi.getCurrentUserInfo();
 }
 
 jenkinsServer.prototype.insertConfigListItem = function() {
-    functionArray = [
-        this.setConfigListItemId(),
-        this.processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html()),
-        this.addConfigListListItem(),
-        this.updateConfigListItemFields()
-    ]
+    this.setConfigListItemId();
+    this.processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
+    this.addConfigListListItem();
+    this.updateConfigListItemFields();
 }
 
 jenkinsServer.prototype.setConfigListItemId = function() {
@@ -58,21 +60,12 @@ jenkinsServer.prototype.addConfigListListItem = function() {
 jenkinsServer.prototype.updateConfigListItemFields = function() {
     $("#" + this.configListItemId + "Name").text(this.name);
     if (this.isConfigured) {
-        this.testLogin(function() {
-            $("#" + this.configListItemId + "LoginStatus").text(this.getLoginStatus);
-            $("#" + this.configListItemId + "Button").attr("disabled", this.getButtonState);
-        })
+        
     }
 }
 
 jenkinsServer.prototype.getLoginToken = function() {
-    if (localStorage.getItem(this.id + "LoginToken")) {
-        return true;
-    }
-}
-
-jenkinsServer.prototype.testLogin = function(callback) {
-    
+    return localStorage.getItem(this.id + "LoginToken");
 }
 
 jenkinsServer.prototype.getLoginStatus = function() {
