@@ -1,10 +1,10 @@
 function jenkinsApi(jenkinsServer) {
-    this.jenkinsServer = jenkinsServer;
-    this.loginToken = jenkinsServer.getLoginToken();
+    jenkinsServer = jenkinsServer;
+    loginToken = jenkinsServer.loginToken;
 }
 
 jenkinsApi.prototype.getCurrentUser = function(callback) {
-    this.getRequest("/me/api/json", this.loginToken, function(response) {
+    this.getRequest("/me/api/json", loginToken, function(response) {
         callback(response);
     });
 }
@@ -13,7 +13,7 @@ jenkinsApi.prototype.postRequest = function(endpoint, parameters, loginToken, ca
     var response = {};
     $.ajax({                              
         type: "POST",
-        url: this.jenkinsServer.url + endpoint,
+        url: jenkinsServer.url + endpoint,
         data: jQuery.param(parameters),
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", "Basic " + loginToken);
@@ -35,7 +35,7 @@ jenkinsApi.prototype.getRequest = function(endpoint, loginToken, callback) {
     var response = {};
     $.ajax({                              
         type: "GET",
-        url: this.jenkinsServer.url + endpoint,
+        url: jenkinsServer.url + endpoint,
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", "Basic " + loginToken);
         },
