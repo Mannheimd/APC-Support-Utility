@@ -1,14 +1,10 @@
 $(document).ready(function() {
-    var startupFunctions = [
-        getJenkinsServers(),
-        determineStartPage()
-    ]
-    
-    functionSeries(startupFunctions);
+    getJenkinsServers()
+    determineStartPage()
 });
 
 function determineStartPage() {
-    if (configuredServerCount == 0) {
+    if (localStorage.getItem("isConfigured") != "true") {
         changePage("pageContainer", "glacierConfig");
     }
     else {
