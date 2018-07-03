@@ -1,23 +1,22 @@
-function jenkinsApi(jenkinsServer, loginToken) {
+function jenkinsApi(jenkinsServer) {
     this.jenkinsServer = jenkinsServer;
-    this.loginToken = loginToken;
+    this.loginToken = jenkinsServer.getLoginToken();
 }
 
-jenkinsApi.prototype.getCurrentUser = function() {
-    this.getRequest("/me/api/json", function(response) {
-        if (response.status == "success") {
-            this.jenkinsServer.currentUser = response.data;
-        }
+jenkinsApi.prototype.getCurrentUser = function(callback) {
+    this.getRequest("/me/api/json", this.loginToken, function(response) {
+        callback(response);
     });
 }
 
-jenkinsApi.prototype.postRequest = function(endpoint, parameters, callback) {
+jenkinsApi.prototype.postRequest = function(endpoint, parameters, loginToken, callback) {
+    var response = {};
     $.ajax({                              
         type: "POST",
         url: this.jenkinsServer.url + endpoint,
         data: jQuery.param(parameters),
         beforeSend: function(xhr){
-            xhr.setRequestHeader("Authorization", "Basic " + this.loginToken);
+            xhr.setRequestHeader("Authorization", "Basic " + loginToken);
         },
         success: function(data) {
             response.data = data;
@@ -32,14 +31,13 @@ jenkinsApi.prototype.postRequest = function(endpoint, parameters, callback) {
     });
 }
 
-jenkinsApi.prototype.getRequest = function(endpoint, callback) {
-    var jenkinsServer = this.jenkinsServer;
-    var response = {}
+jenkinsApi.prototype.getRequest = function(endpoint, loginToken, callback) {
+    var response = {};
     $.ajax({                              
         type: "GET",
         url: this.jenkinsServer.url + endpoint,
         beforeSend: function(xhr){
-            xhr.setRequestHeader("Authorization", "Basic " + this.loginToken);
+            xhr.setRequestHeader("Authorization", "Basic " + loginToken);
         },
         success: function(data) {
             response.data = data;
