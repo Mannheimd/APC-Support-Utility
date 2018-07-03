@@ -1,7 +1,8 @@
 var jenkinsServerArray;
-var configuredServerCount = 0;
+var configuredServerCount;
 
 function getJenkinsServers (forceReload = false) {
+    configuredServerCount = 0;
     if (jenkinsServerArray != null && !forceReload) {
         callback();
     }
@@ -27,15 +28,14 @@ function jenkinsServer (jsonData) {
     this.url = jsonData.url;
     this.configListItemId = null;
     this.configListItemHtml = null;
-    this.jenkinsApi = new jenkinsApi(this);
+    this.jenkinsApi = new jenkinsApi(this, this.getLoginToken());
     this.jenkinsUserInfo = null;
+    this.currentUser = null;
     
     this.insertConfigListItem();
-    if (this.getLoginToken()) {
+    if (this.jenkinsApi.loginToken) {
         configuredServerCount++;
     }
-
-    this.jenkinsApi.getCurrentUserInfo();
 }
 
 jenkinsServer.prototype.insertConfigListItem = function() {
@@ -68,12 +68,8 @@ jenkinsServer.prototype.getLoginToken = function() {
     return localStorage.getItem(this.id + "LoginToken");
 }
 
-jenkinsServer.prototype.getLoginStatus = function() {
-    return "Implement login status";
-}
+jenkinsServer.prototype.updateLoginStatus = function() {
 
-jenkinsServer.prototype.getButtonState = function() {
-    return "";
 }
 
 jenkinsServer.prototype.forgetServer = function() {
