@@ -53,6 +53,7 @@ function jenkinsServer(jsonData) {
         addConfigListListItem();
         updateConfigListItemFields();
         addLoginSubmitEventListener();
+        addForgetButtonEventListener();
     }
 
     function processConfigListItemTemplate(html) {
@@ -89,6 +90,13 @@ function jenkinsServer(jsonData) {
             params = $("#" + e.target.id).serializeArray();
             jenkinsServer.prototype.addLogin(data.id, params[0].value, params[1].value);
             e.preventDefault();
+        })
+    }
+
+    function addForgetButtonEventListener() {
+        var form = $("#" + data.configListItemId + "ForgetButton");
+        form.on("click", function() {
+            jenkinsServer.prototype.forget(data.id);
         })
     }
 
