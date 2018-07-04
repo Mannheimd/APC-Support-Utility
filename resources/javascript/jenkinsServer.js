@@ -13,7 +13,7 @@ function getJenkinsServers(forceReload = false) {
             success: (function(data) {
                 jenkinsServerArray = [];
                 for (var i = 0; i < data.servers.length; i++) { // Create a jenkinsServer object, store it in jenkinsServerArray
-                    var server = new jenkinsServer(data.servers[i]) 
+                    var server = jenkinsServer(data.servers[i]) 
                     jenkinsServerArray.push(server);
                 }
             })
@@ -22,31 +22,27 @@ function getJenkinsServers(forceReload = false) {
 }
 
 function jenkinsServer(jsonData) {
-    var name = jsonData.name;
-    var id = jsonData.id;
-    var isProduction = jsonData.isProduction;
-    var url = jsonData.url;
-    var configListItemId = "jenkinsServerConfigListItem" + id;
-    var configListItemHtml = processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
-    var currentUser = {};
+    var data = jsonData;
+    data.configListItemId = "jenkinsServerConfigListItem" + data.id;
+    data.configListItemHtml = processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
     
     insertConfigListItem();
     updateLoginStatus();
 
     function updateLoginStatus() {
-        $("#" + configListItemId + "LoginStatus").text("Checking...");
+        $("#" + data.configListItemId + "LoginStatus").text("Checking...");
         switchLoginPrompt("checking");
-        if (jenkinsServer.prototype.getLoginToken(id) == undefined) {
-            $("#" + configListItemId + "LoginStatus").text("Not configured");
+        if (jenkinsServer.prototype.getLoginToken(data.id) == undefined) {
+            $("#" + data.configListItemId + "LoginStatus").text("Not configured");
             switchLoginPrompt("notConfigured");
         } else {
-            jenkinsApi.prototype.getCurrentUser(url, id, function(response) {
+            jenkinsApi.prototype.getCurrentUser(data.url, data.id, function(response) {
                 if (response.status == "success") {
-                    currentUser = response.data;
-                    $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
+                    data.currentUser = response.data;
+                    $("#" + data.configListItemId + "LoginStatus").text("Logged in as " + data.currentUser.fullName);
                     switchLoginPrompt("loggedIn");
                 } else {
-                    $("#" + configListItemId + "LoginStatus").text("Connection failed");
+                    $("#" + data.configListItemId + "LoginStatus").text("Connection failed");
                     switchLoginPrompt("loginFailed");
                 }
             })
@@ -60,47 +56,48 @@ function jenkinsServer(jsonData) {
     }
 
     function processConfigListItemTemplate(html) {
-        return replaceAllInstances(html, "{{configListItemId}}", configListItemId)
+        return replaceAllInstances(html, "{{configListItemId}}", data.configListItemId)
     }
 
     function addConfigListListItem() {
-        $("#jenkinsServerConfigList").append(configListItemHtml);
+        $("#jenkinsServerConfigList").append(data.configListItemHtml);
     }
 
     function updateConfigListItemFields() {
-        $("#" + configListItemId + "Name").text(name);
+        $("#" + data.configListItemId + "Name").text(data.name);
     }
 
     function switchLoginPrompt(switchOption) {
         if (switchOption == "checking") {
-            $("#" + configListItemId + "LoginSection").hide();
-            $("#" + configListItemId + "ForgetButton").hide();
+            $("#" + data.configListItemId + "LoginSection").hide();
+            $("#" + data.configListItemId + "ForgetButton").hide();
         } else if (switchOption == "notConfigured") {
-            $("#" + configListItemId + "LoginSection").show();
-            $("#" + configListItemId + "ForgetButton").hide();
+            $("#" + data.configListItemId + "LoginSection").show();
+            $("#" + data.configListItemId + "ForgetButton").hide();
         } else if (switchOption == "loginFailed") {
-            $("#" + configListItemId + "LoginSection").show();
-            $("#" + configListItemId + "ForgetButton").hide();
+            $("#" + data.configListItemId + "LoginSection").show();
+            $("#" + data.configListItemId + "ForgetButton").hide();
         } else if (switchOption == "loggedIn") {
-            $("#" + configListItemId + "LoginSection").hide();
-            $("#" + configListItemId + "ForgetButton").show();
+            $("#" + data.configListItemId + "LoginSection").hide();
+            $("#" + data.configListItemId + "ForgetButton").show();
         }
     }
 
     function addLoginSubmitEventListener() {
-        var form = $("#" + configListItemId + "LoginForm");
+        var form = $("#" + data.configListItemId + "LoginForm");
         form.on("submit", function(e) {
             params = $("#" + e.target.id).serializeArray();
-            var id = e.target.id.replace("jenkinsServerConfigListItem", "").replace("LoginForm", "");
-            jenkinsServer.prototype.addLogin(id, params[0].value, params[1].value);
+            jenkinsServer.prototype.addLogin(data.id, params[0].value, params[1].value);
             e.preventDefault();
         })
     }
+
+    return data;
 }
 
-jenkinsServer.prototype.forget = function(server) {
-    if (localStorage.getItem(server.id + "LoginToken")) {
-        localStorage.removeItem(server.id + "LoginToken");
+jenkinsServer.prototype.forget = function(id) {
+    if (localStorage.getItem(id + "LoginToken")) {
+        localStorage.removeItem(id + "LoginToken");
     }
 }
 
