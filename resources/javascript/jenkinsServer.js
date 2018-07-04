@@ -22,64 +22,58 @@ function getJenkinsServers (forceReload = false) {
 }
 
 function jenkinsServer (jsonData) {
-    name = jsonData.name;
-    id = jsonData.id;
-    isProduction = jsonData.isProduction;
-    url = jsonData.url;
-    configListItemId = "jenkinsServerConfigListItem" + id;
-    configListItemHtml = this.processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
-    loginToken = this.getLoginToken();
-    jenkinsClient = new jenkinsApi(this, this.getLoginToken());
-    jenkinsUserInfo = {};
-    currentUser = {};
+    var name = jsonData.name;
+    var id = jsonData.id;
+    var isProduction = jsonData.isProduction;
+    var url = jsonData.url;
+    var configListItemId = "jenkinsServerConfigListItem" + id;
+    var configListItemHtml = processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
+    var jenkinsClient = new jenkinsApi(url, id);
+    var currentUser = {};
     
-    this.insertConfigListItem(configListItemHtml);
+    insertConfigListItem();
+    updateLoginStatus();
 
-    if (this.getLoginToken() == undefined) {
-        $("#" + configListItemId + "LoginStatus").text("Not configured");
-        return;
-    }
-
-    jenkinsClient.getCurrentUser(function(response) {
-        if (response.status == "success") {
-            currentUser = self.data;
-
-            $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
+    function updateLoginStatus() {
+        if (jenkinsServer.prototype.getLoginToken(id) == undefined) {
+            $("#" + configListItemId + "LoginStatus").text("Not configured");
         } else {
-            $("#" + configListItemId + "LoginStatus").text("Login failed");
+            jenkinsApi.prototype.getCurrentUser(url, id, function(response) {
+                if (response.status == "success") {
+                    currentUser = response.data;
+
+                    $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
+                } else {
+                    $("#" + configListItemId + "LoginStatus").text("Login failed");
+                }
+            })
         }
-    })
-
-    this.updateLoginStatus();
-}
-
-jenkinsServer.prototype.insertConfigListItem = function() {
-    this.addConfigListListItem();
-    this.updateConfigListItemFields();
-}
-
-jenkinsServer.prototype.processConfigListItemTemplate = function(html) {
-    return replaceAllInstances(html, "{{configListItemId}}", configListItemId)
-}
-
-jenkinsServer.prototype.addConfigListListItem = function() {
-    $("#jenkinsServerConfigList").append(configListItemHtml);
-}
-
-jenkinsServer.prototype.updateConfigListItemFields = function() {
-    $("#" + configListItemId + "Name").text(name);
-}
-
-jenkinsServer.prototype.getLoginToken = function() {
-    return localStorage.getItem(id + "LoginToken");
-}
-
-jenkinsServer.prototype.updateLoginStatus = function() {
-
-}
-
-jenkinsServer.prototype.forgetServer = function() {
-    if (localStorage.getItem(this.id + "LoginToken")) {
-        localStorage.removeItem(this.id + "LoginToken");
     }
+
+    function insertConfigListItem() {
+        addConfigListListItem();
+        updateConfigListItemFields();
+    }
+
+    function processConfigListItemTemplate(html) {
+        return replaceAllInstances(html, "{{configListItemId}}", configListItemId)
+    }
+
+    function addConfigListListItem() {
+        $("#jenkinsServerConfigList").append(configListItemHtml);
+    }
+
+    function updateConfigListItemFields() {
+        $("#" + configListItemId + "Name").text(name);
+    }
+}
+
+jenkinsServer.prototype.forget = function(server) {
+    if (localStorage.getItem(server.id + "LoginToken")) {
+        localStorage.removeItem(server.id + "LoginToken");
+    }
+}
+
+jenkinsServer.prototype.getLoginToken = function(id) {
+    return localStorage.getItem(id + "LoginToken");
 }
