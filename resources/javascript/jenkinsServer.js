@@ -21,10 +21,6 @@ function getJenkinsServers(forceReload = false) {
     }
 }
 
-function addJenkinsServer() {
-    alert("Hello, world!");
-}
-
 function jenkinsServer(jsonData) {
     var name = jsonData.name;
     var id = jsonData.id;
@@ -60,6 +56,7 @@ function jenkinsServer(jsonData) {
     function insertConfigListItem() {
         addConfigListListItem();
         updateConfigListItemFields();
+        addLoginSubmitEventListener();
     }
 
     function processConfigListItemTemplate(html) {
@@ -89,6 +86,16 @@ function jenkinsServer(jsonData) {
             $("#" + configListItemId + "ForgetButton").show();
         }
     }
+
+    function addLoginSubmitEventListener() {
+        var form = $("#" + configListItemId + "LoginForm");
+        form.on("submit", function(e) {
+            params = $("#" + e.target.id).serializeArray();
+            var id = e.target.id.replace("jenkinsServerConfigListItem", "").replace("LoginForm", "");
+            jenkinsServer.prototype.addLogin(id, params[0].value, params[1].value);
+            e.preventDefault();
+        })
+    }
 }
 
 jenkinsServer.prototype.forget = function(server) {
@@ -99,4 +106,8 @@ jenkinsServer.prototype.forget = function(server) {
 
 jenkinsServer.prototype.getLoginToken = function(id) {
     return localStorage.getItem(id + "LoginToken");
+}
+
+jenkinsServer.prototype.addLogin = function(id, username, apiToken) {
+    localStorage.setItem(id + "LoginToken", btoa(username + ":" + apiToken));
 }

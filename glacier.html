@@ -5,21 +5,21 @@
     <title>Glacier</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="resources/javascript/utils.js"></script>
     <script src="resources/javascript/jenkinsServer.js"></script>
     <script src="resources/javascript/jenkinsApi.js"></script>
     <script src="resources/javascript/glacier.js"></script>
-    <script src="resources/javascript/utils.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
-    <script type="text" id="jenkinsServerConfigListItemTemplate">
+    <script type="text/html" id="jenkinsServerConfigListItemTemplate">
         <div class="listItem" id="{{configListItemId}}">
             <h3 id="{{configListItemId}}Name"></h3>
             <div class="flexRow">
-                <p id="{{configListItemId}}LoginStatus">Checking...</p>
+                <p id="{{configListItemId}}LoginStatus"></p>
                 <button id="{{configListItemId}}ForgetButton">Forget</button>
             </div>
             <div id="{{configListItemId}}LoginSection">
-                <form id="{{configListItemId}}LoginForm" action="#" onSubmit="addJenkinsServer()">
+                <form id="{{configListItemId}}LoginForm">
                     <div class="flexRow">
                         <p>Username:</p>
                         <input type="text" name="username"></input>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="flexRow">
                         <a href="howto.html">How do I?</a>
-                        <input type="submit" value="Log in"></input>
+                        <input type="submit" value="Log in" id="{{configListItemId}}LoginSubmit"></input>
                     </div>
                 </form>
             </div>
