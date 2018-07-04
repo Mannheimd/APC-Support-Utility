@@ -1,7 +1,7 @@
 $(document).ready(function() {
     getJenkinsServers();
-    determineStartPage();
     bindButtonEvents();
+    determineStartPage();
 
     function determineStartPage() {
         if (localStorage.getItem("isConfigured") != "true") {
