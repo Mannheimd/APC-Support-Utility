@@ -95,6 +95,12 @@ function jenkinsServer(jsonData) {
     return data;
 }
 
+jenkinsServer.prototype.getServerById = function(id) {
+    return jenkinsServerArray.filter(function(obj) {
+        return (obj.id == id);
+    })
+}
+
 jenkinsServer.prototype.forget = function(id) {
     if (localStorage.getItem(id + "LoginToken")) {
         localStorage.removeItem(id + "LoginToken");
