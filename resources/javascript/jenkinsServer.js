@@ -35,15 +35,19 @@ function jenkinsServer (jsonData) {
 
     function updateLoginStatus() {
         $("#" + configListItemId + "LoginStatus").text("Checking...");
+        switchLoginPrompt(false);
         if (jenkinsServer.prototype.getLoginToken(id) == undefined) {
             $("#" + configListItemId + "LoginStatus").text("Not configured");
+            switchLoginPrompt(true);
         } else {
             jenkinsApi.prototype.getCurrentUser(url, id, function(response) {
                 if (response.status == "success") {
                     currentUser = response.data;
                     $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
+                    switchLoginPrompt(false);
                 } else {
                     $("#" + configListItemId + "LoginStatus").text("Connection failed");
+                    switchLoginPrompt(true);
                 }
             })
         }
@@ -64,6 +68,14 @@ function jenkinsServer (jsonData) {
 
     function updateConfigListItemFields() {
         $("#" + configListItemId + "Name").text(name);
+    }
+
+    function switchLoginPrompt(switchBool) {
+        if (switchBool == true) {
+            $("#" + configListItemId + "LoginSection").show();
+        } else if (switchBool == false) {
+            $("#" + configListItemId + "LoginSection").hide();
+        }
     }
 }
 
