@@ -34,16 +34,16 @@ function jenkinsServer (jsonData) {
     updateLoginStatus();
 
     function updateLoginStatus() {
+        $("#" + configListItemId + "LoginStatus").text("Checking...");
         if (jenkinsServer.prototype.getLoginToken(id) == undefined) {
             $("#" + configListItemId + "LoginStatus").text("Not configured");
         } else {
             jenkinsApi.prototype.getCurrentUser(url, id, function(response) {
                 if (response.status == "success") {
                     currentUser = response.data;
-
                     $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
                 } else {
-                    $("#" + configListItemId + "LoginStatus").text("Login failed");
+                    $("#" + configListItemId + "LoginStatus").text("Connection failed");
                 }
             })
         }

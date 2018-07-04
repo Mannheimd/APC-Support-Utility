@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    getJenkinsServers()
-    determineStartPage()
+    getJenkinsServers();
+    determineStartPage();
 });
 
 function determineStartPage() {
