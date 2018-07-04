@@ -1,6 +1,6 @@
 var jenkinsServerArray;
 
-function getJenkinsServers (forceReload = false) {
+function getJenkinsServers(forceReload = false) {
     configuredServerCount = 0;
     if (jenkinsServerArray != null && !forceReload) {
         callback();
@@ -21,7 +21,11 @@ function getJenkinsServers (forceReload = false) {
     }
 }
 
-function jenkinsServer (jsonData) {
+function addJenkinsServer() {
+    alert("Hello, world!");
+}
+
+function jenkinsServer(jsonData) {
     var name = jsonData.name;
     var id = jsonData.id;
     var isProduction = jsonData.isProduction;
@@ -35,19 +39,19 @@ function jenkinsServer (jsonData) {
 
     function updateLoginStatus() {
         $("#" + configListItemId + "LoginStatus").text("Checking...");
-        switchLoginPrompt(false);
+        switchLoginPrompt("checking");
         if (jenkinsServer.prototype.getLoginToken(id) == undefined) {
             $("#" + configListItemId + "LoginStatus").text("Not configured");
-            switchLoginPrompt(true);
+            switchLoginPrompt("notConfigured");
         } else {
             jenkinsApi.prototype.getCurrentUser(url, id, function(response) {
                 if (response.status == "success") {
                     currentUser = response.data;
                     $("#" + configListItemId + "LoginStatus").text("Logged in as " + currentUser.fullName);
-                    switchLoginPrompt(false);
+                    switchLoginPrompt("loggedIn");
                 } else {
                     $("#" + configListItemId + "LoginStatus").text("Connection failed");
-                    switchLoginPrompt(true);
+                    switchLoginPrompt("loginFailed");
                 }
             })
         }
@@ -70,11 +74,19 @@ function jenkinsServer (jsonData) {
         $("#" + configListItemId + "Name").text(name);
     }
 
-    function switchLoginPrompt(switchBool) {
-        if (switchBool == true) {
-            $("#" + configListItemId + "LoginSection").show();
-        } else if (switchBool == false) {
+    function switchLoginPrompt(switchOption) {
+        if (switchOption == "checking") {
             $("#" + configListItemId + "LoginSection").hide();
+            $("#" + configListItemId + "ForgetButton").hide();
+        } else if (switchOption == "notConfigured") {
+            $("#" + configListItemId + "LoginSection").show();
+            $("#" + configListItemId + "ForgetButton").hide();
+        } else if (switchOption == "loginFailed") {
+            $("#" + configListItemId + "LoginSection").show();
+            $("#" + configListItemId + "ForgetButton").hide();
+        } else if (switchOption == "loggedIn") {
+            $("#" + configListItemId + "LoginSection").hide();
+            $("#" + configListItemId + "ForgetButton").show();
         }
     }
 }
