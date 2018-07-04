@@ -89,6 +89,7 @@ function jenkinsServer(jsonData) {
         form.on("submit", function(e) {
             params = $("#" + e.target.id).serializeArray();
             jenkinsServer.prototype.addLogin(data.id, params[0].value, params[1].value);
+            updateLoginStatus();
             e.preventDefault();
         })
     }
@@ -97,6 +98,7 @@ function jenkinsServer(jsonData) {
         var form = $("#" + data.configListItemId + "ForgetButton");
         form.on("click", function() {
             jenkinsServer.prototype.forget(data.id);
+            updateLoginStatus();
         })
     }
 
