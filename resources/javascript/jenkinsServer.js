@@ -28,7 +28,6 @@ function jenkinsServer (jsonData) {
     var url = jsonData.url;
     var configListItemId = "jenkinsServerConfigListItem" + id;
     var configListItemHtml = processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
-    var jenkinsClient = new jenkinsApi(url, id);
     var currentUser = {};
     
     insertConfigListItem();
