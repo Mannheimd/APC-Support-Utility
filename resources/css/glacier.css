@@ -1,5 +1,6 @@
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
 }
 
 p {
@@ -56,6 +57,49 @@ form {
 
 .hidden {
     display: none;
+}
+
+.menu {
+    width: 250px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: fixed;
+    padding: 0px 5px;
+    background: #374650;
+}
+
+.menu h3{
+    font-weight: 100;
+    font-size: 1.4em
+}
+
+.menu nav{
+    display: block;
+}
+
+.menu nav>div{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: white;
+    padding: 5px;
+}
+
+.menu nav>div:hover{
+    background: lightgray;
+}
+
+.menu .header{
+    position: relative;
+    color: #CDCDC8;
+    margin: 20px;
+}
+
+.menu .footer{
+    position: fixed;
+    color: #CDCDC8;
+    bottom: 0px;
+    margin: 20px;
 }
 
 #loadingPage {

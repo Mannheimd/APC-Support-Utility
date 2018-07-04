@@ -1,19 +1,23 @@
 $(document).ready(function() {
     getJenkinsServers();
     determineStartPage();
-});
+    bindButtonEvents();
 
-function determineStartPage() {
-    if (localStorage.getItem("isConfigured") != "true") {
-        changePage("pageContainer", "glacierConfig");
+    function determineStartPage() {
+        if (localStorage.getItem("isConfigured") != "true") {
+            changePage("pageContainer", "glacierConfig");
+        }
+        else {
+            changePage("pageContainer", "glacierMainUI");
+        }
     }
-    else {
-        changePage("pageContainer", "glacierMainUI");
-    }
-}
 
-$("#lookupCustomerSubmit").click(function () {
-    lookupCustomer();
+    function bindButtonEvents() {
+        $("#jenkinsServerConfigFinishedButton").on("click", function() {
+            changePage("pageContainer", "glacierMainUI");
+            localStorage.setItem("isConfigured", "true");
+        })
+    }
 });
 
 function changePage(pageClass, pageContainerId) {
