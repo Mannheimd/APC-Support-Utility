@@ -17,7 +17,18 @@ form {
 }
 
 .pageContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.flexContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 .centered {
@@ -55,17 +66,10 @@ form {
     border-bottom: 1px solid #dfe3e6;
 }
 
-.hidden {
-    display: none;
-}
-
 .menu {
     width: 250px;
     height: 100%;
-    left: 0;
-    top: 0;
-    position: fixed;
-    padding: 0px 5px;
+    padding: 5px 5px;
     background: #374650;
 }
 
@@ -102,7 +106,14 @@ form {
     margin: 20px;
 }
 
+/*
+For hiding/unhiding to work correctly, this needs to be at the bottom of the classes.
+If you want something hideable, don't set 'display:' below this.
+*/
+.hidden {
+    display: none;
+}
+
 #loadingPage {
-    display: block;
     text-align: center;
 }

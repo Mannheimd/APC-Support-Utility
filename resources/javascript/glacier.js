@@ -23,10 +23,10 @@ $(document).ready(function() {
 function changePage(pageClass, pageContainerId) {
     $("." + pageClass).each(function() {
         if ($(this).attr('id') == pageContainerId) {
-            $(this).show();
+            $(this).removeClass('hidden');
         }
         else {
-            $(this).hide();
+            $(this).addClass('hidden');
         }
     })
 }
