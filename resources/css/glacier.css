@@ -20,14 +20,19 @@ form {
     position: fixed;
     top: 0;
     left: 0;
-    display: none;
     width: 100%;
     height: 100%;
 }
 
-.flexContainer {
+.flexRowContainer {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.flexColumnContainer {
+    display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
 }
 
