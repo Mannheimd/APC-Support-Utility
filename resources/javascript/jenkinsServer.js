@@ -1,8 +1,8 @@
 var jenkinsServerArray;
 
-function getJenkinsServers(forceReload = false) {
+function getJenkinsServers() {
     configuredServerCount = 0;
-    if (jenkinsServerArray != null && !forceReload) {
+    if (jenkinsServerArray != null) {
         callback();
     }
     else {
