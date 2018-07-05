@@ -17,6 +17,10 @@ $(document).ready(function() {
             changePage("pageContainer", "glacierMainUI");
             localStorage.setItem("isConfigured", "true");
         })
+
+        $("#glacierMainUIMenuConfigButton").on("click", function() {
+            changePage("pageContainer", "glacierConfig");
+        })
     }
 });
 
