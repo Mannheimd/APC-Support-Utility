@@ -58,6 +58,10 @@ form {
     width: 400px;
 }
 
+.container90pcCenter {
+    width: 90%;
+}
+
 .flexRow {
     display: flex;
     justify-content: space-between;
@@ -111,6 +115,24 @@ form {
     margin: 20px;
 }
 
+.selectList {
+    border: solid 1px #CDCDC8;
+    margin: 10px;
+    padding: 5px;
+}
+
+.selectList div{
+    border-bottom: solid 1px #CDCDC8;
+}
+
+.selectList div:hover{
+    background: #CDCDC8;
+}
+
+.selectListItem {
+    padding: 15px;
+}
+
 .glacierMainUIDetailPage {
     flex-grow: 1;
 }
@@ -127,10 +149,11 @@ form {
     text-align: center;
 }
 
-#glacierMainUIDetailContainer {
+#glacierMainUIDisplayContainer {
     flex-grow: 1;
 }
 
-#glacierMainUIDetailPageNewLookup {
+#glacierMainUIDisplayPageNewLookup {
     text-align: center;
+    align-items: center;
 }
