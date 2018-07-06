@@ -115,26 +115,40 @@ form {
     margin: 20px;
 }
 
-.selectList {
+.glacierMainUIDetailPage {
+    flex-grow: 1;
+}
+
+.radioList {
     border: solid 1px #CDCDC8;
     margin: 10px;
     padding: 5px;
 }
 
-.selectList div{
+.radioList label > div {
+    padding: 15px;
+    margin-top: 5px;
     border-bottom: solid 1px #CDCDC8;
 }
 
-.selectList div:hover{
+.radioList label > input[type="radio"] {
+    visibility: hidden;
+    position: absolute;
+}
+
+.radioList label > input[type="radio"] + div {
+    color: #374650;
+    cursor: pointer;
+}
+
+.radioList label > input[type="radio"]:hover + div {
     background: #CDCDC8;
 }
 
-.selectListItem {
-    padding: 15px;
-}
-
-.glacierMainUIDetailPage {
-    flex-grow: 1;
+.radioList label > input[type="radio"]:checked + div {
+    color: black;
+    background: #0ab4dc;
+    border-bottom: solid 1px transparent;
 }
 
 .hidden {
