@@ -122,7 +122,10 @@ form {
 .radioList {
     border: solid 1px #CDCDC8;
     margin: 10px;
-    padding: 5px;
+    padding-left: 5px;
+    padding-top: 0px;
+    padding-right: 5px;
+    padding-bottom: 5px;
 }
 
 .radioList label > div {
