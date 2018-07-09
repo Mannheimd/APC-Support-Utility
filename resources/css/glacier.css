@@ -25,6 +25,7 @@ button {
     background: transparent;
     color: #FE5000;
     cursor: pointer;
+    font-size: 18px;
     font-weight: bold;
     transition: 0.1s;
 }
