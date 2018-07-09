@@ -1,5 +1,5 @@
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
 }
 
@@ -14,6 +14,25 @@ h3 {
 
 form {
     margin: 0;
+}
+
+button {
+    margin: 5px;
+    text-align: center;
+    padding: 14px 50px 12px 50px;
+    border: 2px solid #FE5000;
+    border-radius: 25px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.1s;
+}
+
+button:hover {
+    border: 2px solid #FE5000;
+    background: #FE5000;
+    color: white;
 }
 
 .pageContainer {
