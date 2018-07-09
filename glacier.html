@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="resources/css/glacier.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script type="text/html" id="jnkSvrCfgListItemTpl">
-        <div class="listItem" id="{{configListItemId}}">
-            <h3 id="{{configListItemId}}Name"></h3>
+        <div class="listItem" id="jnkSrvCfgListItem{{serverId}}">
+            <h3 id="jnkSrvCfgListItem{{serverId}}Name"></h3>
             <div class="flexRow">
-                <p id="{{configListItemId}}LoginStatus"></p>
-                <button id="{{configListItemId}}ForgetButton">Forget</button>
+                <p id="jnkSrvCfgListItem{{serverId}}LoginStatus"></p>
+                <button id="jnkSrvCfgListItem{{serverId}}ForgetButton">Forget</button>
             </div>
-            <div id="{{configListItemId}}LoginSection">
-                <form id="{{configListItemId}}LoginForm">
+            <div id="jnkSrvCfgListItem{{serverId}}LoginSection">
+                <form id="jnkSrvCfgListItem{{serverId}}LoginForm">
                     <div class="flexRow">
                         <p>Username:</p>
                         <input type="text" name="username"></input>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="flexRow">
                         <a href="howto.html">How do I?</a>
-                        <input type="submit" value="Log in" id="{{configListItemId}}LoginSubmit"></input>
+                        <input type="submit" value="Log in" id="jnkSrvCfgListItem{{serverId}}LoginSubmit"></input>
                     </div>
                 </form>
             </div>

@@ -23,26 +23,25 @@ function getJenkinsServers() {
 
 function jenkinsServer(jsonData) {
     var data = jsonData;
-    data.configListItemId = "jnkSrvCfgListItem" + data.id;
-    data.configListItemHtml = processConfigListItemTemplate($("#jnkSvrCfgListItemTpl").html());
+    data.configListItemHtml = jenkinsServer.prototype.processConfigListItemTemplate($("#jnkSvrCfgListItemTpl").html(), data);
     
     insertConfigListItem();
     updateLoginStatus();
 
     function updateLoginStatus() {
-        $("#" + data.configListItemId + "LoginStatus").text("Checking...");
+        $("#jnkSrvCfgListItem" + data.id + "LoginStatus").text("Checking...");
         switchLoginPrompt("checking");
         if (jenkinsServer.prototype.getLoginToken(data.id) == undefined) {
-            $("#" + data.configListItemId + "LoginStatus").text("Not configured");
+            $("#jnkSrvCfgListItem" + data.id + "LoginStatus").text("Not configured");
             switchLoginPrompt("notConfigured");
         } else {
             jenkinsApi.prototype.getCurrentUser(data.url, data.id, function(response) {
                 if (response.status == "success") {
                     data.currentUser = response.data;
-                    $("#" + data.configListItemId + "LoginStatus").text("Logged in as " + data.currentUser.fullName);
+                    $("#jnkSrvCfgListItem" + data.id + "LoginStatus").text("Logged in as " + data.currentUser.fullName);
                     switchLoginPrompt("loggedIn");
                 } else {
-                    $("#" + data.configListItemId + "LoginStatus").text("Connection failed");
+                    $("#jnkSrvCfgListItem" + data.id + "LoginStatus").text("Connection failed");
                     switchLoginPrompt("loginFailed");
                 }
             })
@@ -56,36 +55,32 @@ function jenkinsServer(jsonData) {
         addForgetButtonEventListener();
     }
 
-    function processConfigListItemTemplate(html) {
-        return replaceAllInstances(html, "{{configListItemId}}", data.configListItemId)
-    }
-
     function addConfigListListItem() {
         $("#jnkSrvCfgList").append(data.configListItemHtml);
     }
 
     function updateConfigListItemFields() {
-        $("#" + data.configListItemId + "Name").text(data.name);
+        $("#jnkSrvCfgListItem" + data.id + "Name").text(data.name);
     }
 
     function switchLoginPrompt(switchOption) {
         if (switchOption == "checking") {
-            $("#" + data.configListItemId + "LoginSection").hide();
-            $("#" + data.configListItemId + "ForgetButton").hide();
+            $("#jnkSrvCfgListItem" + data.id + "LoginSection").hide();
+            $("#jnkSrvCfgListItem" + data.id + "ForgetButton").hide();
         } else if (switchOption == "notConfigured") {
-            $("#" + data.configListItemId + "LoginSection").show();
-            $("#" + data.configListItemId + "ForgetButton").hide();
+            $("#jnkSrvCfgListItem" + data.id + "LoginSection").show();
+            $("#jnkSrvCfgListItem" + data.id + "ForgetButton").hide();
         } else if (switchOption == "loginFailed") {
-            $("#" + data.configListItemId + "LoginSection").show();
-            $("#" + data.configListItemId + "ForgetButton").hide();
+            $("#jnkSrvCfgListItem" + data.id + "LoginSection").show();
+            $("#jnkSrvCfgListItem" + data.id + "ForgetButton").hide();
         } else if (switchOption == "loggedIn") {
-            $("#" + data.configListItemId + "LoginSection").hide();
-            $("#" + data.configListItemId + "ForgetButton").show();
+            $("#jnkSrvCfgListItem" + data.id + "LoginSection").hide();
+            $("#jnkSrvCfgListItem" + data.id + "ForgetButton").show();
         }
     }
 
     function addLoginSubmitEventListener() {
-        var form = $("#" + data.configListItemId + "LoginForm");
+        var form = $("#jnkSrvCfgListItem" + data.id + "LoginForm");
         form.on("submit", function(e) {
             params = $("#" + e.target.id).serializeArray();
             jenkinsServer.prototype.addLogin(data.id, params[0].value, params[1].value);
@@ -95,7 +90,7 @@ function jenkinsServer(jsonData) {
     }
 
     function addForgetButtonEventListener() {
-        var form = $("#" + data.configListItemId + "ForgetButton");
+        var form = $("#jnkSrvCfgListItem" + data.id + "ForgetButton");
         form.on("click", function() {
             jenkinsServer.prototype.forget(data.id);
             updateLoginStatus();
@@ -123,4 +118,11 @@ jenkinsServer.prototype.getLoginToken = function(id) {
 
 jenkinsServer.prototype.addLogin = function(id, username, apiToken) {
     localStorage.setItem(id + "LoginToken", btoa(username + ":" + apiToken));
+}
+
+jenkinsServer.prototype.processConfigListItemTemplate = function(html, server) {
+    htmlAltered = html;
+    htmlAltered = replaceAllInstances(htmlAltered, "{{serverId}}", server.id);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{serverName}}", server.name);
+    return htmlAltered;
 }
