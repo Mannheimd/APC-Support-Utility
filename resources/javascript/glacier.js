@@ -29,6 +29,7 @@ $(document).ready(function() {
     }
 });
 
+// Use pageClass the same way as a Radio input's name; class defines the 'book', ID of each 'page' is used to identify which page you're switching to
 function changePage(pageClass, pageContainerId) {
     $("." + pageClass).each(function() {
         if ($(this).attr('id') == pageContainerId) {
@@ -42,4 +43,14 @@ function changePage(pageClass, pageContainerId) {
 
 function resetLookup() {
     $("#glcMainUIDisplayPageNewLookupServers").empty();
+    populateJenkinsServers();
+
+    function populateJenkinsServers() {
+        for (var i = 0; i < jenkinsServerArray.length; i++) {
+            if (jenkinsServerArray[i].currentUser) {
+                html = jenkinsServer.prototype.processTemplate($("#jnkSvrLookupListItemTpl").html(), jenkinsServerArray[i]);
+                $("#glcMainUIDisplayPageNewLookupServers").append(html);
+            }
+        }
+    }
 }

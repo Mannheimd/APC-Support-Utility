@@ -23,7 +23,7 @@ function getJenkinsServers() {
 
 function jenkinsServer(jsonData) {
     var data = jsonData;
-    data.configListItemHtml = jenkinsServer.prototype.processConfigListItemTemplate($("#jnkSvrCfgListItemTpl").html(), data);
+    data.configListItemHtml = jenkinsServer.prototype.processTemplate($("#jnkSvrCfgListItemTpl").html(), data);
     
     insertConfigListItem();
     updateLoginStatus();
@@ -120,7 +120,7 @@ jenkinsServer.prototype.addLogin = function(id, username, apiToken) {
     localStorage.setItem(id + "LoginToken", btoa(username + ":" + apiToken));
 }
 
-jenkinsServer.prototype.processConfigListItemTemplate = function(html, server) {
+jenkinsServer.prototype.processTemplate = function(html, server) {
     htmlAltered = html;
     htmlAltered = replaceAllInstances(htmlAltered, "{{serverId}}", server.id);
     htmlAltered = replaceAllInstances(htmlAltered, "{{serverName}}", server.name);
