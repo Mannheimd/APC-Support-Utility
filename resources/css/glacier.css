@@ -134,6 +134,10 @@ form {
     border-bottom: solid 1px #CDCDC8;
 }
 
+.radioList label:last-child > div {
+    border-bottom: none;
+}
+
 .radioList label > input[type="radio"] {
     visibility: hidden;
     position: absolute;
@@ -152,6 +156,10 @@ form {
     color: black;
     background: #0ab4dc;
     border-bottom: solid 1px transparent;
+}
+
+.radioList label:last-child > input[type="radio"]:checked + div {
+    border-bottom: none;
 }
 
 .hidden {
