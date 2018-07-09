@@ -1,6 +1,12 @@
 body {
     font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    color: #374650;
     margin: 0;
+}
+
+*:focus {
+    outline: none;
+    outline-offset: none;
 }
 
 p {
@@ -14,6 +20,33 @@ h3 {
 
 form {
     margin: 0;
+}
+
+input[type="text"] {
+    font-size: 16px;
+    padding: 10px;
+    color: #374650;
+    border: solid 1px #CDCDC8;
+}
+
+input[type="submit"] {
+    margin: 5px;
+    text-align: center;
+    padding: 14px 50px 12px 50px;
+    border: 2px solid #FE5000;
+    border-radius: 25px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.1s;
+}
+
+input[type="submit"]:hover {
+    border: 2px solid #FE5000;
+    background: #FE5000;
+    color: white;
 }
 
 button {
@@ -98,6 +131,21 @@ button.stencil:hover {
 
 .container90pcCenter {
     width: 90%;
+}
+
+.container90pcCenter > h3 {
+    margin-top: 25px;
+}
+
+.container90pcCenter > input {
+    width: 100%;
+}
+
+.container90pcCenter > input[type="submit"] {
+    margin-top: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
 }
 
 .flexRow {
@@ -185,7 +233,6 @@ button.stencil:hover {
 }
 
 .radioList label > input[type="radio"] + div {
-    color: #374650;
     cursor: pointer;
 }
 
