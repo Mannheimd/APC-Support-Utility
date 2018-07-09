@@ -23,8 +23,8 @@ function getJenkinsServers() {
 
 function jenkinsServer(jsonData) {
     var data = jsonData;
-    data.configListItemId = "jenkinsServerConfigListItem" + data.id;
-    data.configListItemHtml = processConfigListItemTemplate($("#jenkinsServerConfigListItemTemplate").html());
+    data.configListItemId = "jnkSrvCfgListItem" + data.id;
+    data.configListItemHtml = processConfigListItemTemplate($("#jnkSvrCfgListItemTpl").html());
     
     insertConfigListItem();
     updateLoginStatus();
@@ -61,7 +61,7 @@ function jenkinsServer(jsonData) {
     }
 
     function addConfigListListItem() {
-        $("#jenkinsServerConfigList").append(data.configListItemHtml);
+        $("#jnkSrvCfgList").append(data.configListItemHtml);
     }
 
     function updateConfigListItemFields() {

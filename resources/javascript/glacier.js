@@ -8,17 +8,17 @@ $(document).ready(function() {
             changePage("pageContainer", "glacierConfig");
         }
         else {
-            changePage("pageContainer", "glacierMainUI");
+            changePage("pageContainer", "glcMainUI");
         }
     }
 
     function bindButtonEvents() {
-        $("#jenkinsServerConfigFinishedButton").on("click", function() {
-            changePage("pageContainer", "glacierMainUI");
+        $("#jnkSrvCfgFinishedButton").on("click", function() {
+            changePage("pageContainer", "glcMainUI");
             localStorage.setItem("isConfigured", "true");
         })
 
-        $("#glacierMainUIMenuConfigButton").on("click", function() {
+        $("#glcMainUIMenuConfigButton").on("click", function() {
             changePage("pageContainer", "glacierConfig");
         })
     }

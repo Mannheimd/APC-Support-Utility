@@ -11,7 +11,7 @@
     <script src="resources/javascript/glacier.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
-    <script type="text/html" id="jenkinsServerConfigListItemTemplate">
+    <script type="text/html" id="jnkSvrCfgListItemTpl">
         <div class="listItem" id="{{configListItemId}}">
             <h3 id="{{configListItemId}}Name"></h3>
             <div class="flexRow">
@@ -45,88 +45,88 @@
         <p>Loading at glacial speeds!</p>
     </div>
 </div>
-<div class="pageContainer flexRowContainer hidden" id="glacierMainUI">
+<div class="pageContainer flexRowContainer hidden" id="glcMainUI">
     <div class="menu">
         <div class="header flexRow">
             <h3>My Lookups</h3>
             <button>+</button>
         </div>
-        <div class="radioList noBorder" id="glacierMainUIAccountList">
+        <div class="radioList noBorder" id="glcMainUIAccountList">
             <label>
-                <input type="radio" id="glacierMainUIAccountListID1" name="glacierMainUIAccountList"/>
+                <input type="radio" id="glcMainUIAccountListID1" name="glcMainUIAccountList"/>
                 <div>
                     Account 1
                 </div>
             </label>
             <label>
-                <input type="radio" id="glacierMainUIAccountListID2" name="glacierMainUIAccountList"/>
+                <input type="radio" id="glcMainUIAccountListID2" name="glcMainUIAccountList"/>
                 <div>
                     Account 2
                 </div>
             </label>
             <label>
-                <input type="radio" id="glacierMainUIAccountListID3" name="glacierMainUIAccountList"/>
+                <input type="radio" id="glcMainUIAccountListID3" name="glcMainUIAccountList"/>
                 <div>
                     Account 3
                 </div>
             </label>
         </div>
         <div class="footer flexRow">
-            <button id="glacierMainUIMenuConfigButton">
+            <button id="glcMainUIMenuConfigButton">
                 Config
             </button>
         </div>
     </div>
-    <div id="glacierMainUIDisplayContainer">
-        <div class="glacierMainUIDisplayPage flexColumnContainer" id="glacierMainUIDisplayPageNewLookup">
+    <div id="glcMainUIDisplayContainer">
+        <div class="glcMainUIDisplayPage flexColumnContainer" id="glcMainUIDisplayPageNewLookup">
             <form class="container90pcCenter">
-                <div class="radioList" id="glacierMainUIDisplayPageNewLookupServers">
+                <div class="radioList" id="glcMainUIDisplayPageNewLookupServers">
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupServerRadioUST1" name="newLookupJenkinsServerSelect"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioUST1" name="newLookupJenkinsServerSelect"/>
                         <div>
                             North America Test
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupServerRadioT1" name="newLookupJenkinsServerSelect"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioT1" name="newLookupJenkinsServerSelect"/>
                         <div>
                             Test1
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupServerRadioT2" name="newLookupJenkinsServerSelect"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioT2" name="newLookupJenkinsServerSelect"/>
                         <div>
                             Test2
                         </div>
                     </label>
                 </div>
-                <div class="radioList" id="glacierMainUIDisplayPageNewLookupSearchBy">
+                <div class="radioList" id="glcMainUIDisplayPageNewLookupSearchBy">
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupSearchByAccNum" name="newLookupSearchBy"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByAccNum" name="newLookupSearchBy"/>
                         <div>
                             Account Number
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupSearchByEmail" name="newLookupSearchBy"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByEmail" name="newLookupSearchBy"/>
                         <div>
                             Email Address
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupSearchBySiteName" name="newLookupSearchBy"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySiteName" name="newLookupSearchBy"/>
                         <div>
                             Site Name
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupSearchBySubNum" name="newLookupSearchBy"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySubNum" name="newLookupSearchBy"/>
                         <div>
                             Subscription Number
                         </div>
                     </label>
                     <label>
-                        <input type="radio" id="glacierMainUIDisplayPageNewLookupSearchByIITID" name="newLookupSearchBy"/>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByIITID" name="newLookupSearchBy"/>
                         <div>
                             IITID
                         </div>
@@ -138,10 +138,10 @@
 </div>
 <div class="pageContainer hidden" id="glacierConfig">
     <div class="container400px flexColumnContainer topCentered">
-        <div id="jenkinsServerConfigList">
+        <div id="jnkSrvCfgList">
         </div>
         <div class="flexRow">
-            <button id="jenkinsServerConfigFinishedButton">Finished</button>
+            <button id="jnkSrvCfgFinishedButton">Finished</button>
         </div>
     </div>
 </div>

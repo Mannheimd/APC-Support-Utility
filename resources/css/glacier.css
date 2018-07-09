@@ -115,7 +115,7 @@ form {
     margin: 20px;
 }
 
-.glacierMainUIDetailPage {
+.glcMainUIDetailPage {
     flex-grow: 1;
 }
 
@@ -189,11 +189,11 @@ form {
     text-align: center;
 }
 
-#glacierMainUIDisplayContainer {
+#glcMainUIDisplayContainer {
     flex-grow: 1;
 }
 
-#glacierMainUIDisplayPageNewLookup {
+#glcMainUIDisplayPageNewLookup {
     text-align: center;
     align-items: center;
 }
