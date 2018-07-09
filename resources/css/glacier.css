@@ -35,6 +35,24 @@ button:hover {
     color: white;
 }
 
+button.stencil {
+    margin: 5px;
+    text-align: center;
+    padding: 5px;
+    border: 0px;
+    border-radius: 0px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 25px;
+    transition: 0.1s;
+}
+
+button.stencil:hover {
+    color: #CDCDC8;
+}
+
 .pageContainer {
     position: fixed;
     top: 0;

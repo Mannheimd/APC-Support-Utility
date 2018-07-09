@@ -10,7 +10,8 @@
     <script src="resources/javascript/jenkinsApi.js"></script>
     <script src="resources/javascript/glacier.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/glacier.css">
+    <link rel="stylesheet" href="resources/css/glacier.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script type="text/html" id="jnkSvrCfgListItemTpl">
         <div class="listItem" id="{{configListItemId}}">
             <h3 id="{{configListItemId}}Name"></h3>
@@ -49,7 +50,9 @@
     <div class="menu">
         <div class="header flexRow">
             <h3>My Lookups</h3>
-            <button>+</button>
+            <button class="stencil">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
         <div class="radioList noBorder" id="glcMainUIAccountList">
             <label>
