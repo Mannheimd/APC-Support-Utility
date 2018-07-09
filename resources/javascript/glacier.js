@@ -21,6 +21,11 @@ $(document).ready(function() {
         $("#glcMainUIMenuConfigButton").on("click", function() {
             changePage("pageContainer", "glacierConfig");
         })
+
+        $("#glcMainUINewLookupButton").on("click", function() {
+            changePage("glcMainUIDisplayPage", "glcMainUIDisplayPageNewLookup");
+            resetLookup();
+        })
     }
 });
 
@@ -33,4 +38,8 @@ function changePage(pageClass, pageContainerId) {
             $(this).addClass('hidden');
         }
     })
+}
+
+function resetLookup() {
+    $("#glcMainUIDisplayPageNewLookupServers").empty();
 }

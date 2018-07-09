@@ -37,6 +37,14 @@
             </div>
         </div>
     </script>
+    <script type="text/html" id="jnkSvrLookupListItemTpl">
+        <label>
+            <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}" name="newLookupJenkinsServerSelect" value="{{serverId}}"/>
+            <div>
+                {{serverName}}
+            </div>
+        </label>
+    </script>
 </head>
 
 <body>
@@ -50,7 +58,7 @@
     <div class="menu">
         <div class="header flexRow">
             <h3>My Lookups</h3>
-            <button class="stencil">
+            <button class="stencil" id="glcMainUINewLookupButton">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
@@ -85,24 +93,6 @@
             <form class="container90pcCenter">
                 <h3>Region:</h3>
                 <div class="radioList" id="glcMainUIDisplayPageNewLookupServers">
-                    <label>
-                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioUST1" name="newLookupJenkinsServerSelect" value="UST1"/>
-                        <div>
-                            North America Test
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioT1" name="newLookupJenkinsServerSelect" value="T1"/>
-                        <div>
-                            Test1
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadioT2" name="newLookupJenkinsServerSelect" value="T2"/>
-                        <div>
-                            Test2
-                        </div>
-                    </label>
                 </div>
                 <h3>Search by:</h3>
                 <div class="radioList">
