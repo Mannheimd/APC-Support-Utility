@@ -49,9 +49,13 @@
 
 <body>
 <div class="pageContainer" id="loadingPage">
-    <div class="flexColumnContainer centered">
-        <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="300" width="300">
-        <p>Loading at glacial speeds!</p>
+    <div class="flexCentered">
+        <div>
+            <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="300" width="300">
+            <h3>Loading at glacial speeds!</h3>
+            <p>Seriously, if you're still here after a few seconds, something's wrong.</p>
+            <p>Ensure that JavaScript is enabled, and try opening this site in a different browser.</p>
+        </div>
     </div>
 </div>
 <div class="pageContainer flexRowContainer hidden" id="glcMainUI">
@@ -89,7 +93,13 @@
         </div>
     </div>
     <div id="glcMainUIDisplayContainer">
-        <div class="glcMainUIDisplayPage flexColumnContainer" id="glcMainUIDisplayPageNewLookup">
+        <div class="glcMainUIDisplayPage flexCentered" id="glcMainUIDisplayPageDefault">
+            <div >
+                <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="300" width="300">
+                <h3>No account selected</h3>
+            </div>
+        </div>
+        <div class="glcMainUIDisplayPage flexColumnContainer hidden" id="glcMainUIDisplayPageNewLookup">
             <form class="container90pcCenter">
                 <h3>Region:</h3>
                 <div class="radioList" id="glcMainUIDisplayPageNewLookupServers">
