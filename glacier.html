@@ -38,12 +38,10 @@
         </div>
     </script>
     <script type="text/html" id="jnkSvrLookupListItemTpl">
-        <label>
+        <p>
             <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}" name="newLookupJenkinsServerSelect" value="{{serverId}}"/>
-            <div>
-                {{serverName}}
-            </div>
-        </label>
+            <label for="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}">{{serverName}}</label>
+        </p>
     </script>
 </head>
 
@@ -66,7 +64,7 @@
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <div class="radioList noBorder" id="glcMainUIAccountList">
+        <div class="radioList" id="glcMainUIAccountList">
             <label>
                 <input type="radio" id="glcMainUIAccountListID1" name="glcMainUIAccountList"/>
                 <div>
@@ -99,43 +97,33 @@
                 <h3>No account selected</h3>
             </div>
         </div>
-        <div class="glcMainUIDisplayPage flexColumnContainer hidden" id="glcMainUIDisplayPageNewLookup">
-            <form class="container90pcCenter">
+        <div class="glcMainUIDisplayPage flexTopCentered hidden" id="glcMainUIDisplayPageNewLookup">
+            <form>
                 <h3>Region:</h3>
-                <div class="radioList" id="glcMainUIDisplayPageNewLookupServers">
+                <div id="glcMainUIDisplayPageNewLookupServers">
                 </div>
                 <h3>Search by:</h3>
-                <div class="radioList">
-                    <label>
-                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByAccNum" name="newLookupSearchBy" value="ZuoraAccount"/>
-                        <div>
-                            Account Number
-                        </div>
-                    </label>
-                    <label>
+                <div>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByAccNum" name="newLookupSearchBy" value="ZuoraAccount" checked/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByAccNum">Account Number</label>
+                    </p>
+                    <p>
                         <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByEmail" name="newLookupSearchBy" value="EmailAddress"/>
-                        <div>
-                            Email Address
-                        </div>
-                    </label>
-                    <label>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByEmail">Email Address</label>
+                    </p>
+                    <p>
                         <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySiteName" name="newLookupSearchBy" value="SiteName"/>
-                        <div>
-                            Site Name
-                        </div>
-                    </label>
-                    <label>
+                        <label for="glcMainUIDisplayPageNewLookupSearchBySiteName">Site Name</label>
+                    </p>
+                    <p>
                         <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySubNum" name="newLookupSearchBy" value="ZuoraSubscription"/>
-                        <div>
-                            Subscription Number
-                        </div>
-                    </label>
-                    <label>
+                        <label for="glcMainUIDisplayPageNewLookupSearchBySubNum">Subscription Number</label>
+                    </p>
+                    <p>
                         <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByIITID" name="newLookupSearchBy" value="IITID"/>
-                        <div>
-                            IITID
-                        </div>
-                    </label>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByIITID">IITID</label>
+                    </p>
                 </div>
                 <h3>Search for:</h3>
                 <input type="text" name="newLookupSearchFor">
@@ -145,7 +133,7 @@
     </div>
 </div>
 <div class="pageContainer hidden" id="glacierConfig">
-    <div class="container400px flexColumnContainer topCentered">
+    <div class="container400px flexColumnContainer flexTopCentered">
         <div id="jnkSrvCfgList">
         </div>
         <div class="flexRow">

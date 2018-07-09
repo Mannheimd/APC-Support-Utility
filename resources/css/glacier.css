@@ -10,7 +10,7 @@ body {
 }
 
 p {
-    margin: 0;
+    margin: 5px;
 }
 
 h3 {
@@ -47,6 +47,57 @@ input[type="submit"]:hover {
     border: 2px solid #FE5000;
     background: #FE5000;
     color: white;
+}
+
+input[type="radio"] {
+    position: absolute;
+    display: hidden;
+}
+
+input[type="radio"] + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 21px;
+    display: inline-block;
+}
+
+input[type="radio"] + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #FE5000;
+    border-radius: 100%;
+    background: #fff;
+}
+
+input[type="radio"] + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #FE5000;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+input[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
 }
 
 button {
@@ -121,15 +172,14 @@ button.stencil:hover {
     justify-content: center;
 }
 
-.flexCentered > div {
+.flexCentered > * {
     text-align: center;
 }
 
-.topCentered {
-    position: absolute;
-    top: 0%;
-    left: 50%;
-    transform: translateX(-50%);
+.flexTopCentered {
+    height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .container500px {
@@ -217,7 +267,6 @@ button.stencil:hover {
 }
 
 .radioList {
-    border: solid 1px #CDCDC8;
     background: transparent;
     margin: 10px 0px;
     padding: 5px;
@@ -227,7 +276,6 @@ button.stencil:hover {
     padding: 10px;
     background: white;
     margin-top: 5px;
-    border-bottom: solid 1px #CDCDC8;
 }
 
 .radioList label:first-child > div {
@@ -254,23 +302,10 @@ button.stencil:hover {
 .radioList label > input[type="radio"]:checked + div {
     color: black;
     background: #0ab4dc;
-    border-bottom: solid 1px transparent;
 }
 
 .radioList label:last-child > input[type="radio"]:checked + div {
     border-bottom: none;
-}
-
-.radioList.noBorder {
-    border: none;
-}
-
-.radioList.noBorder label > div {
-    border: none;
-}
-
-.radioList.noBorder label > input[type="radio"]:checked + div {
-    border: none;
 }
 
 .hidden {
@@ -287,9 +322,4 @@ button.stencil:hover {
 
 #glcMainUIDisplayContainer {
     flex-grow: 1;
-}
-
-#glcMainUIDisplayPageNewLookup {
-    text-align: center;
-    align-items: center;
 }
