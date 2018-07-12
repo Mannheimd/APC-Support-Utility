@@ -2,6 +2,16 @@ function jenkinsApi() {
 
 }
 
+jenkinsApi.prototype.lookupAccount = function(url, id, searchBy, searchFor, callback) {
+    var parameters;
+    parameters.LookupCustomerBy = searchBy;
+    parameters.LookupValue = searchFor;
+
+    this.getRequest(url, id, "/job/CloudOps1-LookupCustomerMachine/buildWithParameters", function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
