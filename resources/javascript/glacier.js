@@ -44,6 +44,7 @@ function changePage(pageClass, pageContainerId) {
 function resetLookup() {
     $("#glcMainUIDisplayPageNewLookupServers").empty();
     populateJenkinsServers();
+    resetLookupByRadio();
 
     function populateJenkinsServers() {
         for (var i = 0; i < jenkinsServerArray.length; i++) {
@@ -52,5 +53,13 @@ function resetLookup() {
                 $("#glcMainUIDisplayPageNewLookupServers").append(html);
             }
         }
+    }
+
+    function resetLookupByRadio() {
+        $("#glcMainUIDisplayPageNewLookupSearchByAccNum").prop("checked", true);
+        $("#glcMainUIDisplayPageNewLookupSearchByEmail").prop("checked", false);
+        $("#glcMainUIDisplayPageNewLookupSearchBySiteName").prop("checked", false);
+        $("#glcMainUIDisplayPageNewLookupSearchBySubNum").prop("checked", false);
+        $("#glcMainUIDisplayPageNewLookupSearchByIITID").prop("checked", false);
     }
 }
