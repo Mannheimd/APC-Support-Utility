@@ -3,11 +3,11 @@ function jenkinsApi() {
 }
 
 jenkinsApi.prototype.lookupAccount = function(url, id, searchBy, searchFor, callback) {
-    var parameters;
+    var parameters = {};
     parameters.LookupCustomerBy = searchBy;
     parameters.LookupValue = searchFor;
 
-    this.getRequest(url, id, "/job/CloudOps1-LookupCustomerMachine/buildWithParameters", function(response) {
+    this.postRequest(url, id, "/job/CloudOps1-LookupCustomerMachine/buildWithParameters", parameters, function(response) {
         callback(response);
     });
 }

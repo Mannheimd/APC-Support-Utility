@@ -26,6 +26,13 @@ $(document).ready(function() {
             changePage("glcMainUIDisplayPage", "glcMainUIDisplayPageNewLookup");
             resetLookup();
         })
+        
+        $("#glcMainUINewLookupForm").on("submit", function(e) {
+            var params = $("#" + e.target.id).serializeArray();
+            var server = jenkinsServer.prototype.getServerById(params[0].value)[0];
+            jenkinsLookup.prototype.newLookup(server, params[1].value, params[2].value);
+            e.preventDefault();
+        })
     }
 });
 

@@ -1,4 +1,4 @@
-var jenkinsServerArray;
+var jenkinsServerArray; // Will be an array, not declared here as it's 'reset' by getJenkinsServers()
 
 function getJenkinsServers() {
     configuredServerCount = 0;
@@ -12,7 +12,7 @@ function getJenkinsServers() {
             dataType: "json",
             success: (function(data) {
                 jenkinsServerArray = [];
-                for (var i = 0; i < data.servers.length; i++) { // Create a jenkinsServer object, store it in jenkinsServerArray
+                for (var i = 0; i < data.servers.length; i++) {
                     var server = jenkinsServer(data.servers[i]) 
                     jenkinsServerArray.push(server);
                 }
@@ -103,6 +103,9 @@ function jenkinsServer(jsonData) {
 jenkinsServer.prototype.getServerById = function(id) {
     return jenkinsServerArray.filter(function(obj) {
         return (obj.id == id);
+        // Counter-intuitive, returns an array of results
+        // Should only ever be one correct result as ID is unique
+        // jenkinsServer.prototype.getServerById(id)[0] is acceptable.
     })
 }
 
