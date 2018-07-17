@@ -7,7 +7,7 @@ jenkinsApi.prototype.lookupAccount = function(url, id, searchBy, searchFor, call
     parameters.LookupCustomerBy = searchBy;
     parameters.LookupValue = searchFor;
 
-    this.postRequest(url, id, "/job/CloudOps1-LookupCustomerMachine/buildWithParameters", parameters, function(response) {
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-LookupCustomerMachine/buildWithParameters", parameters, function(response) {
         callback(response);
     });
 }
@@ -16,6 +16,20 @@ jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
     });
+}
+
+jenkinsApi.prototype.buildAndGetResponse = function(url, id, endpoint, parameters, callback) {
+    sendBuildRequest();
+
+    function sendBuildRequest() {
+        jenkinsApi.prototype.postRequest(url, id, endpoint, parameters, function(response) {
+            checkResponse(response);
+        });
+    }
+
+    function checkResponse(response) {
+        alert(JSON.stringify(response));
+    }
 }
 
 jenkinsApi.prototype.postRequest = function(url, id, endpoint, parameters, callback) {
@@ -27,8 +41,9 @@ jenkinsApi.prototype.postRequest = function(url, id, endpoint, parameters, callb
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", "Basic " + jenkinsServer.prototype.getLoginToken(id));
         },
-        success: function(data) {
+        success: function(data, successText, xhr) {
             response.data = data;
+            response.location = xhr.getResponseHeader("Location");
         },
         complete: function(xhr, status) {
             response.status = status;

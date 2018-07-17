@@ -2,7 +2,6 @@ var jenkinsLookupArray = [];
 
 function jenkinsLookup(rawLookupResult) {
     var data;
-    alert(rawLookupResult);
 };
 
 jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor) {
