@@ -24,15 +24,39 @@ jenkinsApi.prototype.buildAndGetResponse = function(url, id, endpoint, parameter
     function sendBuildRequest() {
         jenkinsApi.prototype.postRequest(url, id, endpoint, parameters, function(response) {
             if (response.status = "success") {
-                getQueuedBuild(response.location);
+                waitForQueuedBuild(response.location);
             }
         });
     }
 
-    function getQueuedBuild(location) {
-        jenkinsApi.prototype.getRequest(location, id, "api/json", function(response) {
+    function waitForQueuedBuild(queueUrl) {
+        jenkinsApi.prototype.getRequest(queueUrl, id, "api/json", function(response) {
             if (response.status = "success") {
-                alert(JSON.stringify(response));
+                if (response.data.executable) {
+                    waitForBuildComplete(response.data.executable.url);
+                } else {
+                    setTimeout(function() {waitForQueuedBuild(queueUrl)}, 250);
+                }
+            }
+        });
+    }
+
+    function waitForBuildComplete(buildUrl) {
+        jenkinsApi.prototype.getRequest(buildUrl, id, "api/json", function(response) {
+            if (response.status = "success") {
+                if (response.data.building == false) {
+                    getBuildOutput(buildUrl);
+                } else {
+                    setTimeout(function() {waitForBuildComplete(buildUrl)}, 250);
+                }
+            }
+        });
+    }
+
+    function getBuildOutput(buildUrl) {
+        jenkinsApi.prototype.getRequest(buildUrl, id, "logText/progressiveText", function(response) {
+            if (response.status = "success") {
+                callback(response);
             }
         });
     }
@@ -40,6 +64,7 @@ jenkinsApi.prototype.buildAndGetResponse = function(url, id, endpoint, parameter
 
 jenkinsApi.prototype.postRequest = function(url, id, endpoint, parameters, callback) {
     var response = {};
+    parameters.delay = 0;
     $.ajax({                              
         type: "POST",
         url: url + endpoint,
