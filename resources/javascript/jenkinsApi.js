@@ -23,12 +23,18 @@ jenkinsApi.prototype.buildAndGetResponse = function(url, id, endpoint, parameter
 
     function sendBuildRequest() {
         jenkinsApi.prototype.postRequest(url, id, endpoint, parameters, function(response) {
-            checkResponse(response);
+            if (response.status = "success") {
+                getQueuedBuild(response.location);
+            }
         });
     }
 
-    function checkResponse(response) {
-        alert(JSON.stringify(response));
+    function getQueuedBuild(location) {
+        jenkinsApi.prototype.getRequest(location, id, "api/json", function(response) {
+            if (response.status = "success") {
+                alert(JSON.stringify(response));
+            }
+        });
     }
 }
 
