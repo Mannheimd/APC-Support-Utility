@@ -29,10 +29,20 @@ $(document).ready(function() {
         
         $("#glcMainUINewLookupForm").on("submit", function(e) {
             var params = $("#" + e.target.id).serializeArray();
-            var server = jenkinsServer.prototype.getServerById(params[0].value)[0];
-            jenkinsLookup.prototype.newLookup(server, params[1].value, params[2].value);
+            if (checkFormFieldsComplete(params, 3)) {
+                var server = jenkinsServer.prototype.getServerById(params[0].value)[0];
+                jenkinsLookup.prototype.newLookup(server, params[1].value, params[2].value);
+            }
             e.preventDefault();
         })
+    }
+
+    function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
+        if (serializedParamsArray.length != expectedLength) {return false};
+        for (var i = 0; i < serializedParamsArray.length; i++) {
+            if (serializedParamsArray[i].value == "") {return false};
+        }
+        return true;
     }
 });
 
