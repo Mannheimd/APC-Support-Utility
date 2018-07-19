@@ -44,12 +44,17 @@
             <label for="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}">{{serverName}}</label>
         </p>
     </script>
-    <script type="text/html" id="glcLookupsListItemTpl">
+    <script type="text/html" id="glcLookupListItemTpl">
         <label>
             <input type="radio" id="glcLookupsListItem{{lookupNumber}}" name="glcMainUIAccountList"/>
             <div>
                 {{accountName}}
             </div>
+        </label>
+    </script>
+    <script type="text/html" id="glcLookupResultTpl">
+        <label>
+            {{accountName}}
         </label>
     </script>
 </head>
@@ -120,6 +125,8 @@
                 <input type="text" name="newLookupSearchFor">
                 <input type="submit" value="Search">
             </form>
+        </div>
+        <div class="glcMainUIDisplayPage flexContainer hidden" id="glcMainUIDisplayPageDetails">
         </div>
     </div>
 </div>

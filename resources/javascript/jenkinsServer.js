@@ -105,7 +105,7 @@ jenkinsServer.prototype.getServerById = function(id) {
         return (obj.id == id);
         // Counter-intuitive, returns an array of results
         // Should only ever be one correct result as ID is unique
-        // jenkinsServer.prototype.getServerById(id)[0] is acceptable.
+        // jenkinsServer.prototype.getServerById(id)[0] is the suggested use.
     })
 }
 

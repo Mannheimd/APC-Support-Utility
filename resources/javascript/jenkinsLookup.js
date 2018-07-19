@@ -12,9 +12,9 @@ function jenkinsLookup(rawLookupOutput) {
 
     if (data.lookupResult = "Located") {
         parseLookupData();
+        addLookupListItem();
+        jenkinsLookup.prototype.selectThisLookup(data);
     };
-
-    addLookupListItem();
 
     return data;
 
@@ -95,7 +95,7 @@ function jenkinsLookup(rawLookupOutput) {
     }
 
     function addLookupListItem() {
-        data.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupsListItemTpl").html(), data);
+        data.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupListItemTpl").html(), data);
         $("#glcMainUIAccountList").append(data.lookupListItemHtml);
     }
 };
@@ -111,9 +111,35 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
     }
 }
 
-jenkinsLookup.prototype.processTemplate = function(html, jenkinsLookup) {
+jenkinsLookup.prototype.processTemplate = function(html, lookup) {
     htmlAltered = html;
-    htmlAltered = replaceAllInstances(htmlAltered, "{{lookupNumber}}", jenkinsLookup.lookupNumber);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{accountName}}", jenkinsLookup.accountName);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{lookupNumber}}", lookup.lookupNumber);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{accountName}}", lookup.accountName);
     return htmlAltered;
+}
+
+jenkinsLookup.prototype.getLookupByLookupNumber = function(lookupNumber) {
+    return jenkinsServerArray.filter(function(obj) {
+        return (obj.lookupNumber == lookupNumber);
+        // Counter-intuitive, returns an array of results
+        // Should only ever be one correct result as lookupNumber is unique
+        // jenkinsLookup.prototype.getLookupByLookupNumber(id)[0] is the suggested use.
+    })
+}
+
+jenkinsLookup.prototype.selectThisLookup = function(lookup) {
+    html = jenkinsLookup.prototype.processTemplate($("#glcLookupResultTpl").html(), lookup);
+    $("#glcMainUIDisplayPageDetails").html(html);
+    selectThisLookupListItem();
+    changePage("glcMainUIDisplayPage", "glcMainUIDisplayPageDetails");
+
+    function selectThisLookupListItem() {
+        $("input[name=glcMainUIAccountList]:radio").each(function() {
+            if ($(this).attr('id') == "glcLookupsListItem" + lookup.lookupNumber) {
+                $(this).prop("checked", true);
+            } else {
+                $(this).prop("checked", false);
+            }
+        })
+    }
 }
