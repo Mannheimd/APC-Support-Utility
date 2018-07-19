@@ -97,6 +97,10 @@ function jenkinsLookup(rawLookupOutput) {
     function addLookupListItem() {
         data.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupListItemTpl").html(), data);
         $("#glcMainUIAccountList").append(data.lookupListItemHtml);
+        var listItem = $("#glcLookupsListItem" + data.lookupNumber);
+        listItem.on("click", function() {
+            jenkinsLookup.prototype.selectThisLookup(data);
+        })
     }
 };
 
