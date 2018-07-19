@@ -44,6 +44,14 @@
             <label for="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}">{{serverName}}</label>
         </p>
     </script>
+    <script type="text/html" id="glcLookupsListItemTpl">
+        <label>
+            <input type="radio" id="glcLookupsListItem{{lookupNumber}}" name="glcMainUIAccountList"/>
+            <div>
+                {{accountName}}
+            </div>
+        </label>
+    </script>
 </head>
 
 <body>

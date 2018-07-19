@@ -1,14 +1,20 @@
 var jenkinsLookupArray = [];
+var lookupCount = 0;
 
 function jenkinsLookup(rawLookupOutput) {
     var data = {};
+    data.lookupNumber = lookupCount;
+    lookupCount++;
+
     data.lookupCustomerBy = findString(rawLookupOutput, "[LookupCustomerBy=", "]").trim();
     data.lookupValue = findString(rawLookupOutput, "[LookupValue=", "]").trim();
     data.lookupResult = findString(rawLookupOutput, "[LookupResult=", "]").trim();
-    
+
     if (data.lookupResult = "Located") {
         parseLookupData();
     };
+
+    return data;
 
     function parseLookupData() {
         data.locatedIITID = findString(rawLookupOutput, "[LocatedIITID=", "]").trim();
