@@ -66,7 +66,7 @@ function resetLookup() {
     function populateJenkinsServers() {
         for (var i = 0; i < jenkinsServerArray.length; i++) {
             if (jenkinsServerArray[i].currentUser) {
-                html = jenkinsServer.prototype.processTemplate($("#jnkSvrLookupListItemTpl").html(), jenkinsServerArray[i]);
+                html = jenkinsServer.prototype.processTemplate($("#glcNewLookupRegionRadioTpl").html(), jenkinsServerArray[i]);
                 $("#glcMainUIDisplayPageNewLookupServers").append(html);
             }
         }
