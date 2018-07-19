@@ -5,45 +5,52 @@ function jenkinsLookup(rawLookupOutput) {
     data.lookupCustomerBy = findString(rawLookupOutput, "[LookupCustomerBy=", "]").trim();
     data.lookupValue = findString(rawLookupOutput, "[LookupValue=", "]").trim();
     data.lookupResult = findString(rawLookupOutput, "[LookupResult=", "]").trim();
-    data.locatedIITID = findString(rawLookupOutput, "[LocatedIITID=", "]").trim();
-    data.accountInfoFound = findString(rawLookupOutput, "[AccountInfoFound=", "]").trim();
-    data.iitID = findString(rawLookupOutput, "[IITID=", "]").trim();
-    data.zuoraAccount = findString(rawLookupOutput, "[ZuoraAccount=", "]").trim();
-    data.clientID = findString(rawLookupOutput, "[ClientID=", "]").trim();
-    data.accountName = findString(rawLookupOutput, "[AccountName=", "]").trim();
-    data.product = findString(rawLookupOutput, "[Product=", "]").trim();
-    data.locale = findString(rawLookupOutput, "[Locale=", "]").trim();
-    data.email = findString(rawLookupOutput, "[Email=", "]").trim();
-    data.createDate = findString(rawLookupOutput, "[CreateDate=", "]").trim();
-    data.trialOrPaid = findString(rawLookupOutput, "[TrialOrPaid=", "]").trim();
-    data.serialNumber = findString(rawLookupOutput, "[SerialNumber=", "]").trim();
-    data.seatCount = findString(rawLookupOutput, "[SeatCount=", "]").trim();
-    data.suspendStatus = findString(rawLookupOutput, "[SuspendStatus=", "]").trim();
-    data.archiveStatus = findString(rawLookupOutput, "[ArchiveStatus=", "]").trim();
-    data.deleteStatus = findString(rawLookupOutput, "[DeleteStatus=", "]").trim();
+    
+    if (data.lookupResult = "Located") {
+        parseLookupData();
+    };
 
-    data.siteInfoFound = findString(rawLookupOutput, "[SiteInfoFound=", "]").trim();
-    data.siteInfoArray = findString(rawLookupOutput, "[SITEINFOSTART]", "[SITEINFOEND]").split("[SiteInfo=");
-    data.siteInfo = [];
-    for (var i = 0; i < data.siteInfoArray.length; i++) {
-        if (data.siteInfoArray[i] == "\r\n" || data.siteInfoArray[i] == undefined) {continue};
-        data.siteInfo.push(parseSiteInfo(data.siteInfoArray[i]));
-    }
-
-    data.databaseInfoFound = findString(rawLookupOutput, "[DatabaseInfoFound=", "]").trim();
-    data.databaseInfoArray = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]").split("[Database=");
-    data.databaseInfo = [];
-    for (var i = 0; i < data.siteInfoArray.length; i++) {
-        if (data.databaseInfoArray[i] == "\r\n" || data.databaseInfoArray[i] == undefined) {continue};
-        data.databaseInfo.push(parseDatabaseInfo(data.databaseInfoArray[i]));
-    }
-
-    data.activityInfoFound = findString(rawLookupOutput, "[ProvisioningInfoFound=", "]").trim();
-    data.activityInfoArray = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]").split("[Activity=");
-    data.activityInfo = [];
-    for (var i = 0; i < data.activityInfoArray.length; i++) {
-        if (data.activityInfoArray[i] == "\r\n" || data.activityInfoArray[i] == undefined) {continue};
-        data.activityInfo.push(parseActivityInfo(data.activityInfoArray[i]));
+    function parseLookupData() {
+        data.locatedIITID = findString(rawLookupOutput, "[LocatedIITID=", "]").trim();
+        data.accountInfoFound = findString(rawLookupOutput, "[AccountInfoFound=", "]").trim();
+        data.iitID = findString(rawLookupOutput, "[IITID=", "]").trim();
+        data.zuoraAccount = findString(rawLookupOutput, "[ZuoraAccount=", "]").trim();
+        data.clientID = findString(rawLookupOutput, "[ClientID=", "]").trim();
+        data.accountName = findString(rawLookupOutput, "[AccountName=", "]").trim();
+        data.product = findString(rawLookupOutput, "[Product=", "]").trim();
+        data.locale = findString(rawLookupOutput, "[Locale=", "]").trim();
+        data.email = findString(rawLookupOutput, "[Email=", "]").trim();
+        data.createDate = findString(rawLookupOutput, "[CreateDate=", "]").trim();
+        data.trialOrPaid = findString(rawLookupOutput, "[TrialOrPaid=", "]").trim();
+        data.serialNumber = findString(rawLookupOutput, "[SerialNumber=", "]").trim();
+        data.seatCount = findString(rawLookupOutput, "[SeatCount=", "]").trim();
+        data.suspendStatus = findString(rawLookupOutput, "[SuspendStatus=", "]").trim();
+        data.archiveStatus = findString(rawLookupOutput, "[ArchiveStatus=", "]").trim();
+        data.deleteStatus = findString(rawLookupOutput, "[DeleteStatus=", "]").trim();
+    
+        data.siteInfoFound = findString(rawLookupOutput, "[SiteInfoFound=", "]").trim();
+        data.siteInfoArray = findString(rawLookupOutput, "[SITEINFOSTART]", "[SITEINFOEND]").split("[SiteInfo=");
+        data.siteInfo = [];
+        for (var i = 0; i < data.siteInfoArray.length; i++) {
+            if (data.siteInfoArray[i] == "\r\n" || data.siteInfoArray[i] == undefined) {continue};
+            data.siteInfo.push(parseSiteInfo(data.siteInfoArray[i]));
+        }
+    
+        data.databaseInfoFound = findString(rawLookupOutput, "[DatabaseInfoFound=", "]").trim();
+        data.databaseInfoArray = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]").split("[Database=");
+        data.databaseInfo = [];
+        for (var i = 0; i < data.siteInfoArray.length; i++) {
+            if (data.databaseInfoArray[i] == "\r\n" || data.databaseInfoArray[i] == undefined) {continue};
+            data.databaseInfo.push(parseDatabaseInfo(data.databaseInfoArray[i]));
+        }
+    
+        data.activityInfoFound = findString(rawLookupOutput, "[ProvisioningInfoFound=", "]").trim();
+        data.activityInfoArray = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]").split("[Activity=");
+        data.activityInfo = [];
+        for (var i = 0; i < data.activityInfoArray.length; i++) {
+            if (data.activityInfoArray[i] == "\r\n" || data.activityInfoArray[i] == undefined) {continue};
+            data.activityInfo.push(parseActivityInfo(data.activityInfoArray[i]));
+        }
     }
 
     function findString(text, startString, endString) {
