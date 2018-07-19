@@ -14,6 +14,8 @@ function jenkinsLookup(rawLookupOutput) {
         parseLookupData();
     };
 
+    addLookupListItem();
+
     return data;
 
     function parseLookupData() {
@@ -91,6 +93,11 @@ function jenkinsLookup(rawLookupOutput) {
         data.detail = findString(activityInfoText, "{Detail=", "}").trim();
         return data;
     }
+
+    function addLookupListItem() {
+        data.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupsListItemTpl").html(), data);
+        $("#glcMainUIAccountList").append(data.lookupListItemHtml);
+    }
 };
 
 jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor) {
@@ -102,4 +109,11 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
         var lookup = new jenkinsLookup(response.data);
         jenkinsLookupArray.push(lookup);
     }
+}
+
+jenkinsLookup.prototype.processTemplate = function(html, jenkinsLookup) {
+    htmlAltered = html;
+    htmlAltered = replaceAllInstances(htmlAltered, "{{lookupNumber}}", jenkinsLookup.lookupNumber);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{accountName}}", jenkinsLookup.accountName);
+    return htmlAltered;
 }
