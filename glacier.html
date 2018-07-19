@@ -53,9 +53,16 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupResultTpl">
-        <label>
-            {{accountName}} {{lookupNumber}}
-        </label>
+        <header>
+            <h3>{{accountName}} {{lookupNumber}}</h3>
+            <nav class="tabBar">
+                <ul>
+                    <li class="tabBarSelected">Details</li>
+                    <li>Databases</li>
+                    <li>Activity</li>
+                </ul>
+            </nav>
+        </header>
     </script>
 </head>
 

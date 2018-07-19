@@ -14,12 +14,17 @@ p {
 }
 
 h3 {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px;
 }
 
 form {
     margin: 0;
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 input[type="text"] {
@@ -136,6 +141,44 @@ button.stencil {
 
 button.stencil:hover {
     color: #da4c1f;
+}
+
+header {
+    padding-top: 10px;
+    background: transparent;
+    color: #374650;
+}
+
+header > h3 {
+    margin-left: 16px;
+    background: transparent;
+    color: #374650;
+}
+
+nav.tabBar {
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to bottom, #374650 0px, #374650 44px, transparent 100%);
+    border-image-slice: 1;
+}
+
+nav.tabBar > ul > li {
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+}
+
+nav.tabBar > ul > li {
+    padding: 0px 16px;
+    line-height: 2.5;
+}
+
+nav.tabBar > ul > li:hover {
+    color: #0AB4DC;
+}
+
+nav.tabBar > ul > li.tabBarSelected {
+    color: #0AB4DC;
+    border-bottom: solid 4px #0AB4DC;
 }
 
 .pageContainer {
