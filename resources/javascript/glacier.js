@@ -44,6 +44,9 @@ $(document).ready(function() {
                     if (!$(tabs[i]).hasClass("tabBarSelected")) {
                         $(tabs[i]).toggleClass("tabBarSelected", true);
                     }
+                    var bookId = $(tabs[i]).attr("data-bookId");
+                    var pageId = $(tabs[i]).attr("data-pageId");
+                    changePage(bookId, pageId);
                 } else {
                     $(tabs[i]).toggleClass("tabBarSelected", false);
                 }

@@ -57,12 +57,21 @@
             <h3>{{accountName}} {{lookupNumber}}</h3>
             <nav class="tabBar">
                 <ul>
-                    <li class="tabBarSelected">Details</li>
-                    <li>Databases</li>
-                    <li>Activity</li>
+                    <li data-bookId="glcLookupResultScreenSelection" data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
+                    <li data-bookId="glcLookupResultScreenSelection" data-pageId="glcLookupResultScreenSelectionDatabases">Databases</li>
+                    <li data-bookId="glcLookupResultScreenSelection" data-pageId="glcLookupResultScreenSelectionActivity">Activity</li>
                 </ul>
             </nav>
         </header>
+        <div class="glcLookupResultScreenSelection" id="glcLookupResultScreenSelectionDetails">
+            Details
+        </div>
+        <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionDatabases">
+            Databases
+        </div>
+        <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionActivity">
+            Activity
+        </div>
     </script>
 </head>
 
