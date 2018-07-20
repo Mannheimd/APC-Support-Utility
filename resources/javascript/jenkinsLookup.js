@@ -13,7 +13,7 @@ function jenkinsLookup(rawLookupOutput) {
     if (data.lookupResult = "Located") {
         parseLookupData();
         addLookupListItem();
-        jenkinsLookup.prototype.selectThisLookup(data);
+        jenkinsLookup.prototype.buildLookupResultsUI(data);
     };
 
     return data;
@@ -99,7 +99,7 @@ function jenkinsLookup(rawLookupOutput) {
         $("#glcMainUIAccountList").append(data.lookupListItemHtml);
         var listItem = $("#glcLookupsListItem" + data.lookupNumber);
         listItem.on("click", function() {
-            jenkinsLookup.prototype.selectThisLookup(data);
+            jenkinsLookup.prototype.buildLookupResultsUI(data);
         })
     }
 };
@@ -131,11 +131,14 @@ jenkinsLookup.prototype.getLookupByLookupNumber = function(lookupNumber) {
     })
 }
 
-jenkinsLookup.prototype.selectThisLookup = function(lookup) {
+jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
     html = jenkinsLookup.prototype.processTemplate($("#glcLookupResultTpl").html(), lookup);
     $("#glcMainUIDisplayPageDetails").html(html);
-    selectThisLookupListItem();
     changePage("glcMainUIDisplayPage", "glcMainUIDisplayPageDetails");
+
+    jenkinsLookup.prototype.setScreenSelectionPage(lookup);
+    jenkinsLookup.prototype.addButtonBindings(lookup);
+    selectThisLookupListItem();
 
     function selectThisLookupListItem() {
         $("input[name=glcMainUIAccountList]:radio").each(function() {
@@ -145,5 +148,19 @@ jenkinsLookup.prototype.selectThisLookup = function(lookup) {
                 $(this).prop("checked", false);
             }
         })
+    }
+}
+
+jenkinsLookup.prototype.addButtonBindings = function(lookup) {
+    $("#glcLookupResultScreenSelection").on("click", "ul > li", function(e) {
+        lookup.screenSelectionPageId = $(e.target).attr("data-pageId");
+        jenkinsLookup.prototype.setScreenSelectionPage(lookup);
+    })
+}
+
+jenkinsLookup.prototype.setScreenSelectionPage = function(lookup) {
+    if (lookup.screenSelectionPageId) {
+        changePage("glcLookupResultScreenSelection", lookup.screenSelectionPageId);
+        changeTab("glcLookupResultScreenSelection", lookup.screenSelectionPageId);
     }
 }
