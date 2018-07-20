@@ -119,7 +119,27 @@ jenkinsLookup.prototype.processTemplate = function(html, lookup) {
     htmlAltered = html;
     htmlAltered = replaceAllInstances(htmlAltered, "{{lookupNumber}}", lookup.lookupNumber);
     htmlAltered = replaceAllInstances(htmlAltered, "{{accountName}}", lookup.accountName);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{zuoraAccount}}", lookup.zuoraAccount);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{product}}", lookup.product);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{email}}", lookup.email);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{locale}}", lookup.locale);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{loginUrl}}", lookup.siteInfo[0].url);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{uploadUrl}}", lookup.siteInfo[0].uploadUrl);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{iisServer}}", lookup.siteInfo[0].iisServer);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{iitID}}", lookup.iitID);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{createDate}}", lookup.createDate);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{trialOrPaid}}", lookup.trialOrPaid);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{serialNumber}}", lookup.serialNumber);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{seatCount}}", lookup.seatCount);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{accountStatus}}", determineAccountStatus);
     return htmlAltered;
+
+    function determineAccountStatus() {
+        if (lookup.deleteStatus == "Deleted") {return "Deleted"}
+        else if (lookup.archiveStatus == "Archived") {return "Archived"}
+        else if (lookup.suspendStatus == "Suspended") {return "Suspended"}
+        else {return "Active"}
+    }
 }
 
 jenkinsLookup.prototype.getLookupByLookupNumber = function(lookupNumber) {
