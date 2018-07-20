@@ -171,12 +171,12 @@ nav.tabBar > ul > li {
 }
 
 nav.tabBar > ul > li:hover {
-    color: #0AB4DC;
+    color: #328CC3;
 }
 
 nav.tabBar > ul > li.tabBarSelected {
-    color: #0AB4DC;
-    border-bottom: solid 4px #0AB4DC;
+    color: #328CC3;
+    border-bottom: solid 4px #328CC3;
 }
 
 .pageContainer {
