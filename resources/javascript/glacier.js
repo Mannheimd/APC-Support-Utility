@@ -35,6 +35,20 @@ $(document).ready(function() {
             }
             e.preventDefault();
         })
+
+        $(document).on("click", ".tabBar > ul > li", function(e) {
+            var currentTab = e.target;
+            var tabs = $(this).closest(".tabBar").children("ul").children("li");
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i] == currentTab) {
+                    if (!$(tabs[i]).hasClass("tabBarSelected")) {
+                        $(tabs[i]).toggleClass("tabBarSelected", true);
+                    }
+                } else {
+                    $(tabs[i]).toggleClass("tabBarSelected", false);
+                }
+            }
+        })
     }
 
     function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
