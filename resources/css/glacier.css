@@ -165,9 +165,6 @@ nav.tabBar > ul > li {
     text-align: center;
     font-weight: bold;
     display: inline-block;
-}
-
-nav.tabBar > ul > li {
     padding: 0px 16px;
     line-height: 2.5;
     cursor: pointer;
