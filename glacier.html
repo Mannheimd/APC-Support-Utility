@@ -9,6 +9,7 @@
     <script src="resources/javascript/jenkinsLookup.js"></script>
     <script src="resources/javascript/jenkinsServer.js"></script>
     <script src="resources/javascript/jenkinsApi.js"></script>
+    <script src="resources/javascript/actDatabase.js"></script>
     <script src="resources/javascript/glacier.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="resources/css/glacier.css">
@@ -51,6 +52,19 @@
                 {{accountName}}
             </div>
         </label>
+    </script>
+    <script type="text/html" id="glcLookupActDatabaseListItemTpl">
+        <label>
+            <input type="radio" id="glcLookupActDatabaseListItem{{databaseNumber}}" name="glcLookupActDatabaseList"/>
+            <div>
+                {{databaseName}}
+            </div>
+        </label>
+    </script>
+    <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
+        {{databaseNumber}}
+        {{databaseName}}
+        {{databaseServer}}
     </script>
     <script type="text/html" id="glcLookupResultTpl">
         <header>
@@ -120,7 +134,10 @@
             </table>
         </div>
         <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionDatabases">
-            Databases
+            <div class="radioList" id="glcLookupDatabaseList">
+            </div>
+            <div id="glcLookupDatabaseDetails">
+            </div>
         </div>
         <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionActivity">
             Activity

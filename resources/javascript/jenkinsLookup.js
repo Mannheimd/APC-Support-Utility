@@ -43,13 +43,14 @@ function jenkinsLookup(rawLookupOutput) {
             if (data.siteInfoArray[i] == "\r\n" || data.siteInfoArray[i] == undefined) {continue};
             data.siteInfo.push(parseSiteInfo(data.siteInfoArray[i]));
         }
-    
-        data.databaseInfoFound = findString(rawLookupOutput, "[DatabaseInfoFound=", "]").trim();
-        data.databaseInfoArray = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]").split("[Database=");
-        data.databaseInfo = [];
-        for (var i = 0; i < data.siteInfoArray.length; i++) {
-            if (data.databaseInfoArray[i] == "\r\n" || data.databaseInfoArray[i] == undefined) {continue};
-            data.databaseInfo.push(parseDatabaseInfo(data.databaseInfoArray[i]));
+
+        data.databaseTextArray = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]").split("[Database=");
+        data.databases = [];
+        for (var i = 0; i < data.databaseTextArray.length; i++) {
+            if (data.databaseTextArray[i] == "\r\n" || data.databaseTextArray[i] == undefined) {continue};
+            var parsedDatabaseInfo = parseDatabaseInfo(data.databaseTextArray[i]);
+            var database = new actDatabase(parsedDatabaseInfo)
+            data.databases.push(database);
         }
     
         data.activityInfoFound = findString(rawLookupOutput, "[ProvisioningInfoFound=", "]").trim();
@@ -160,6 +161,8 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
     jenkinsLookup.prototype.addButtonBindings(lookup);
     selectThisLookupListItem();
 
+    addDatabases();
+
     function selectThisLookupListItem() {
         $("input[name=glcMainUIAccountList]:radio").each(function() {
             if ($(this).attr('id') == "glcLookupsListItem" + lookup.lookupNumber) {
@@ -168,6 +171,19 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
                 $(this).prop("checked", false);
             }
         })
+    }
+
+    function addDatabases() {
+        if (lookup.databases) {
+            var databaseList = $("#glcLookupDatabaseList");
+            for (var i = 0; i < lookup.databases.length; i++) {
+                actDatabase.prototype.addDatabaseListItem(lookup.databases[i], databaseList, lookup);
+            }
+
+            if (lookup.selectedDatabase) {
+                actDatabase.prototype.switchToDatabase(lookup.selectedDatabase);
+            }
+        }
     }
 }
 
@@ -183,4 +199,8 @@ jenkinsLookup.prototype.setScreenSelectionPage = function(lookup) {
         changePage("glcLookupResultScreenSelection", lookup.screenSelectionPageId);
         changeTab("glcLookupResultScreenSelection", lookup.screenSelectionPageId);
     }
+}
+
+jenkinsLookup.prototype.setSelectedDatabase = function(lookup, database) {
+    lookup.selectedDatabase = database;
 }
