@@ -156,7 +156,7 @@ button.stencil:hover {
 }
 
 header {
-    padding-top: 10px;
+    padding-top: 4px;
     background: transparent;
     color: #374650;
 }
@@ -209,6 +209,14 @@ nav.tabBar > ul > li.tabBarSelected {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+}
+
+.flexGrow {
+    flex-grow: 1;
+}
+
+.vertFill {
+    height: 100%;
 }
 
 .centered {
@@ -270,6 +278,10 @@ nav.tabBar > ul > li.tabBarSelected {
     align-items: center;
 }
 
+.borderBox {
+    border: solid 1px #CDCDC8;
+}
+
 .listItem {
     padding: 5px;
     border-bottom: 1px solid #dfe3e6;
@@ -321,7 +333,8 @@ nav.tabBar > ul > li.tabBarSelected {
 
 .radioList {
     background: transparent;
-    margin: 10px 0px;
+    width: 240;
+    margin: 0px;
     padding: 5px;
 }
 
@@ -353,7 +366,7 @@ nav.tabBar > ul > li.tabBarSelected {
 }
 
 .radioList label > input[type="radio"]:checked + div {
-    color: black;
+    color: #374650;
     background: #0ab4dc;
 }
 

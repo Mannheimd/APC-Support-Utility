@@ -62,9 +62,28 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
-        {{databaseNumber}}
-        {{databaseName}}
-        {{databaseServer}}
+        <div>
+            <table>
+                <tr>
+                    <td>Database Name:</td>
+                    <td>{{databaseName}}</td>
+                </tr>
+                <tr>
+                    <td>SQL Server:</td>
+                    <td>{{databaseServer}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="borderBox flexGrow">
+            <header>
+                <nav class="tabBar" id="glcDatabaseDetailsScreenSelection">
+                    <ul>
+                        <li data-pageId="glcDatabaseDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
+                        <li data-pageId="glcDatabaseDetailsScreenSelectionBackups">Backups</li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
     </script>
     <script type="text/html" id="glcLookupResultTpl">
         <header>
@@ -133,10 +152,10 @@
                 </tr>
             </table>
         </div>
-        <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionDatabases">
+        <div class="glcLookupResultScreenSelection flexRowContainer flexGrow hidden" id="glcLookupResultScreenSelectionDatabases">
             <div class="radioList" id="glcLookupDatabaseList">
             </div>
-            <div id="glcLookupDatabaseDetails">
+            <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
             </div>
         </div>
         <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionActivity">
@@ -212,7 +231,7 @@
                 <input type="submit" value="Search">
             </form>
         </div>
-        <div class="glcMainUIDisplayPage flexContainer hidden" id="glcMainUIDisplayPageDetails">
+        <div class="glcMainUIDisplayPage flexColumnContainer vertFill hidden" id="glcMainUIDisplayPageDetails">
         </div>
     </div>
 </div>
