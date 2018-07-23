@@ -411,3 +411,7 @@ nav.tabBar > ul > li.tabBarSelected {
 #glcMainUIDisplayContainer {
     flex-grow: 1;
 }
+
+#glcMainUINewLookupStatus {
+    text-align: center;
+}

@@ -6,58 +6,64 @@ function jenkinsLookup(rawLookupOutput) {
     data.lookupNumber = lookupCount;
     lookupCount++;
 
-    data.lookupCustomerBy = findString(rawLookupOutput, "[LookupCustomerBy=", "]").trim();
-    data.lookupValue = findString(rawLookupOutput, "[LookupValue=", "]").trim();
-    data.lookupResult = findString(rawLookupOutput, "[LookupResult=", "]").trim();
+    data.lookupCustomerBy = findString(rawLookupOutput, "[LookupCustomerBy=", "]");
+    data.lookupValue = findString(rawLookupOutput, "[LookupValue=", "]");
+    data.lookupResult = findString(rawLookupOutput, "[LookupResult=", "]");
 
-    if (data.lookupResult = "Located") {
+    if (data.lookupResult == "Located") {
         parseLookupData();
-        addLookupListItem();
-        jenkinsLookup.prototype.buildLookupResultsUI(data);
     };
 
     return data;
 
     function parseLookupData() {
-        data.locatedIITID = findString(rawLookupOutput, "[LocatedIITID=", "]").trim();
-        data.accountInfoFound = findString(rawLookupOutput, "[AccountInfoFound=", "]").trim();
-        data.iitID = findString(rawLookupOutput, "[IITID=", "]").trim();
-        data.zuoraAccount = findString(rawLookupOutput, "[ZuoraAccount=", "]").trim();
-        data.clientID = findString(rawLookupOutput, "[ClientID=", "]").trim();
-        data.accountName = findString(rawLookupOutput, "[AccountName=", "]").trim();
-        data.product = findString(rawLookupOutput, "[Product=", "]").trim();
-        data.locale = findString(rawLookupOutput, "[Locale=", "]").trim();
-        data.email = findString(rawLookupOutput, "[Email=", "]").trim();
-        data.createDate = findString(rawLookupOutput, "[CreateDate=", "]").trim();
-        data.trialOrPaid = findString(rawLookupOutput, "[TrialOrPaid=", "]").trim();
-        data.serialNumber = findString(rawLookupOutput, "[SerialNumber=", "]").trim();
-        data.seatCount = findString(rawLookupOutput, "[SeatCount=", "]").trim();
-        data.suspendStatus = findString(rawLookupOutput, "[SuspendStatus=", "]").trim();
-        data.archiveStatus = findString(rawLookupOutput, "[ArchiveStatus=", "]").trim();
-        data.deleteStatus = findString(rawLookupOutput, "[DeleteStatus=", "]").trim();
+        data.locatedIITID = findString(rawLookupOutput, "[LocatedIITID=", "]");
+        data.accountInfoFound = findString(rawLookupOutput, "[AccountInfoFound=", "]");
+        data.iitID = findString(rawLookupOutput, "[IITID=", "]");
+        data.zuoraAccount = findString(rawLookupOutput, "[ZuoraAccount=", "]");
+        data.clientID = findString(rawLookupOutput, "[ClientID=", "]");
+        data.accountName = findString(rawLookupOutput, "[AccountName=", "]");
+        data.product = findString(rawLookupOutput, "[Product=", "]");
+        data.locale = findString(rawLookupOutput, "[Locale=", "]");
+        data.email = findString(rawLookupOutput, "[Email=", "]");
+        data.createDate = findString(rawLookupOutput, "[CreateDate=", "]");
+        data.trialOrPaid = findString(rawLookupOutput, "[TrialOrPaid=", "]");
+        data.serialNumber = findString(rawLookupOutput, "[SerialNumber=", "]");
+        data.seatCount = findString(rawLookupOutput, "[SeatCount=", "]");
+        data.suspendStatus = findString(rawLookupOutput, "[SuspendStatus=", "]");
+        data.archiveStatus = findString(rawLookupOutput, "[ArchiveStatus=", "]");
+        data.deleteStatus = findString(rawLookupOutput, "[DeleteStatus=", "]");
     
-        data.siteInfoFound = findString(rawLookupOutput, "[SiteInfoFound=", "]").trim();
-        data.siteInfoArray = findString(rawLookupOutput, "[SITEINFOSTART]", "[SITEINFOEND]").split("[SiteInfo=");
-        data.siteInfo = [];
-        for (var i = 0; i < data.siteInfoArray.length; i++) {
-            if (data.siteInfoArray[i] == "\r\n" || data.siteInfoArray[i] == undefined) {continue};
-            data.siteInfo.push(parseSiteInfo(data.siteInfoArray[i]));
+        var siteInfoText = findString(rawLookupOutput, "[SITEINFOSTART]", "[SITEINFOEND]");
+        if (siteInfoText != undefined) {
+            data.siteTextArray = siteInfoText.split("[SiteInfo=");
+            data.siteInfo = [];
+            for (var i = 0; i < data.siteTextArray.length; i++) {
+                if (data.siteTextArray[i] == "\r\n" || data.siteTextArray[i] == undefined) {continue};
+                data.siteInfo.push(parseSiteInfo(data.siteTextArray[i]));
+            }
         }
 
-        data.databaseTextArray = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]").split("[Database=");
-        data.databases = [];
-        for (var i = 0; i < data.databaseTextArray.length; i++) {
-            if (data.databaseTextArray[i] == "\r\n" || data.databaseTextArray[i] == undefined) {continue};
-            var parsedDatabaseInfo = parseDatabaseInfo(data.databaseTextArray[i]);
-            var database = new actDatabase(parsedDatabaseInfo)
-            data.databases.push(database);
+        var databaseText = findString(rawLookupOutput, "[DATABASEINFOSTART]", "[DATABASEINFOEND]");
+        if (databaseText != undefined) {
+            data.databaseTextArray = databaseText.split("[Database=");
+            data.databases = [];
+            for (var i = 0; i < data.databaseTextArray.length; i++) {
+                if (data.databaseTextArray[i] == "\r\n" || data.databaseTextArray[i] == undefined) {continue};
+                var parsedDatabaseInfo = parseDatabaseInfo(data.databaseTextArray[i]);
+                var database = new actDatabase(parsedDatabaseInfo)
+                data.databases.push(database);
+            }
         }
     
-        data.activityTextArray = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]").split("[Activity=");
-        data.activity = [];
-        for (var i = 0; i < data.activityTextArray.length; i++) {
-            if (data.activityTextArray[i] == "\r\n" || data.activityTextArray[i] == undefined) {continue};
-            data.activity.push(parseActivityInfo(data.activityTextArray[i]));
+        var activityText = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]");
+        if (activityText != undefined) {
+            data.activityTextArray = activityText.split("[Activity=");
+            data.activity = [];
+            for (var i = 0; i < data.activityTextArray.length; i++) {
+                if (data.activityTextArray[i] == "\r\n" || data.activityTextArray[i] == undefined) {continue};
+                data.activity.push(parseActivityInfo(data.activityTextArray[i]));
+            }
         }
     }
 
@@ -71,50 +77,66 @@ function jenkinsLookup(rawLookupOutput) {
 
     function parseSiteInfo(siteInfoText) {
         var data = {};
-        data.siteName = findString(siteInfoText, "{SiteName=", "}").trim();
-        data.iisServer = findString(siteInfoText, "{IISServer=", "}").trim();
-        data.url = findString(siteInfoText, "{URL=", "}").trim();
-        data.uploadUrl = findString(siteInfoText, "{UploadURL=", "}").trim();
+        data.siteName = findString(siteInfoText, "{SiteName=", "}");
+        data.iisServer = findString(siteInfoText, "{IISServer=", "}");
+        data.url = findString(siteInfoText, "{URL=", "}");
+        data.uploadUrl = findString(siteInfoText, "{UploadURL=", "}");
         return data;
     }
 
     function parseDatabaseInfo(databaseInfoText) {
         var data = {};
-        data.name = findString(databaseInfoText, "{Name=", "}").trim();
-        data.server = findString(databaseInfoText, "{Server=", "}").trim();
+        data.name = findString(databaseInfoText, "{Name=", "}");
+        data.server = findString(databaseInfoText, "{Server=", "}");
         return data;
     }
 
     function parseActivityInfo(activityInfoText) {
         var data = {};
-        data.date = findString(activityInfoText, "{Date=", "}").trim();
-        data.type = findString(activityInfoText, "{Type=", "}").trim();
-        data.status = findString(activityInfoText, "{Status=", "}").trim();
-        data.detail = findString(activityInfoText, "{Detail=", "}").trim();
+        data.date = findString(activityInfoText, "{Date=", "}");
+        data.type = findString(activityInfoText, "{Type=", "}");
+        data.status = findString(activityInfoText, "{Status=", "}");
+        data.detail = findString(activityInfoText, "{Detail=", "}");
         if (data.detail == "NULL") {
             data.detail = "";
         }
         return data;
     }
-
-    function addLookupListItem() {
-        data.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupListItemTpl").html(), data);
-        $("#glcMainUIAccountList").append(data.lookupListItemHtml);
-        var listItem = $("#glcLookupsListItem" + data.lookupNumber);
-        listItem.on("click", function() {
-            jenkinsLookup.prototype.buildLookupResultsUI(data);
-        })
-    }
 };
 
 jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor) {
+    alterUI(true, "Searching...");
+
     jenkinsApi.prototype.lookupAccount(jenkinsServer.url, jenkinsServer.id, searchBy, searchFor, function(response) {
         handleResponse(response)
     })
 
     function handleResponse(response) {
         var lookup = new jenkinsLookup(response.data);
-        jenkinsLookupArray.push(lookup);
+        if (lookup.lookupResult == "Located") {
+            jenkinsLookup.prototype.addLookupListItem(lookup);
+            jenkinsLookup.prototype.buildLookupResultsUI(lookup);
+            jenkinsLookupArray.push(lookup);
+            alterUI(false);
+        } else if (lookup.lookupResult == "NotFound") {
+            alterUI(false, "Account not found");
+        } else {
+            alterUI(false, "Lookup failed");
+        }
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcMainUINewLookupForm input").prop("disabled", true);
+        } else {
+            $("#glcMainUINewLookupForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcMainUINewLookupStatus").html(message);
+        } else {
+            $("#glcMainUINewLookupStatus").html("");
+        }
     }
 }
 
@@ -151,6 +173,15 @@ jenkinsLookup.prototype.getLookupByLookupNumber = function(lookupNumber) {
         // Counter-intuitive, returns an array of results
         // Should only ever be one correct result as lookupNumber is unique
         // jenkinsLookup.prototype.getLookupByLookupNumber(id)[0] is the suggested use.
+    })
+}
+
+jenkinsLookup.prototype.addLookupListItem = function(lookup) {
+    lookup.lookupListItemHtml = jenkinsLookup.prototype.processTemplate($("#glcLookupListItemTpl").html(), lookup);
+    $("#glcMainUIAccountList").append(lookup.lookupListItemHtml);
+    var listItem = $("#glcLookupsListItem" + lookup.lookupNumber);
+    listItem.on("click", function() {
+        jenkinsLookup.prototype.buildLookupResultsUI(lookup);
     })
 }
 
