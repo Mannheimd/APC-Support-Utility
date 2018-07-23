@@ -62,20 +62,18 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
-        <div>
-            <table>
-                <tr>
-                    <td>Database Name:</td>
-                    <td>{{databaseName}}</td>
-                </tr>
-                <tr>
-                    <td>SQL Server:</td>
-                    <td>{{databaseServer}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="borderBox flexGrow">
+        <div class="flexGrow">
             <header>
+                <table>
+                    <tr>
+                        <td>Database Name:</td>
+                        <td>{{databaseName}}</td>
+                    </tr>
+                    <tr>
+                        <td>SQL Server:</td>
+                        <td>{{databaseServer}}</td>
+                    </tr>
+                </table>
                 <nav class="tabBar" id="glcDatabaseDetailsScreenSelection">
                     <ul>
                         <li data-pageId="glcDatabaseDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
@@ -152,8 +150,8 @@
                 </tr>
             </table>
         </div>
-        <div class="glcLookupResultScreenSelection flexRowContainer flexGrow hidden" id="glcLookupResultScreenSelectionDatabases">
-            <div class="radioList" id="glcLookupDatabaseList">
+        <div class="glcLookupResultScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
+            <div class="radioList blue" id="glcLookupDatabaseList">
             </div>
             <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
             </div>

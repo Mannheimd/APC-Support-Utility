@@ -278,10 +278,6 @@ nav.tabBar > ul > li.tabBarSelected {
     align-items: center;
 }
 
-.borderBox {
-    border: solid 1px #CDCDC8;
-}
-
 .listItem {
     padding: 5px;
     border-bottom: 1px solid #dfe3e6;
@@ -333,23 +329,34 @@ nav.tabBar > ul > li.tabBarSelected {
 
 .radioList {
     background: transparent;
-    width: 240;
-    margin: 0px;
-    padding: 5px;
+    margin: 5px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    color: #0AB4DC;
+}
+
+.radioList.blue {
+    background: transparent;
+    margin: 5px;
+    font-weight: bold;
+    border: 2px solid #328CC3;
+    border-radius: 25px;
+    color: #328CC3;
 }
 
 .radioList label > div {
-    padding: 10px;
-    background: white;
-    margin-top: 5px;
+    padding: 14px 16px 12px 16px;
+    margin: -2px;
+    text-align: center;
+    transition: 0.1s;
 }
 
-.radioList label:first-child > div {
-    margin-top: 0px;
-}
-
-.radioList label:last-child > div {
-    border-bottom: none;
+.radioList.blue label > div {
+    padding: 14px 16px 12px 16px;
+    margin: -2px;
+    text-align: center;
+    transition: 0.1s;
 }
 
 .radioList label > input[type="radio"] {
@@ -359,19 +366,33 @@ nav.tabBar > ul > li.tabBarSelected {
 
 .radioList label > input[type="radio"] + div {
     cursor: pointer;
+    border-radius: 25px;
+    border: 2px solid transparent;
 }
 
 .radioList label > input[type="radio"]:hover + div {
-    background: #CDCDC8;
+    border: 2px solid #0AB4DC;
+}
+
+.radioList.blue label > input[type="radio"]:hover + div {
+    border: 2px solid #328CC3;
 }
 
 .radioList label > input[type="radio"]:checked + div {
     color: #374650;
-    background: #0ab4dc;
+    background: #0AB4DC;
+    border: 2px solid #0AB4DC;
 }
 
-.radioList label:last-child > input[type="radio"]:checked + div {
-    border-bottom: none;
+.radioList.blue label > input[type="radio"]:checked + div {
+    color: white;
+    background: #328CC3;
+    border: 2px solid #328CC3;
+}
+
+.radioListWithResultContainer .radioList {
+    width: 240;
+    margin-right: 0;
 }
 
 .hidden {
