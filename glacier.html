@@ -62,25 +62,41 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
-        <div class="flexGrow">
-            <header>
-                <table>
-                    <tr>
-                        <td>Database Name:</td>
-                        <td>{{databaseName}}</td>
-                    </tr>
-                    <tr>
-                        <td>SQL Server:</td>
-                        <td>{{databaseServer}}</td>
-                    </tr>
-                </table>
-                <nav class="tabBar" id="glcDatabaseDetailsScreenSelection">
-                    <ul>
-                        <li data-pageId="glcDatabaseDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
-                        <li data-pageId="glcDatabaseDetailsScreenSelectionBackups">Backups</li>
-                    </ul>
-                </nav>
-            </header>
+        <header>
+            <table>
+                <tr>
+                    <td>Database Name:</td>
+                    <td>{{databaseName}}</td>
+                </tr>
+                <tr>
+                    <td>SQL Server:</td>
+                    <td>{{databaseServer}}</td>
+                </tr>
+            </table>
+            <nav class="tabBar" id="glcDatabaseDetailsScreenSelection">
+                <ul>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionTasks">Tasks</li>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionBackups">Backups</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcDatabaseDetailsScreenSelectionUsers">
+            <div class="radioList blue" id="glcLookupUserList">
+            </div>
+            <div class="flexColumnContainer flexGrow" id="glcLookupUserDetails">
+                User Details
+            </div>
+        </div>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionTasks">
+            Tasks
+        </div>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionBackups">
+            <div class="radioList blue" id="glcLookupUserList">
+            </div>
+            <div class="flexColumnContainer flexGrow" id="glcLookupBackupDetails">
+                Backup Details
+            </div>
         </div>
     </script>
     <script type="text/html" id="glcLookupResultTpl">
