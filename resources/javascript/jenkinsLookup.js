@@ -53,12 +53,11 @@ function jenkinsLookup(rawLookupOutput) {
             data.databases.push(database);
         }
     
-        data.activityInfoFound = findString(rawLookupOutput, "[ProvisioningInfoFound=", "]").trim();
-        data.activityInfoArray = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]").split("[Activity=");
-        data.activityInfo = [];
-        for (var i = 0; i < data.activityInfoArray.length; i++) {
-            if (data.activityInfoArray[i] == "\r\n" || data.activityInfoArray[i] == undefined) {continue};
-            data.activityInfo.push(parseActivityInfo(data.activityInfoArray[i]));
+        data.activityTextArray = findString(rawLookupOutput, "[PROVISIONINGINFOSTART]", "[PROVISIONINGINFOEND]").split("[Activity=");
+        data.activity = [];
+        for (var i = 0; i < data.activityTextArray.length; i++) {
+            if (data.activityTextArray[i] == "\r\n" || data.activityTextArray[i] == undefined) {continue};
+            data.activity.push(parseActivityInfo(data.activityTextArray[i]));
         }
     }
 
@@ -92,6 +91,9 @@ function jenkinsLookup(rawLookupOutput) {
         data.type = findString(activityInfoText, "{Type=", "}").trim();
         data.status = findString(activityInfoText, "{Status=", "}").trim();
         data.detail = findString(activityInfoText, "{Detail=", "}").trim();
+        if (data.detail == "NULL") {
+            data.detail = "";
+        }
         return data;
     }
 
@@ -162,6 +164,7 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
     selectThisLookupListItem();
 
     addDatabases();
+    addActivity();
 
     function selectThisLookupListItem() {
         $("input[name=glcMainUIAccountList]:radio").each(function() {
@@ -183,6 +186,12 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
             if (lookup.selectedDatabase) {
                 actDatabase.prototype.switchToDatabase(lookup.selectedDatabase);
             }
+        }
+    }
+
+    function addActivity() {
+        for (var i = 0; i < lookup.activity.length; i++) {
+            $("#glcLookupActivityTable > tbody").append("<tr><td>" + lookup.activity[i].date + "</td><td>" + lookup.activity[i].type + "</td><td>" + lookup.activity[i].detail + "</td></tr>")
         }
     }
 }
