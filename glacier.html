@@ -60,6 +60,13 @@
                 {{databaseName}}
             </div>
         </label>
+    </script>    <script type="text/html" id="glcLookupActUserListItemTpl">
+        <label>
+            <input type="radio" id="glcLookupActUserListItem{{databaseNumber}}" name="glcLookupActDatabaseList"/>
+            <div>
+                {{userName}}
+            </div>
+        </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
         <header>
@@ -97,6 +104,33 @@
             <div class="flexColumnContainer flexGrow" id="glcLookupBackupDetails">
                 Backup Details
             </div>
+        </div>
+    </script>
+    <script type="text/html" id="glcLookupActUserDetailsTpl">
+        <header>
+            <table>
+                <tr>
+                    <td>User Name:</td>
+                    <td>{{userName}}</td>
+                </tr>
+                <tr>
+                    <td>SQL Server:</td>
+                    <td>{{userServer}}</td>
+                </tr>
+            </table>
+            <nav class="tabBar" id="glcUserDetailsScreenSelection">
+                <ul>
+                    <li data-pageId="glcUserDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
+                    <li data-pageId="glcUserDetailsScreenSelectionTasks">Tasks</li>
+                    <li data-pageId="glcUserDetailsScreenSelectionBackups">Backups</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionUsers">
+            User Details
+        </div>
+        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcUserDetailsScreenSelectionTasks">
+            User Tasks
         </div>
     </script>
     <script type="text/html" id="glcLookupResultTpl">
