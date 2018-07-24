@@ -1,8 +1,9 @@
 var jenkinsLookupArray = [];
 var lookupCount = 0;
 
-function jenkinsLookup(rawLookupOutput) {
+function jenkinsLookup(rawLookupOutput, jenkinsServer) {
     var data = {};
+    data.jenkinsServer = jenkinsServer;
     data.lookupNumber = lookupCount;
     lookupCount++;
 
@@ -52,6 +53,7 @@ function jenkinsLookup(rawLookupOutput) {
                 if (data.databaseTextArray[i] == "\r\n" || data.databaseTextArray[i] == undefined) {continue};
                 var parsedDatabaseInfo = parseDatabaseInfo(data.databaseTextArray[i]);
                 var database = new actDatabase(parsedDatabaseInfo)
+                database.jenkinsServer = jenkinsServer;
                 data.databases.push(database);
             }
         }
@@ -112,7 +114,7 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
     })
 
     function handleResponse(response) {
-        var lookup = new jenkinsLookup(response.data);
+        var lookup = new jenkinsLookup(response.data, jenkinsServer);
         if (lookup.lookupResult == "Located") {
             jenkinsLookup.prototype.addLookupListItem(lookup);
             jenkinsLookup.prototype.buildLookupResultsUI(lookup);

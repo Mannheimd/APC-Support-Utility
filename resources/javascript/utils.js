@@ -6,27 +6,17 @@ function replaceAllInstances(text, replaceThis, withThis) {
     return text;
 }
 
+// function findString()
 /*
-Handle a sequence of functions in series
-@param Array<function> functionArray = list of functions to run
+Oh, you thought findString() would be here? In utils.js?
+What nonsense.
+
+For some reason it errored when it was in here, and I didn't have time to troubleshoot.
+Something about needing to get Glacier Web finished before I left the company.
+replaceAllInstances() works fine, so I dunno. Some magic or something.
+Each function that needs findString() has it declared separately.
+
+Good luck, Swiftie! You're going to need it.
+
+~ Chris Manders
 */
-function functionSeries(functionArray) {
-    var deferred = new $.Deferred(),
-    sequenceNum = 0;
-
-    runFunction = function() {
-        if (sequenceNum > functionArray.length) {
-            deferred.resolve();
-            return;
-        }
-        var func = functionArray[sequenceNum];
-        $.when(func).always(function() {
-            sequenceNum++;
-            runFunction();
-        });
-    }
-
-    runFunction();
-
-    return deferred.promise();
-}

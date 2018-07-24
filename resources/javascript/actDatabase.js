@@ -26,6 +26,8 @@ actDatabase.prototype.switchToDatabase = function(database) {
 
     var listItem = $("#glcLookupActDatabaseListItem" + database.number);
     listItem.prop("checked", true);
+
+    actDatabase.prototype.getUsers(database);
 }
 
 actDatabase.prototype.processTemplate = function(html, database) {
@@ -47,5 +49,73 @@ actDatabase.prototype.setScreenSelectionPage = function(database) {
     if (database.screenSelectionPageId) {
         changePage("glcDatabaseDetailsScreenSelection", database.screenSelectionPageId);
         changeTab("glcDatabaseDetailsScreenSelection", database.screenSelectionPageId);
+    }
+}
+
+actDatabase.prototype.getUsers = function(database) {
+    database.users = [];
+    alterUI(false, "Getting users...");
+    
+    jenkinsApi.prototype.getDatabaseUsers(database.jenkinsServer.url, database.jenkinsServer.id, database.name, database.server, function(response) {
+        if (response.status = "success") {
+            if (findString(response.data, "[UserInfoFound=", "]") == "true") {
+                handleNewUser(response);
+                alterUI(true);
+            } else {
+                alterUI(false, "No user info found.");
+            }
+        } else {
+            alterUI(false, "User lookup failed.");
+        }
+    })
+
+    function handleNewUser(response) {
+        var usersText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
+        var usersTextSplit = usersText.split("[User=");
+        for (var i = 0; i < usersTextSplit.length; i++) {
+            var user = new actUser(usersTextSplit[i]);
+            database.users.push(user);
+
+            var userList = $("#glcLookupUserList");
+            actUser.prototype.addUserListItem(user, userList, database);
+        }
+    }
+
+    function alterUI(haveUsers, message) {
+        var giveUsersPlz = $("#glcLookupActUserDetailsGetting");
+        var helloYesIHaveUsersWhatDo = $("#glcLookupActUserDetailsFound");
+        var justALonelyH3OnTheLonelyRoad = $("#glcLookupActUserDetailsGettingStatus");
+    
+        if (haveUsers) {
+            hide(giveUsersPlz);
+            show(helloYesIHaveUsersWhatDo);
+        } else {
+            hide(helloYesIHaveUsersWhatDo);
+            show(giveUsersPlz);
+        }
+
+        if (message) {
+            justALonelyH3OnTheLonelyRoad.html(message);
+        } else {
+            justALonelyH3OnTheLonelyRoad.html("");
+        }
+
+        function show(id) {
+            id.removeClass("hidden");
+        }
+
+        function hide(id) {
+            if (!id.hasClass("hidden")) {
+                id.addClass("hidden");
+            }
+        }
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
     }
 }

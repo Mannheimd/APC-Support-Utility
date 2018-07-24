@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="resources/javascript/utils.js"></script>
+    <script src="resources/javascript/date.js"></script>
     <script src="resources/javascript/jenkinsLookup.js"></script>
     <script src="resources/javascript/jenkinsServer.js"></script>
     <script src="resources/javascript/jenkinsApi.js"></script>
@@ -90,17 +91,24 @@
             </nav>
         </header>
         <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcDatabaseDetailsScreenSelectionUsers">
-            <div class="radioList blue" id="glcLookupUserList">
+            <div class="flexCentered" id="glcLookupActUserDetailsGetting">
+                <div>
+                    <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="200" width="200">
+                    <h3 id="glcLookupActUserDetailsGettingStatus">No account selected</h3>
+                </div>
             </div>
-            <div class="flexColumnContainer flexGrow" id="glcLookupUserDetails">
-                User Details
+            <div class="hidden" id="glcLookupActUserDetailsFound">
+                <div class="radioList blue" id="glcLookupUserList">
+                </div>
+                <div class="flexColumnContainer flexGrow" id="glcLookupUserDetails">
+                </div>
             </div>
         </div>
         <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionTasks">
             Tasks
         </div>
         <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionBackups">
-            <div class="radioList blue" id="glcLookupUserList">
+            <div class="radioList blue" id="glcLookupBackupList">
             </div>
             <div class="flexColumnContainer flexGrow" id="glcLookupBackupDetails">
                 Backup Details
@@ -111,24 +119,44 @@
         <header>
             <table>
                 <tr>
-                    <td>User Name:</td>
-                    <td>{{userName}}</td>
+                    <td>Contact Name:</td>
+                    <td>{{contactName}}</td>
                 </tr>
                 <tr>
-                    <td>SQL Server:</td>
-                    <td>{{userServer}}</td>
+                    <td>Role:</td>
+                    <td>{{role}}</td>
                 </tr>
             </table>
             <nav class="tabBar" id="glcUserDetailsScreenSelection">
                 <ul>
-                    <li data-pageId="glcUserDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
+                    <li data-pageId="glcUserDetailsScreenSelectionInfo" class="tabBarSelected">Users</li>
                     <li data-pageId="glcUserDetailsScreenSelectionTasks">Tasks</li>
-                    <li data-pageId="glcUserDetailsScreenSelectionBackups">Backups</li>
                 </ul>
             </nav>
         </header>
-        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionUsers">
-            User Details
+        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionInfo">
+            <table>
+                <tr>
+                    <td>Login Name:</td>
+                    <td>{{loginName}}</td>
+                </tr>
+                <tr>
+                    <td>Last Login:</td>
+                    <td>{{lastLogon}} UTC</td>
+                </tr>
+                <tr>
+                    <td>Create Date:</td>
+                    <td>{{createDate}} UTC</td>
+                </tr>
+                <tr>
+                    <td>Can change password:</td>
+                    <td>{{allowPwdChange}}</td>
+                </tr>
+                <tr>
+                    <td>Password never expires:</td>
+                    <td>{{pwdNeverExpire}}</td>
+                </tr>
+            </table>
         </div>
         <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcUserDetailsScreenSelectionTasks">
             User Tasks

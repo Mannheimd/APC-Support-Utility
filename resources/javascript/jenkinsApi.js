@@ -12,6 +12,16 @@ jenkinsApi.prototype.lookupAccount = function(url, id, searchBy, searchFor, call
     });
 }
 
+jenkinsApi.prototype.getDatabaseUsers = function(url, id, databaseName, sqlServer, callback) {
+    var parameters = {};
+    parameters.DatabaseName = databaseName;
+    parameters.SQLServer = sqlServer;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ListCustomerDatabaseUsers/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
