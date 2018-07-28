@@ -216,6 +216,14 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
                 actDatabase.prototype.addDatabaseListItem(lookup.databases[i], databaseList, lookup);
             }
 
+            databaseList.on("change", function(e) {
+                databaseId = databaseList.val();
+                database = actDatabase.prototype.getDatabaseById(lookup.databases, databaseId)[0];
+                if (database) {
+                    actDatabase.prototype.switchToDatabase(database);
+                }
+            })
+
             if (lookup.selectedDatabase) {
                 actDatabase.prototype.switchToDatabase(lookup.selectedDatabase);
             }
