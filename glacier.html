@@ -55,12 +55,9 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseListItemTpl">
-        <label>
-            <input type="radio" id="glcLookupActDatabaseListItem{{databaseNumber}}" name="glcLookupActDatabaseList"/>
-            <div>
-                {{databaseName}}
-            </div>
-        </label>
+        <option value={{databaseNumber}}>
+            {{databaseName}}
+        </option>
     </script>    
     <script type="text/html" id="glcLookupActUserListItemTpl">
         <label>
@@ -230,8 +227,8 @@
             </table>
         </div>
         <div class="glcLookupResultScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
-            <div class="radioList blue" id="glcLookupDatabaseList">
-            </div>
+            <select id="glcLookupDatabaseList">
+            </select>
             <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
             </div>
         </div>
