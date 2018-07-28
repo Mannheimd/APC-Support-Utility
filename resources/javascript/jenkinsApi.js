@@ -17,7 +17,7 @@ jenkinsApi.prototype.getDatabaseUsers = function(url, id, databaseName, sqlServe
     parameters.DatabaseName = databaseName;
     parameters.SQLServer = sqlServer;
 
-    this.buildAndGetResponse(url, id, "/job/CloudOps1-ListCustomerDatabaseUsers/buildWithParameters", parameters, function(response) {
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ListCustomerDatabaseUsers-Machine/buildWithParameters", parameters, function(response) {
         callback(response);
     });
 }
