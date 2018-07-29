@@ -103,10 +103,10 @@ function addExpandoButtonFunction(parentElement) {
         $(button).click(function() {
             if ($(expando).hasClass("expanded")) {
                 $(expando).removeClass("expanded");
-                $(expando).children("div").slideUp(100);
+                $(expando).children("div").hide();
             } else {
                 $(expando).addClass("expanded");
-                $(expando).children("div").slideDown(100);
+                $(expando).children("div").show();
             }
         })
     }

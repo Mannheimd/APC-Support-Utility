@@ -157,7 +157,7 @@ button.stencil:hover {
 
 .expandoButton {
     margin: 5px;
-    width: 300px;
+    width: 400px;
 }
 
 .expandoButton > button {
@@ -166,7 +166,8 @@ button.stencil:hover {
 }
 
 .expandoButton.expanded > button {
-    border-bottom: none;
+    background: #FE5000;
+    color: white;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
