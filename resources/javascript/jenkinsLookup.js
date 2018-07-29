@@ -110,7 +110,7 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
     alterUI(true, "Searching...");
 
     jenkinsApi.prototype.lookupAccount(jenkinsServer.url, jenkinsServer.id, searchBy, searchFor, function(response) {
-        handleResponse(response)
+        handleResponse(response);
     })
 
     function handleResponse(response) {
@@ -251,6 +251,22 @@ jenkinsLookup.prototype.addButtonBindings = function(lookup) {
         lookup.screenSelectionPageId = $(e.target).attr("data-pageId");
         jenkinsLookup.prototype.setScreenSelectionPage(lookup);
     })
+        
+    $("#glcLookupResendWelcomeEmailForm").on("submit", function(e) {
+        var params = $("#" + e.target.id).serializeArray();
+
+        // User might not actually select a radio option, in which case the radio is not included in params
+        if (params[0].name == "glcLookupResendWelcomeEmailSendToRadio") {
+            if (params[0].value == "default") {
+                jenkinsLookup.prototype.resendWelcomeEmail(lookup, lookup.email);
+            } else if (params[0].value == "custom"
+            && params[1].value != undefined) {
+                jenkinsLookup.prototype.resendWelcomeEmail(lookup, params[1].value);
+            }
+        }
+
+        e.preventDefault();
+    })
 }
 
 jenkinsLookup.prototype.setScreenSelectionPage = function(lookup) {
@@ -262,4 +278,38 @@ jenkinsLookup.prototype.setScreenSelectionPage = function(lookup) {
 
 jenkinsLookup.prototype.setSelectedDatabase = function(lookup, database) {
     lookup.selectedDatabase = database;
+}
+
+jenkinsLookup.prototype.resendWelcomeEmail = function(lookup, sendToEmail) {
+    alterUI(true, "Sending...");
+
+    if (validateEmail(sendToEmail)) {
+        jenkinsApi.prototype.resendWelcomeEmail(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.iitID, sendToEmail, function(response) {
+            handleResponse(response);
+        })
+    } else {
+        alterUI(false, "Invalid email");
+    }
+
+    function handleResponse(response) {
+        if (response.status == "success") {
+            alterUI(false, "Welcome email sent");
+        } else {
+            alterUI(false, "Send failed");
+        }
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcLookupResendWelcomeEmailForm input").prop("disabled", true);
+        } else {
+            $("#glcLookupResendWelcomeEmailForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcLookupResendWelcomeEmailStatus").html(message);
+        } else {
+            $("#glcLookupResendWelcomeEmailStatus").html("");
+        }
+    }
 }

@@ -22,6 +22,16 @@ jenkinsApi.prototype.getDatabaseUsers = function(url, id, databaseName, sqlServe
     });
 }
 
+jenkinsApi.prototype.resendWelcomeEmail = function(url, id, iitID, email, callback) {
+    var parameters = {};
+    parameters.IITID = iitID;
+    parameters.AltEmailAddress = email;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ResendWelcomeEmail/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
