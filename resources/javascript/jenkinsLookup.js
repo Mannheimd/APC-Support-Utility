@@ -118,6 +118,7 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
         if (lookup.lookupResult == "Located") {
             jenkinsLookup.prototype.addLookupListItem(lookup);
             jenkinsLookup.prototype.buildLookupResultsUI(lookup);
+            jenkinsLookup.prototype.getInactivityTimeout(lookup);
             jenkinsLookupArray.push(lookup);
             alterUI(false);
         } else if (lookup.lookupResult == "NotFound") {
@@ -338,6 +339,7 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
     function handleResponse(response) {
         if (response.status == "success") {
             alterUI(false, "Inactivity timeout changed");
+            jenkinsLookup.prototype.getInactivityTimeout(lookup);
         } else {
             alterUI(false, "Timeout change failed");
         }
