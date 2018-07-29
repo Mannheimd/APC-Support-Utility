@@ -357,3 +357,39 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
         }
     }
 }
+
+jenkinsLookup.prototype.getInactivityTimeout = function(lookup) {
+    alterUI("Checking...");
+
+    jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, function(response) {
+        handleResponse(response);
+    })
+
+    function handleResponse(response) {
+        var newTimeout = findTimeoutFromData(response.data);
+        alterUI(newTimeout);
+    }
+
+    function findTimeoutFromData(data) {
+        var newTimeout = findString(data, "Timeout: ", "\n")
+        return newTimeout;
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
+    }
+
+    function alterUI(message) {
+        if (message) {
+            $("#glcLookupDetailsInactivityTimeout").html(message);
+            $("#glcLookupChangeInactivityTimeoutStatus").html(message);
+        } else {
+            $("#glcLookupDetailsInactivityTimeout").html("");
+            $("#glcLookupChangeInactivityTimeoutStatus").html("");
+        }
+    }
+}
