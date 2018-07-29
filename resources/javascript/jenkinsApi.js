@@ -53,6 +53,16 @@ jenkinsApi.prototype.getInactivityTimeout = function(url, id, siteName, iisServe
     });
 }
 
+jenkinsApi.prototype.unlockDatabase = function(url, id, sqlServer, databaseName, callback) {
+    var parameters = {};
+    parameters.SQLServer = sqlServer;
+    parameters.DatabaseName = databaseName;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-UnlockDatabase/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
