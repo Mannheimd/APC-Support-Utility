@@ -98,14 +98,15 @@ function resetLookup() {
 function addExpandoButtonFunction(parentElement) {
     expandoButtons = $(parentElement).find(".expandoButton");
     for (var i = 0; i < expandoButtons.length; i++) {
-        var button = expandoButtons[i];
+        var expando = expandoButtons[i];
+        var button = $(expando).children("button")[0];
         $(button).click(function() {
-            if ($(this).hasClass("expanded")) {
-                $(this).removeClass("expanded");
-                $(this).children("div").slideUp(100);
+            if ($(expando).hasClass("expanded")) {
+                $(expando).removeClass("expanded");
+                $(expando).children("div").slideUp(100);
             } else {
-                $(this).addClass("expanded");
-                $(this).children("div").slideDown(100);
+                $(expando).addClass("expanded");
+                $(expando).children("div").slideDown(100);
             }
         })
     }
