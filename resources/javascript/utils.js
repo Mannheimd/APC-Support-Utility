@@ -6,6 +6,20 @@ function replaceAllInstances(text, replaceThis, withThis) {
     return text;
 }
 
+// Email validation function shamelessly borrowed from https://stackoverflow.com/a/46181
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
+    if (serializedParamsArray.length != expectedLength) {return false};
+    for (var i = 0; i < serializedParamsArray.length; i++) {
+        if (serializedParamsArray[i].value == "") {return false};
+    }
+    return true;
+}
+
 // function findString()
 /*
 Oh, you thought findString() would be here? In utils.js?

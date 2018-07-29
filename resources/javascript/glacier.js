@@ -36,14 +36,6 @@ $(document).ready(function() {
             e.preventDefault();
         })
     }
-
-    function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
-        if (serializedParamsArray.length != expectedLength) {return false};
-        for (var i = 0; i < serializedParamsArray.length; i++) {
-            if (serializedParamsArray[i].value == "") {return false};
-        }
-        return true;
-    }
 });
 
 // Use pageClass the same way as a Radio input's name; class defines the 'book', ID of each 'page' is used to identify which page you're switching to
@@ -92,5 +84,23 @@ function resetLookup() {
         $("#glcMainUIDisplayPageNewLookupSearchBySiteName").prop("checked", false);
         $("#glcMainUIDisplayPageNewLookupSearchBySubNum").prop("checked", false);
         $("#glcMainUIDisplayPageNewLookupSearchByIITID").prop("checked", false);
+    }
+}
+
+function addExpandoButtonFunction(parentElement) {
+    expandoButtons = $(parentElement).find(".expandoButton");
+    for (var i = 0; i < expandoButtons.length; i++) {
+        var expando = expandoButtons[i];
+        var button = $(expando).children("button")[0];
+        $(button).click(function() {
+            var parent = $(this).parent();
+            if ($(parent).hasClass("expanded")) {
+                $(parent).removeClass("expanded");
+                $(parent).children("div").hide();
+            } else {
+                $(parent).addClass("expanded");
+                $(parent).children("div").show();
+            }
+        })
     }
 }
