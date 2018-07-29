@@ -102,8 +102,10 @@ function addExpandoButtonFunction(parentElement) {
         $(button).click(function() {
             if ($(this).hasClass("expanded")) {
                 $(this).removeClass("expanded");
+                $(this).children("div").slideUp(100);
             } else {
                 $(this).addClass("expanded");
+                $(this).children("div").slideDown(100);
             }
         })
     }

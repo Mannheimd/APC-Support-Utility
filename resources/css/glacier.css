@@ -174,10 +174,6 @@ button.stencil:hover {
 .expandoButton > div {
     padding: 16px 8px;
     display: none;
-}
-
-.expandoButton.expanded > div {
-    display: inherit;
     border: 2px solid #FE5000;
     border-top: none;
     border-bottom-left-radius: 25px;
