@@ -244,10 +244,18 @@
         <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionTasks">
             <div class="expandoButton">
                 <button>
-                    Hello
+                    Resend welcome email
                 </button>
                 <div>
-                    Expanded Section
+                    <form id="glcLookupResendWelcomeEmailForm">
+                        <p>Send to:</p>
+                        <input type="radio" value="default" id="glcLookupResendWelcomeEmailSendToDefault" name="glcLookupResendWelcomeEmailSendTo">
+                        <label for="glcLookupResendWelcomeEmailSendToDefault">{{email}}</label>
+                        <input type="radio" value="custom" id="glcLookupResendWelcomeEmailSendToCustom" name="glcLookupResendWelcomeEmailSendTo">
+                        <label for="glcLookupResendWelcomeEmailSendToCustom">
+                            <input type=text name="glcLookupResendWelcomeEmailSendToCustomAddress">
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
