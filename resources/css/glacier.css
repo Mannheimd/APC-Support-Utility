@@ -191,6 +191,23 @@ nav.tabBar > ul > li.tabBarSelected {
     border-bottom: solid 4px #328CC3;
 }
 
+nav.tabBar select {
+    border: none;
+    width: 20px;
+    height: 37px;
+    margin-left: -5;
+    margin-right: -10;
+    font-size: 20px;
+    cursor: pointer;
+    background: transparent;
+    color: inherit;
+    transition: 0.1s;
+}
+
+nav.tabBar select:hover {
+    color: #0AB4DC;
+}
+
 .pageContainer {
     position: fixed;
     top: 0;

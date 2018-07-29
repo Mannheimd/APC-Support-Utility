@@ -11,11 +11,6 @@ function actDatabase(databaseInfo) {
 actDatabase.prototype.addDatabaseListItem = function(database, targetList, lookup) {
     database.listItemHtml = actDatabase.prototype.processTemplate($("#glcLookupActDatabaseListItemTpl").html(), database);
     $(targetList).append(database.listItemHtml);
-    var listItem = $("#glcLookupActDatabaseListItem" + database.number);
-    listItem.on("click", function() {
-        jenkinsLookup.prototype.setSelectedDatabase(lookup, database);
-        actDatabase.prototype.switchToDatabase(database);
-    })
 }
 
 actDatabase.prototype.switchToDatabase = function(database) {
@@ -118,4 +113,14 @@ actDatabase.prototype.getUsers = function(database) {
         text = text.split(endString)[0];
         return text;
     }
+}
+
+actDatabase.prototype.getDatabaseById = function(databaseArray, databaseId) {
+    return databaseArray.filter(function(obj) {
+        return (obj.number == databaseId);
+        // Counter-intuitive, returns an array of results not a single result
+        // Should only ever be one correct result as ID is unique
+        // Suggested use: ...getDatabaseById(databaseArray, databaseId)[0]
+        // Will return undefined if it can't find a result.
+    })
 }

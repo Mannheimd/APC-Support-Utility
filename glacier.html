@@ -55,12 +55,9 @@
         </label>
     </script>
     <script type="text/html" id="glcLookupActDatabaseListItemTpl">
-        <label>
-            <input type="radio" id="glcLookupActDatabaseListItem{{databaseNumber}}" name="glcLookupActDatabaseList"/>
-            <div>
-                {{databaseName}}
-            </div>
-        </label>
+        <option value={{databaseNumber}}>
+            {{databaseName}}
+        </option>
     </script>    
     <script type="text/html" id="glcLookupActUserListItemTpl">
         <label>
@@ -168,7 +165,11 @@
             <nav class="tabBar" id="glcLookupResultScreenSelection">
                 <ul>
                     <li data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
-                    <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases</li>
+                    <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases
+                        <select id="glcLookupDatabaseList">
+                            <i class="fas fa-caret-down"></i>
+                        </select>
+                    </li>
                     <li data-pageId="glcLookupResultScreenSelectionActivity">Activity</li>
                 </ul>
             </nav>
@@ -229,9 +230,7 @@
                 </tr>
             </table>
         </div>
-        <div class="glcLookupResultScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
-            <div class="radioList blue" id="glcLookupDatabaseList">
-            </div>
+        <div class="glcLookupResultScreenSelection flexColumnContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
             <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
             </div>
         </div>

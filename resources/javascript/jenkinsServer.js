@@ -103,9 +103,10 @@ function jenkinsServer(jsonData) {
 jenkinsServer.prototype.getServerById = function(id) {
     return jenkinsServerArray.filter(function(obj) {
         return (obj.id == id);
-        // Counter-intuitive, returns an array of results
+        // Counter-intuitive, returns an array of results not a single result
         // Should only ever be one correct result as ID is unique
-        // jenkinsServer.prototype.getServerById(id)[0] is the suggested use.
+        // Suggested use: jenkinsServer.prototype.getServerById(id)[0]
+        // Will return undefined if it can't find a result.
     })
 }
 
