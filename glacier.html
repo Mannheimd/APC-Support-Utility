@@ -259,7 +259,10 @@
                                 <input type="text" name="glcLookupResendWelcomeEmailSendToText">
                             </label>
                         </p>
-                        <input type="submit" value="Send">
+                        <div class="flexRowContainer">
+                            <input type="submit" value="Send">
+                            <p id="glcLookupResendWelcomeEmailStatus"></p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -271,7 +274,10 @@
                         <form id="glcLookupResendWelcomeEmailForm">
                             <p>New timeout value, in minutes:</p>
                             <input type="text" name="glcLookupChangeInactivityTimeoutMins">
-                            <input type="submit" value="Send">
+                            <div class="flexRowContainer">
+                                <input type="submit" value="Change">
+                                <p id="glcLookupResendWelcomeEmailStatus"></p>
+                            </div>
                         </form>
                     </div>
                 </div>
