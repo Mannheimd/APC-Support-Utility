@@ -210,6 +210,10 @@
                     <td>{{uploadUrl}}</td>
                 </tr>
                 <tr>
+                    <td>Inactivity Timeout:</td>
+                    <td id="glcLookupDetailsInactivityTimeout">Checking...</td>
+                </tr>
+                <tr>
                     <td>Serial Number:</td>
                     <td>{{serialNumber}}</td>
                 </tr>
@@ -272,6 +276,10 @@
                 </button>
                 <div>
                     <form id="glcLookupChangeinactivityTimeoutForm">
+                        <div class="flexRowContainer">
+                            <p>Current inactivity timeout:</p>
+                            <p id="glcLookupChangeInactivityTimeoutCurrent">Checking...</p>
+                        </div>
                         <p>New timeout value, in minutes:</p>
                         <input type="text" name="glcLookupChangeInactivityTimeoutMins">
                         <div class="flexRowContainer">

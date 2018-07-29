@@ -38,7 +38,17 @@ jenkinsApi.prototype.changeInactivityTimeout = function(url, id, siteName, iisSe
     parameters.IISServer = iisServer;
     parameters.Timeout = newTimeout;
 
-    this.buildAndGetResponse(url, id, "/job/CloudOps1-ResendWelcomeEmail/buildWithParameters", parameters, function(response) {
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-UpdateExistingClientTimeout/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
+jenkinsApi.prototype.getInactivityTimeout = function(url, id, siteName, iisServer, callback) {
+    var parameters = {};
+    parameters.siteName = siteName;
+    parameters.IISServer = iisServer;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ListExistingClientTimeout/buildWithParameters", parameters, function(response) {
         callback(response);
     });
 }

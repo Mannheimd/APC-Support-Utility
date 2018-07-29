@@ -118,6 +118,7 @@ jenkinsLookup.prototype.newLookup = function(jenkinsServer, searchBy, searchFor)
         if (lookup.lookupResult == "Located") {
             jenkinsLookup.prototype.addLookupListItem(lookup);
             jenkinsLookup.prototype.buildLookupResultsUI(lookup);
+            jenkinsLookup.prototype.getInactivityTimeout(lookup);
             jenkinsLookupArray.push(lookup);
             alterUI(false);
         } else if (lookup.lookupResult == "NotFound") {
@@ -325,7 +326,7 @@ jenkinsLookup.prototype.resendWelcomeEmail = function(lookup, sendToEmail) {
 }
 
 jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
-    alterUI(true, "Sending...");
+    alterUI(true, "Changing...");
 
     if (newTimeout.match(/^[0-9]+$/)) {
         jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, newTimeout, function(response) {
@@ -338,6 +339,7 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
     function handleResponse(response) {
         if (response.status == "success") {
             alterUI(false, "Inactivity timeout changed");
+            jenkinsLookup.prototype.getInactivityTimeout(lookup);
         } else {
             alterUI(false, "Timeout change failed");
         }
@@ -353,6 +355,42 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
         if (message) {
             $("#glcLookupChangeInactivityTimeoutStatus").html(message);
         } else {
+            $("#glcLookupChangeInactivityTimeoutStatus").html("");
+        }
+    }
+}
+
+jenkinsLookup.prototype.getInactivityTimeout = function(lookup) {
+    alterUI("Checking...");
+
+    jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, function(response) {
+        handleResponse(response);
+    })
+
+    function handleResponse(response) {
+        var newTimeout = findTimeoutFromData(response.data);
+        alterUI(newTimeout);
+    }
+
+    function findTimeoutFromData(data) {
+        var newTimeout = findString(data, "Timeout: ", "\n")
+        return newTimeout;
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
+    }
+
+    function alterUI(message) {
+        if (message) {
+            $("#glcLookupDetailsInactivityTimeout").html(message);
+            $("#glcLookupChangeInactivityTimeoutStatus").html(message);
+        } else {
+            $("#glcLookupDetailsInactivityTimeout").html("");
             $("#glcLookupChangeInactivityTimeoutStatus").html("");
         }
     }
