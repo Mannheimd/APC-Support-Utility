@@ -101,12 +101,13 @@ function addExpandoButtonFunction(parentElement) {
         var expando = expandoButtons[i];
         var button = $(expando).children("button")[0];
         $(button).click(function() {
-            if ($(expando).hasClass("expanded")) {
-                $(expando).removeClass("expanded");
-                $(expando).children("div").hide();
+            var parent = $(this).parent();
+            if ($(parent).hasClass("expanded")) {
+                $(parent).removeClass("expanded");
+                $(parent).children("div").hide();
             } else {
-                $(expando).addClass("expanded");
-                $(expando).children("div").show();
+                $(parent).addClass("expanded");
+                $(parent).children("div").show();
             }
         })
     }
