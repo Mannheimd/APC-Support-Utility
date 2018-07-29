@@ -18,6 +18,7 @@ actDatabase.prototype.switchToDatabase = function(database) {
     $("#glcLookupDatabaseDetails").html(database.detailsHtml);
 
     actDatabase.prototype.addButtonBindings(database);
+    addExpandoButtonFunction($("#glcLookupDatabaseDetails"));
 
     var listItem = $("#glcLookupActDatabaseListItem" + database.number);
     listItem.prop("checked", true);
@@ -37,6 +38,17 @@ actDatabase.prototype.addButtonBindings = function(database) {
     $("#glcDatabaseDetailsScreenSelection").on("click", "ul > li", function(e) {
         database.screenSelectionPageId = $(e.target).attr("data-pageId");
         actDatabase.prototype.setScreenSelectionPage(database);
+    })
+        
+    $("#glcLookupUnlockDatabaseForm").on("submit", function(e) {
+        var params = $("#" + e.target.id).serializeArray();
+
+        // params left in for future compatibility, but not needed here
+        if (checkFormFieldsComplete(params, 0)) {
+            actDatabase.prototype.unlockDatabase(database);
+        }
+
+        e.preventDefault();
     })
 }
 
@@ -123,4 +135,35 @@ actDatabase.prototype.getDatabaseById = function(databaseArray, databaseId) {
         // Suggested use: ...getDatabaseById(databaseArray, databaseId)[0]
         // Will return undefined if it can't find a result.
     })
+}
+
+actDatabase.prototype.unlockDatabase = function(database) {
+    alterUI(true, "Unlocking...");
+
+    jenkinsApi.prototype.unlockDatabase(database.jenkinsServer.url, database.jenkinsServer.id, database.server, database.name, function(response) {
+        handleResponse(response);
+    })
+
+    function handleResponse(response) {
+        if (response.status == "success"
+        && response.data.indexOf("Invalid") === -1) {
+            alterUI(false, "Database unlocked");
+        } else {
+            alterUI(false, "Database unlock failed");
+        }
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcLookupUnlockDatabaseForm input").prop("disabled", true);
+        } else {
+            $("#glcLookupUnlockDatabaseForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcLookupUnlockDatabaseStatus").html(message);
+        } else {
+            $("#glcLookupUnlockDatabaseStatus").html("");
+        }
+    }
 }

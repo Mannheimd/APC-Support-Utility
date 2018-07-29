@@ -102,7 +102,19 @@
             </div>
         </div>
         <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionTasks">
-            Tasks
+            <div class="expandoButton">
+                <button>
+                    Unlock Database
+                </button>
+                <div>
+                    <form id="glcLookupUnlockDatabaseForm">
+                        <div class="flexRowContainer">
+                            <input type="submit" value="Unlock">
+                            <p id="glcLookupUnlockDatabaseStatus"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionBackups">
             <div class="radioList blue" id="glcLookupBackupList">

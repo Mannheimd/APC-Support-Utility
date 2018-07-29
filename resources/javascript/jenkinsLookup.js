@@ -88,6 +88,7 @@ function jenkinsLookup(rawLookupOutput, jenkinsServer) {
 
     function parseDatabaseInfo(databaseInfoText) {
         var data = {};
+        data.jenkinsServer = jenkinsServer;
         data.name = findString(databaseInfoText, "{Name=", "}");
         data.server = findString(databaseInfoText, "{Server=", "}");
         return data;
