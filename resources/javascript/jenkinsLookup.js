@@ -325,7 +325,7 @@ jenkinsLookup.prototype.resendWelcomeEmail = function(lookup, sendToEmail) {
 }
 
 jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
-    alterUI(true, "Sending...");
+    alterUI(true, "Changing...");
 
     if (newTimeout.match(/^[0-9]+$/)) {
         jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, newTimeout, function(response) {
