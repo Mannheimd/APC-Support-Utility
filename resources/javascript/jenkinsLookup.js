@@ -196,6 +196,8 @@ jenkinsLookup.prototype.buildLookupResultsUI = function(lookup) {
     jenkinsLookup.prototype.addButtonBindings(lookup);
     selectThisLookupListItem();
 
+    addExpandoButtonFunction($("#glcMainUIDisplayPageDetails"));
+
     addDatabases();
     addActivity();
 

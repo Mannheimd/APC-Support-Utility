@@ -94,3 +94,17 @@ function resetLookup() {
         $("#glcMainUIDisplayPageNewLookupSearchByIITID").prop("checked", false);
     }
 }
+
+function addExpandoButtonFunction(parentElement) {
+    expandoButtons = $(parentElement).find(".expandoButton");
+    for (var i = 0; i < expandoButtons.length; i++) {
+        var button = expandoButtons[i];
+        $(button).click(function() {
+            if ($(this).hasClass("expanded")) {
+                $(this).removeClass("expanded");
+            } else {
+                $(this).addClass("expanded");
+            }
+        })
+    }
+}
