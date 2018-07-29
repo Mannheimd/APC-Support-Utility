@@ -197,6 +197,7 @@ nav.tabBar select {
     height: 37px;
     margin-left: -5;
     margin-right: -10;
+    font-size: 20px;
     cursor: pointer;
     background: transparent;
     color: inherit;
