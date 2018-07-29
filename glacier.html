@@ -249,12 +249,16 @@
                 <div>
                     <form id="glcLookupResendWelcomeEmailForm">
                         <p>Send to:</p>
-                        <input type="radio" value="default" id="glcLookupResendWelcomeEmailSendToDefault" name="glcLookupResendWelcomeEmailSendTo">
-                        <label for="glcLookupResendWelcomeEmailSendToDefault">{{email}}</label>
-                        <input type="radio" value="custom" id="glcLookupResendWelcomeEmailSendToCustom" name="glcLookupResendWelcomeEmailSendTo">
-                        <label for="glcLookupResendWelcomeEmailSendToCustom">
-                            <input type=text name="glcLookupResendWelcomeEmailSendToCustomAddress">
-                        </label>
+                        <p>
+                            <input type="radio" value="default" id="glcLookupResendWelcomeEmailSendToDefault" name="glcLookupResendWelcomeEmailSendToRadio">
+                            <label for="glcLookupResendWelcomeEmailSendToDefault">{{email}}</label>
+                        </p>
+                        <p>
+                            <input type="radio" value="custom" id="glcLookupResendWelcomeEmailSendToCustom" name="glcLookupResendWelcomeEmailSendToRadio">
+                            <label for="glcLookupResendWelcomeEmailSendToCustom">
+                                <input type="text" name="glcLookupResendWelcomeEmailSendToText">
+                            </label>
+                        </p>
                     </form>
                 </div>
             </div>
