@@ -165,7 +165,11 @@
             <nav class="tabBar" id="glcLookupResultScreenSelection">
                 <ul>
                     <li data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
-                    <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases</li>
+                    <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases
+                        <select id="glcLookupDatabaseList">
+                            <i class="fas fa-caret-down"></i>
+                        </select>
+                    </li>
                     <li data-pageId="glcLookupResultScreenSelectionActivity">Activity</li>
                 </ul>
             </nav>
@@ -227,8 +231,6 @@
             </table>
         </div>
         <div class="glcLookupResultScreenSelection flexColumnContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
-            <select id="glcLookupDatabaseList" class="noBumPad">
-            </select>
             <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
             </div>
         </div>
