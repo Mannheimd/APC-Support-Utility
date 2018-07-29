@@ -36,14 +36,6 @@ $(document).ready(function() {
             e.preventDefault();
         })
     }
-
-    function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
-        if (serializedParamsArray.length != expectedLength) {return false};
-        for (var i = 0; i < serializedParamsArray.length; i++) {
-            if (serializedParamsArray[i].value == "") {return false};
-        }
-        return true;
-    }
 });
 
 // Use pageClass the same way as a Radio input's name; class defines the 'book', ID of each 'page' is used to identify which page you're switching to

@@ -12,6 +12,14 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
+function checkFormFieldsComplete(serializedParamsArray, expectedLength) {
+    if (serializedParamsArray.length != expectedLength) {return false};
+    for (var i = 0; i < serializedParamsArray.length; i++) {
+        if (serializedParamsArray[i].value == "") {return false};
+    }
+    return true;
+}
+
 // function findString()
 /*
 Oh, you thought findString() would be here? In utils.js?

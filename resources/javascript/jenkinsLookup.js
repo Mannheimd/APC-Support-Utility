@@ -267,6 +267,16 @@ jenkinsLookup.prototype.addButtonBindings = function(lookup) {
 
         e.preventDefault();
     })
+        
+    $("#glcLookupChangeinactivityTimeoutForm").on("submit", function(e) {
+        var params = $("#" + e.target.id).serializeArray();
+
+        if (checkFormFieldsComplete(params, 1)) {
+            jenkinsLookup.prototype.changeInactivityTimeout(lookup, params[0].value);
+        }
+
+        e.preventDefault();
+    })
 }
 
 jenkinsLookup.prototype.setScreenSelectionPage = function(lookup) {
@@ -310,6 +320,40 @@ jenkinsLookup.prototype.resendWelcomeEmail = function(lookup, sendToEmail) {
             $("#glcLookupResendWelcomeEmailStatus").html(message);
         } else {
             $("#glcLookupResendWelcomeEmailStatus").html("");
+        }
+    }
+}
+
+jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
+    alterUI(true, "Sending...");
+
+    if (newTimeout.match(/^[0-9]+$/)) {
+        jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, newTimeout, function(response) {
+            handleResponse(response);
+        })
+    } else {
+        alterUI(false, "Invalid input, use numbers ony");
+    }
+
+    function handleResponse(response) {
+        if (response.status == "success") {
+            alterUI(false, "Inactivity timeout changed");
+        } else {
+            alterUI(false, "Timeout change failed");
+        }
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcLookupChangeinactivityTimeoutForm input").prop("disabled", true);
+        } else {
+            $("#glcLookupChangeinactivityTimeoutForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcLookupChangeInactivityTimeoutStatus").html(message);
+        } else {
+            $("#glcLookupChangeInactivityTimeoutStatus").html("");
         }
     }
 }

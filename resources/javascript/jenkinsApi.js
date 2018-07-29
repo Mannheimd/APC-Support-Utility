@@ -32,6 +32,17 @@ jenkinsApi.prototype.resendWelcomeEmail = function(url, id, iitID, email, callba
     });
 }
 
+jenkinsApi.prototype.changeInactivityTimeout = function(url, id, siteName, iisServer, newTimeout, callback) {
+    var parameters = {};
+    parameters.siteName = siteName;
+    parameters.IISServer = iisServer;
+    parameters.Timeout = newTimeout;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ResendWelcomeEmail/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);
