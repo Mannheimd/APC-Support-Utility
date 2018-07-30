@@ -63,7 +63,7 @@ actUser.prototype.addUserListItem = function(user, targetList, database) {
     $(targetList).append(user.listItemHtml);
     var listItem = $("#glcLookupActUserListItem" + user.number);
     listItem.on("click", function() {
-        jenkinsDatabase.prototype.setSelectedUser(database, user);
+        actDatabase.prototype.setSelectedUser(database, user);
         actUser.prototype.switchToUser(user);
     })
 }
@@ -80,6 +80,7 @@ actUser.prototype.switchToUser = function(user) {
 
 actUser.prototype.processTemplate = function(html, user) {
     htmlAltered = html;
+    htmlAltered = replaceAllInstances(htmlAltered, "{{userNumber}}", user.number);
     htmlAltered = replaceAllInstances(htmlAltered, "{{loginName}}", user.loginName);
     htmlAltered = replaceAllInstances(htmlAltered, "{{forcePwdChange}}", user.forcePwdChange);
     htmlAltered = replaceAllInstances(htmlAltered, "{{allowPwdChange}}", user.allowPwdChange);
