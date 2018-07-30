@@ -79,7 +79,7 @@ actDatabase.prototype.getUsers = function(database) {
     function handleNewUser(response) {
         var usersText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
         var usersTextSplit = usersText.split("[User=");
-        for (var i = 0; i < usersTextSplit.length; i++) {
+        for (var i = 1; i < usersTextSplit.length; i++) {
             var user = new actUser(usersTextSplit[i]);
             database.users.push(user);
 
@@ -189,7 +189,7 @@ actDatabase.prototype.getBackups = function(database) {
         var backupsText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
         var backupsTextSplit = backupsText.split("[Backup=");
         var currentFullBackup = {};
-        for (var i = 0; i < backupsTextSplit.length; i++) {
+        for (var i = 1; i < backupsTextSplit.length; i++) {
             var backup = new actBackup(backupsTextSplit[i]);
 
             // Backup is only counted as valid if it is a full, or has an older full backup
