@@ -63,6 +63,17 @@ jenkinsApi.prototype.unlockDatabase = function(url, id, sqlServer, databaseName,
     });
 }
 
+jenkinsApi.prototype.resetPassword = function(url, id, sqlServer, databaseName, loginName, callback) {
+    var parameters = {};
+    parameters.DatabaseName = databaseName;
+    parameters.SQLServer = sqlServer;
+    parameters.UserName = loginName;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-ResetCustomerLoginPassword-M/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);

@@ -170,7 +170,18 @@
             </table>
         </div>
         <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcUserDetailsScreenSelectionTasks">
-            User Tasks
+            <div class="expandoButton">
+                <button>
+                    Reset Password
+                </button>
+                <div>
+                    <form id="glcLookupResetPasswordForm">
+                        <p>Reset the user's password to a random value</p>
+                        <input type="submit" value="Reset">
+                        <p id="glcLookupResetPasswordStatus"></p>
+                    </form>
+                </div>
+            </div>
         </div>
     </script>
     <script type="text/html" id="glcLookupResultTpl">

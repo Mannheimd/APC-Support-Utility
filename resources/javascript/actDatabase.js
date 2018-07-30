@@ -80,7 +80,7 @@ actDatabase.prototype.getUsers = function(database) {
         var usersText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
         var usersTextSplit = usersText.split("[User=");
         for (var i = 1; i < usersTextSplit.length; i++) {
-            var user = new actUser(usersTextSplit[i]);
+            var user = new actUser(usersTextSplit[i], database);
             database.users.push(user);
 
             var userList = $("#glcLookupUserList");
@@ -190,7 +190,7 @@ actDatabase.prototype.getBackups = function(database) {
         var backupsTextSplit = backupsText.split("[Backup=");
         var currentFullBackup = {};
         for (var i = 1; i < backupsTextSplit.length; i++) {
-            var backup = new actBackup(backupsTextSplit[i]);
+            var backup = new actBackup(backupsTextSplit[i], database);
 
             // Backup is only counted as valid if it is a full, or has an older full backup
             // Assumes backups are returned in date order

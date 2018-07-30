@@ -1,9 +1,11 @@
 var userCount = 0;
 
-function actUser(userText) {
+function actUser(userText, database) {
     user = {};
     user.number = userCount;
     userCount++;
+
+    user.database = database;
 
     parseUserText();
 
@@ -73,6 +75,7 @@ actUser.prototype.switchToUser = function(user) {
     $("#glcLookupUserDetails").html(user.detailsHtml);
 
     actUser.prototype.addButtonBindings(user);
+    addExpandoButtonFunction($("#glcLookupActUserDetailsFound"));
 
     var listItem = $("#glcLookupActUserListItem" + user.number);
     listItem.prop("checked", true);
@@ -98,11 +101,70 @@ actUser.prototype.addButtonBindings = function(user) {
         user.screenSelectionPageId = $(e.target).attr("data-pageId");
         actUser.prototype.setScreenSelectionPage(user);
     })
+        
+    $("#glcLookupResetPasswordForm").on("submit", function(e) {
+        var params = $("#" + e.target.id).serializeArray();
+
+        // params left in for future compatibility, but not needed here
+        if (checkFormFieldsComplete(params, 0)) {
+            actUser.prototype.resetPassword(user);
+        }
+
+        e.preventDefault();
+    })
 }
 
 actUser.prototype.setScreenSelectionPage = function(user) {
     if (user.screenSelectionPageId) {
         changePage("glcUserDetailsScreenSelection", user.screenSelectionPageId);
         changeTab("glcUserDetailsScreenSelection", user.screenSelectionPageId);
+    }
+}
+
+actUser.prototype.resetPassword = function(user) {
+    alterUI(true, "Resetting...");
+
+    jenkinsApi.prototype.resetPassword(user.database.jenkinsServer.url, user.database.jenkinsServer.id, user.database.server, user.database.name, user.loginName, function(response) {
+        handleResponse(response);
+    })
+
+    function handleResponse(response) {
+        if (response.status == "success") {
+            if (response.data.indexOf("****************** ERROR! ******************") !== -1) { // Jees Lunceford, got enough starts there?
+                alterUI(false, "Password reset failed");
+                return;
+            }
+            var jsonString = findString(response.data, "[STARTDATA]", "[ENDDATA]");
+            var json = JSON.parse(jsonString);
+            if (json.User_Login == user.loginName) {
+            alterUI(false, "New password: " + json.New_Password);
+            } else {
+                "Error: Build returned wrong username - please notify cloudops@swiftpage.com immediately"
+            }
+        } else {
+            alterUI(false, "Password reset failed");
+        }
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcLookupResetPasswordForm input").prop("disabled", true);
+        } else {
+            $("#glcLookupResetPasswordForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcLookupResetPasswordStatus").html(message);
+        } else {
+            $("#glcLookupResetPasswordStatus").html("");
+        }
     }
 }
