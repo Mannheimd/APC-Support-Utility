@@ -364,18 +364,17 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
 jenkinsLookup.prototype.getInactivityTimeout = function(lookup) {
     alterUI("Checking...");
 
-    jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, function(response) {
+    jenkinsApi.prototype.getInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, function(response) {
         handleResponse(response);
     })
 
     function handleResponse(response) {
-        var newTimeout = findTimeoutFromData(response.data);
-        alterUI(newTimeout);
-    }
-
-    function findTimeoutFromData(data) {
-        var newTimeout = findString(data, "Timeout: ", "\n")
-        return newTimeout;
+        if (response.status == "success") {
+            var newTimeout = findString(response.data, "Timeout: ", "\n");
+            alterUI(newTimeout);
+        } else {
+            alterUI("Unable to load timeout");
+        }
     }
 
     function findString(text, startString, endString) {

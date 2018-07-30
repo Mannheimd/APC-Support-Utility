@@ -79,7 +79,7 @@ actDatabase.prototype.getUsers = function(database) {
     function handleNewUser(response) {
         var usersText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
         var usersTextSplit = usersText.split("[User=");
-        for (var i = 0; i < usersTextSplit.length; i++) {
+        for (var i = 1; i < usersTextSplit.length; i++) {
             var user = new actUser(usersTextSplit[i]);
             database.users.push(user);
 
@@ -166,4 +166,90 @@ actDatabase.prototype.unlockDatabase = function(database) {
             $("#glcLookupUnlockDatabaseStatus").html("");
         }
     }
+}
+
+actDatabase.prototype.getBackups = function(database) {
+    database.backups = [];
+    alterUI(false, "Getting backups...");
+    
+    jenkinsApi.prototype.getDatabaseBackups(database.jenkinsServer.url, database.jenkinsServer.id, database.name, database.server, function(response) {
+        if (response.status = "success") {
+            if (findString(response.data, "[BackupInfoFound=", "]") == "true") {
+                handleNewBackups(response);
+                alterUI(true);
+            } else {
+                alterUI(false, "No backup info found.");
+            }
+        } else {
+            alterUI(false, "Backup load failed.");
+        }
+    })
+
+    function handleNewBackups(response) {
+        var backupsText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
+        var backupsTextSplit = backupsText.split("[Backup=");
+        var currentFullBackup = {};
+        for (var i = 1; i < backupsTextSplit.length; i++) {
+            var backup = new actBackup(backupsTextSplit[i]);
+
+            // Backup is only counted as valid if it is a full, or has an older full backup
+            // Assumes backups are returned in date order
+            if (backup.type == "full") {
+                currentFullBackup = backup;
+                database.backups.push(backup);
+            } else if (backup.type == "diff" && currentFullBackup) {
+                backup.full = currentFullBackup;
+                database.backups.push(backup);
+            }
+
+            var backupList = $("#glcLookupBackupList");
+            actBackup.prototype.addBackupListItem(backup, backupList, database);
+        }
+    }
+
+    function alterUI(haveBackups, message) {
+        var giveBackupsPlz = $("#glcLookupActBackupDetailsGetting");
+        var helloYesIHaveBackupsWhatDo = $("#glcLookupActBackupDetailsFound");
+        var justALonelyH3OnTheLonelyRoad = $("#glcLookupActBackupDetailsGettingStatus");
+    
+        if (haveBackups) {
+            hide(giveBackupsPlz);
+            show(helloYesIHaveBackupsWhatDo);
+        } else {
+            hide(helloYesIHaveBackupsWhatDo);
+            show(giveBackupsPlz);
+        }
+
+        if (message) {
+            justALonelyH3OnTheLonelyRoad.html(message);
+        } else {
+            justALonelyH3OnTheLonelyRoad.html("");
+        }
+
+        function show(id) {
+            id.removeClass("hidden");
+        }
+
+        function hide(id) {
+            if (!id.hasClass("hidden")) {
+                id.addClass("hidden");
+            }
+        }
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
+    }
+}
+
+actDatabase.prototype.setSelectedUser = function(database, user) {
+    database.selectedUser = user;
+}
+
+actDatabase.prototype.setSelectedBackup = function(database, backup) {
+    database.selectedBackup = backup;
 }

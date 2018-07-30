@@ -1,13 +1,13 @@
 var userCount = 0;
 
 function actUser(userText) {
-    data = {};
-    data.number = userCount;
+    user = {};
+    user.number = userCount;
     userCount++;
 
     parseUserText();
 
-    return data;
+    return user;
 
     function parseUserText() {
         user.loginName = findString(userText, "{userlogin=", "}");
