@@ -245,3 +245,11 @@ actDatabase.prototype.getBackups = function(database) {
         return text;
     }
 }
+
+actDatabase.prototype.setSelectedUser = function(database, user) {
+    database.selectedUser = user;
+}
+
+actDatabase.prototype.setSelectedBackup = function(database, backup) {
+    database.selectedBackup = backup;
+}
