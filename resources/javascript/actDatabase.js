@@ -188,9 +188,19 @@ actDatabase.prototype.getBackups = function(database) {
     function handleNewBackups(response) {
         var backupsText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
         var backupsTextSplit = backupsText.split("[Backup=");
+        var currentFullBackup = {};
         for (var i = 0; i < backupsTextSplit.length; i++) {
             var backup = new actBackup(backupsTextSplit[i]);
-            database.backups.push(backup);
+
+            // Backup is only counted as valid if it is a full, or has an older full backup
+            // Assumes backups are returned in date order
+            if (backup.type == "full") {
+                currentFullBackup = backup;
+                database.backups.push(backup);
+            } else if (backup.type == "diff" && currentFullBackup) {
+                backup.full = currentFullBackup;
+                database.backups.push(backup);
+            }
 
             var backupList = $("#glcLookupBackupList");
             actBackup.prototype.addBackupListItem(backup, backupList, database);
