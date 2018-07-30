@@ -167,3 +167,71 @@ actDatabase.prototype.unlockDatabase = function(database) {
         }
     }
 }
+
+actDatabase.prototype.getBackups = function(database) {
+    database.backups = [];
+    alterUI(false, "Getting backups...");
+    
+    jenkinsApi.prototype.getDatabaseBackups(database.jenkinsServer.url, database.jenkinsServer.id, database.name, database.server, function(response) {
+        if (response.status = "success") {
+            if (findString(response.data, "[BackupInfoFound=", "]") == "true") {
+                handleNewBackups(response);
+                alterUI(true);
+            } else {
+                alterUI(false, "No backup info found.");
+            }
+        } else {
+            alterUI(false, "Backup load failed.");
+        }
+    })
+
+    function handleNewBackups(response) {
+        var backupsText = findString(response.data, "[STARTDATA]", "[ENDDATA]");
+        var backupsTextSplit = backupsText.split("[Backup=");
+        for (var i = 0; i < backupsTextSplit.length; i++) {
+            var backup = new actBackup(backupsTextSplit[i]);
+            database.backups.push(backup);
+
+            var backupList = $("#glcLookupBackupList");
+            actBackup.prototype.addBackupListItem(backup, backupList, database);
+        }
+    }
+
+    function alterUI(haveBackups, message) {
+        var giveBackupsPlz = $("#glcLookupActBackupDetailsGetting");
+        var helloYesIHaveBackupsWhatDo = $("#glcLookupActBackupDetailsFound");
+        var justALonelyH3OnTheLonelyRoad = $("#glcLookupActBackupDetailsGettingStatus");
+    
+        if (haveBackups) {
+            hide(giveBackupsPlz);
+            show(helloYesIHaveBackupsWhatDo);
+        } else {
+            hide(helloYesIHaveBackupsWhatDo);
+            show(giveBackupsPlz);
+        }
+
+        if (message) {
+            justALonelyH3OnTheLonelyRoad.html(message);
+        } else {
+            justALonelyH3OnTheLonelyRoad.html("");
+        }
+
+        function show(id) {
+            id.removeClass("hidden");
+        }
+
+        function hide(id) {
+            if (!id.hasClass("hidden")) {
+                id.addClass("hidden");
+            }
+        }
+    }
+
+    function findString(text, startString, endString) {
+        if (text == undefined) {return undefined};
+        text = text.split(startString)[1];
+        if (text == undefined) {return undefined};
+        text = text.split(endString)[0];
+        return text;
+    }
+}
