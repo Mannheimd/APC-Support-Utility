@@ -1,0 +1,466 @@
+body {
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    color: #374650;
+    margin: 0;
+}
+
+*:focus {
+    outline: none;
+    outline-offset: none;
+}
+
+p {
+    margin: 5px;
+}
+
+h3 {
+    margin: 10px;
+}
+
+form {
+    margin: 0;
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    margin: 12px;
+}
+
+td {
+    padding: 4px;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+input[type="text"] {
+    font-size: 16px;
+    padding: 10px;
+    color: #374650;
+    border: solid 1px #CDCDC8;
+}
+
+input[type="submit"] {
+    margin: 10px;
+    text-align: center;
+    padding: 14px 50px 12px 50px;
+    border: 2px solid #FE5000;
+    border-radius: 25px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.1s;
+}
+
+input[type="submit"]:hover {
+    border: 2px solid #FE5000;
+    background: #FE5000;
+    color: white;
+}
+
+input[type="radio"] {
+    position: absolute;
+    display: hidden;
+}
+
+input[type="radio"] + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 21px;
+    display: inline-block;
+}
+
+input[type="radio"] + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #FE5000;
+    border-radius: 100%;
+    background: #fff;
+}
+
+input[type="radio"] + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #FE5000;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+input[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+
+input[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+button {
+    margin: 5px;
+    text-align: center;
+    padding: 14px 50px 12px 50px;
+    border: 2px solid #FE5000;
+    border-radius: 25px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.1s;
+}
+
+button:hover {
+    border: 2px solid #FE5000;
+    background: #FE5000;
+    color: white;
+}
+
+button.stencil {
+    margin: 5px;
+    text-align: center;
+    padding: 5px;
+    border: 0px;
+    border-radius: 0px;
+    background: transparent;
+    color: #FE5000;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 25px;
+    transition: 0.1s;
+}
+
+button.stencil:hover {
+    color: #da4c1f;
+}
+
+.expandoButton {
+    margin: 16px;
+    width: 400px;
+}
+
+.expandoButton > button {
+    margin: 0;
+    width: inherit;
+}
+
+.expandoButton.expanded > button {
+    background: #FE5000;
+    color: white;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.expandoButton > div {
+    padding: 16px 8px;
+    display: none;
+    border: 2px solid #FE5000;
+    border-top: none;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 8px 16px 12px 16px
+}
+
+.expandoButton p {
+    align-self: center;
+}
+
+header {
+    padding-top: 4px;
+    background: transparent;
+    color: #374650;
+}
+
+header > h3 {
+    margin-left: 16px;
+    background: transparent;
+    color: #374650;
+}
+
+nav.tabBar {
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to bottom, #374650 0px, #374650 44px, transparent 100%);
+    border-image-slice: 1;
+}
+
+nav.tabBar > ul > li {
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0px 16px;
+    line-height: 2.5;
+    cursor: pointer;
+}
+
+nav.tabBar > ul > li:hover {
+    color: #328CC3;
+}
+
+nav.tabBar > ul > li.tabBarSelected {
+    color: #328CC3;
+    border-bottom: solid 4px #328CC3;
+}
+
+nav.tabBar select {
+    border: none;
+    width: 20px;
+    height: 37px;
+    margin-left: -5;
+    margin-right: -10;
+    font-size: 20px;
+    cursor: pointer;
+    background: transparent;
+    color: inherit;
+    transition: 0.1s;
+}
+
+nav.tabBar select:hover {
+    color: #0AB4DC;
+}
+
+.pageContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.flexRowContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.flexColumnContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.flexGrow {
+    flex-grow: 1;
+}
+
+.vertFill {
+    height: 100%;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.flexCentered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexCentered > * {
+    text-align: center;
+}
+
+.flexTopCentered {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container500px {
+    width: 500px;
+}
+
+.container400px {
+    width: 400px;
+}
+
+.container90pcCenter {
+    width: 90%;
+}
+
+.container90pcCenter > h3 {
+    margin-top: 25px;
+}
+
+.container90pcCenter > input {
+    width: 100%;
+}
+
+.container90pcCenter > input[type="submit"] {
+    margin-top: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+.flexRow {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.listItem {
+    padding: 5px;
+    border-bottom: 1px solid #dfe3e6;
+}
+
+.menu {
+    width: 250px;
+    height: 100%;
+    padding: 5px 5px;
+    background: #374650;
+}
+
+.menu h3{
+    font-weight: 100;
+    font-size: 1.4em
+}
+
+.menu nav{
+    display: block;
+}
+
+.menu nav>div{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: white;
+    padding: 5px;
+}
+
+.menu nav > div:hover{
+    background: lightgray;
+}
+
+.menu .header{
+    position: relative;
+    color: #CDCDC8;
+    margin: 20px;
+}
+
+.menu .footer{
+    position: fixed;
+    color: #CDCDC8;
+    bottom: 0px;
+    margin: 20px;
+}
+
+.glcMainUIDetailPage {
+    flex-grow: 1;
+}
+
+.radioList {
+    background: transparent;
+    margin: 5px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 24px;
+    color: #0AB4DC;
+}
+
+.radioList.blue {
+    background: transparent;
+    margin: 5px;
+    font-weight: bold;
+    border: 2px solid #328CC3;
+    border-radius: 24px;
+    color: #328CC3;
+}
+
+.radioList label > div {
+    padding: 14px 16px 12px 16px;
+    margin: -2px;
+    text-align: center;
+    transition: 0.1s;
+}
+
+.radioList.blue label > div {
+    padding: 14px 16px 12px 16px;
+    margin: -2px;
+    text-align: center;
+    transition: 0.1s;
+}
+
+.radioList label > input[type="radio"] {
+    visibility: hidden;
+    position: absolute;
+}
+
+.radioList label > input[type="radio"] + div {
+    cursor: pointer;
+    border-radius: 24px;
+    border: 2px solid transparent;
+}
+
+.radioList label > input[type="radio"]:hover + div {
+    border: 2px solid #0AB4DC;
+}
+
+.radioList.blue label > input[type="radio"]:hover + div {
+    border: 2px solid #328CC3;
+}
+
+.radioList label > input[type="radio"]:checked + div {
+    color: #374650;
+    background: #0AB4DC;
+    border: 2px solid #0AB4DC;
+}
+
+.radioList.blue label > input[type="radio"]:checked + div {
+    color: white;
+    background: #328CC3;
+    border: 2px solid #328CC3;
+}
+
+.radioListWithResultContainer .radioList {
+    width: 240;
+    margin-right: 0;
+    margin-left: 7px;
+}
+
+.hidden {
+    /*
+    For hiding/unhiding to work correctly, this needs to be at the bottom of the classes.
+    If you want something hideable, don't set 'display:' below this.
+    */
+    display: none;
+}
+
+#loadingPage {
+    text-align: center;
+}
+
+#glcMainUIDisplayContainer {
+    flex-grow: 1;
+}
+
+#glcMainUINewLookupStatus {
+    text-align: center;
+}

@@ -1,0 +1,22 @@
+{  
+    "servers":[  
+        {  
+            "name":"North America Test",
+            "id":"UST1",
+            "isProduction":"false",
+            "url":"https://cloudops-jenkins-ust1.hostedtest.act.com:8443"
+        },
+        {  
+            "name":"Test1",
+            "id":"T1",
+            "isProduction":"false",
+            "url":"https://cloudops-jenkins-ust1.hostedtest.act.com:8443"
+        },
+        {  
+            "name":"Test2",
+            "id":"T2",
+            "isProduction":"false",
+            "url":"https://cloudops-jenkins-ust1.hostedtest.act.com:8443"
+        }
+    ]
+}

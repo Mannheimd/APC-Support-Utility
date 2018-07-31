@@ -1,0 +1,403 @@
+<!DOCTYPE html5>
+<html>
+
+<head>
+    <title>Glacier</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="resources/javascript/utils.js"></script>
+    <script src="resources/javascript/date.js"></script>
+    <script src="resources/javascript/jenkinsLookup.js"></script>
+    <script src="resources/javascript/jenkinsServer.js"></script>
+    <script src="resources/javascript/jenkinsApi.js"></script>
+    <script src="resources/javascript/actDatabase.js"></script>
+    <script src="resources/javascript/actUser.js"></script>
+    <script src="resources/javascript/actBackup.js"></script>
+    <script src="resources/javascript/glacier.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="resources/css/glacier.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <script type="text/html" id="jnkSvrCfgListItemTpl">
+        <div class="listItem" id="jnkSrvCfgListItem{{serverId}}">
+            <h3 id="jnkSrvCfgListItem{{serverId}}Name"></h3>
+            <div class="flexRow">
+                <p id="jnkSrvCfgListItem{{serverId}}LoginStatus"></p>
+                <button id="jnkSrvCfgListItem{{serverId}}ForgetButton">Forget</button>
+            </div>
+            <div id="jnkSrvCfgListItem{{serverId}}LoginSection">
+                <form id="jnkSrvCfgListItem{{serverId}}LoginForm">
+                    <div class="flexRow">
+                        <p>Username:</p>
+                        <input type="text" name="username"></input>
+                    </div>
+                    <div class="flexRow">
+                        <p>API Token:</p>
+                        <input type="text" name="apiToken"></input>
+                    </div>
+                    <div class="flexRow">
+                        <a href="howto.html">How do I?</a>
+                        <input type="submit" value="Log in" id="jnkSrvCfgListItem{{serverId}}LoginSubmit"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="glcNewLookupRegionRadioTpl">
+        <p>
+            <input type="radio" id="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}" name="newLookupJenkinsServerSelect" value="{{serverId}}"/>
+            <label for="glcMainUIDisplayPageNewLookupServerRadio{{serverId}}">{{serverName}}</label>
+        </p>
+    </script>
+    <script type="text/html" id="glcLookupListItemTpl">
+        <label>
+            <input type="radio" id="glcLookupsListItem{{lookupNumber}}" name="glcMainUIAccountList"/>
+            <div>
+                {{accountName}}
+            </div>
+        </label>
+    </script>
+    <script type="text/html" id="glcLookupActDatabaseListItemTpl">
+        <option value={{databaseNumber}}>
+            {{databaseName}}
+        </option>
+    </script>    
+    <script type="text/html" id="glcLookupActUserListItemTpl">
+        <label>
+            <input type="radio" id="glcLookupActUserListItem{{userNumber}}" name="glcLookupActDatabaseList"/>
+            <div>
+                {{loginName}}
+            </div>
+        </label>
+    </script>
+    <script type="text/html" id="glcLookupActDatabaseDetailsTpl">
+        <header>
+            <table>
+                <tr>
+                    <td>Database Name:</td>
+                    <td>{{databaseName}}</td>
+                </tr>
+                <tr>
+                    <td>SQL Server:</td>
+                    <td>{{databaseServer}}</td>
+                </tr>
+            </table>
+            <nav class="tabBar" id="glcDatabaseDetailsScreenSelection">
+                <ul>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionUsers" class="tabBarSelected">Users</li>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionTasks">Tasks</li>
+                    <li data-pageId="glcDatabaseDetailsScreenSelectionBackups">Backups</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcDatabaseDetailsScreenSelectionUsers">
+            <div class="flexCentered flexGrow" id="glcLookupActUserDetailsGetting">
+                <div>
+                    <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="200" width="200">
+                    <h3 id="glcLookupActUserDetailsGettingStatus">No account selected</h3>
+                </div>
+            </div>
+            <div class="flexRowContainer flexGrow hidden" id="glcLookupActUserDetailsFound">
+                <div class="radioList blue" id="glcLookupUserList">
+                </div>
+                <div class="flexColumnContainer flexGrow" id="glcLookupUserDetails">
+                </div>
+            </div>
+        </div>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionTasks">
+            <div class="expandoButton">
+                <button>
+                    Unlock Database
+                </button>
+                <div>
+                    <form id="glcLookupUnlockDatabaseForm">
+                        <div class="flexRowContainer">
+                            <input type="submit" value="Unlock">
+                            <p id="glcLookupUnlockDatabaseStatus"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="glcDatabaseDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcDatabaseDetailsScreenSelectionBackups">
+            <div class="radioList blue" id="glcLookupBackupList">
+            </div>
+            <div class="flexColumnContainer flexGrow" id="glcLookupBackupDetails">
+                Backup Details
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="glcLookupActUserDetailsTpl">
+        <header>
+            <table>
+                <tr>
+                    <td>Contact Name:</td>
+                    <td>{{contactName}}</td>
+                </tr>
+                <tr>
+                    <td>Role:</td>
+                    <td>{{role}}</td>
+                </tr>
+            </table>
+            <nav class="tabBar" id="glcUserDetailsScreenSelection">
+                <ul>
+                    <li data-pageId="glcUserDetailsScreenSelectionInfo" class="tabBarSelected">Details</li>
+                    <li data-pageId="glcUserDetailsScreenSelectionTasks">Tasks</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionInfo">
+            <table>
+                <tr>
+                    <td>Login Name:</td>
+                    <td>{{loginName}}</td>
+                </tr>
+                <tr>
+                    <td>Last Login:</td>
+                    <td>{{lastLogon}} UTC</td>
+                </tr>
+                <tr>
+                    <td>Create Date:</td>
+                    <td>{{createDate}} UTC</td>
+                </tr>
+                <tr>
+                    <td>Can change password:</td>
+                    <td>{{allowPwdChange}}</td>
+                </tr>
+                <tr>
+                    <td>Password never expires:</td>
+                    <td>{{pwdNeverExpire}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcUserDetailsScreenSelectionTasks">
+            <div class="expandoButton">
+                <button>
+                    Reset Password
+                </button>
+                <div>
+                    <form id="glcLookupResetPasswordForm">
+                        <p>Reset the user's password to a random value</p>
+                        <input type="submit" value="Reset">
+                        <p id="glcLookupResetPasswordStatus"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="glcLookupResultTpl">
+        <header>
+            <h3>{{accountName}}</h3>
+            <nav class="tabBar" id="glcLookupResultScreenSelection">
+                <ul>
+                    <li data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
+                    <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases
+                        <select id="glcLookupDatabaseList">
+                            <i class="fas fa-caret-down"></i>
+                        </select>
+                    </li>
+                    <li data-pageId="glcLookupResultScreenSelectionActivity">Activity</li>
+                    <li data-pageId="glcLookupResultScreenSelectionTasks">Tasks</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="glcLookupResultScreenSelection" id="glcLookupResultScreenSelectionDetails">
+            <table>
+                <tr>
+                    <td>Account Number:</td>
+                    <td>{{zuoraAccount}}</td>
+                </tr>
+                <tr>
+                    <td>Account Status:</td>
+                    <td>{{accountStatus}}</td>
+                </tr>
+                <tr>
+                    <td>Trial/Paid:</td>
+                    <td>{{trialOrPaid}}</td>
+                </tr>
+                <tr>
+                    <td>Users:</td>
+                    <td>{{seatCount}}</td>
+                </tr>
+                <tr>
+                    <td>Product:</td>
+                    <td>{{product}}</td>
+                </tr>
+                <tr>
+                    <td>Primary Email:</td>
+                    <td>{{email}}</td>
+                </tr>
+                <tr>
+                    <td>Login URL:</td>
+                    <td>{{loginUrl}}</td>
+                </tr>
+                <tr>
+                    <td>Upload URL:</td>
+                    <td>{{uploadUrl}}</td>
+                </tr>
+                <tr>
+                    <td>Inactivity Timeout:</td>
+                    <td id="glcLookupDetailsInactivityTimeout">Checking...</td>
+                </tr>
+                <tr>
+                    <td>Serial Number:</td>
+                    <td>{{serialNumber}}</td>
+                </tr>
+                <tr>
+                    <td>Locale:</td>
+                    <td>{{locale}}</td>
+                </tr>
+                <tr>
+                    <td>Create Date:</td>
+                    <td>{{createDate}}</td>
+                </tr>
+                <tr>
+                    <td>IIS Server:</td>
+                    <td>{{iisServer}}</td>
+                </tr>
+                <tr>
+                    <td>IITID:</td>
+                    <td>{{iitID}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="glcLookupResultScreenSelection flexColumnContainer flexGrow radioListWithResultContainer hidden" id="glcLookupResultScreenSelectionDatabases">
+            <div id="glcLookupDatabaseDetails" class="flexColumnContainer flexGrow">
+            </div>
+        </div>
+        <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionActivity">
+            <table id="glcLookupActivityTable">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="glcLookupResultScreenSelection hidden" id="glcLookupResultScreenSelectionTasks">
+            <div class="expandoButton">
+                <button>
+                    Resend welcome email
+                </button>
+                <div>
+                    <form id="glcLookupResendWelcomeEmailForm">
+                        <p>Send to:</p>
+                        <p>
+                            <input type="radio" value="default" id="glcLookupResendWelcomeEmailSendToDefault" name="glcLookupResendWelcomeEmailSendToRadio">
+                            <label for="glcLookupResendWelcomeEmailSendToDefault">{{email}}</label>
+                        </p>
+                        <p>
+                            <input type="radio" value="custom" id="glcLookupResendWelcomeEmailSendToCustom" name="glcLookupResendWelcomeEmailSendToRadio">
+                            <label for="glcLookupResendWelcomeEmailSendToCustom">
+                                <input type="text" name="glcLookupResendWelcomeEmailSendToText">
+                            </label>
+                        </p>
+                        <div class="flexRowContainer">
+                            <input type="submit" value="Send">
+                            <p id="glcLookupResendWelcomeEmailStatus"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="expandoButton">
+                <button>
+                    Change inactivity timeout
+                </button>
+                <div>
+                    <form id="glcLookupChangeinactivityTimeoutForm">
+                        <div class="flexRowContainer">
+                            <p>Current inactivity timeout:</p>
+                            <p id="glcLookupChangeInactivityTimeoutCurrent">Checking...</p>
+                        </div>
+                        <p>New timeout value, in minutes:</p>
+                        <input type="text" name="glcLookupChangeInactivityTimeoutMins">
+                        <div class="flexRowContainer">
+                            <input type="submit" value="Change">
+                            <p id="glcLookupChangeInactivityTimeoutStatus"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </script>
+</head>
+
+<body>
+<div class="pageContainer" id="loadingPage">
+    <div class="flexCentered">
+        <div>
+            <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="300" width="300">
+            <h3>Loading at glacial speeds!</h3>
+            <p>Seriously, if you're still here after a few seconds, something's wrong.</p>
+            <p>Ensure that JavaScript is enabled, and try opening this site in a different browser.</p>
+        </div>
+    </div>
+</div>
+<div class="pageContainer flexRowContainer hidden" id="glcMainUI">
+    <div class="menu">
+        <div class="header flexRow">
+            <h3>My Lookups</h3>
+            <button class="stencil" id="glcMainUINewLookupButton">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <div class="radioList" id="glcMainUIAccountList">
+        </div>
+        <div class="footer flexRow">
+            <button id="glcMainUIMenuConfigButton">
+                Config
+            </button>
+        </div>
+    </div>
+    <div id="glcMainUIDisplayContainer">
+        <div class="glcMainUIDisplayPage flexCentered vertFill" id="glcMainUIDisplayPageDefault">
+            <div >
+                <img src="resources/images/glacierLarge.png" alt="Glacier Icon" height="300" width="300">
+                <h3>No account selected</h3>
+            </div>
+        </div>
+        <div class="glcMainUIDisplayPage flexTopCentered hidden" id="glcMainUIDisplayPageNewLookup">
+            <form class="flexColumnContainer" id="glcMainUINewLookupForm">
+                <h3>Region:</h3>
+                <div id="glcMainUIDisplayPageNewLookupServers">
+                </div>
+                <h3>Search by:</h3>
+                <div>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByAccNum" name="newLookupSearchBy" value="ZuoraAccount" checked/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByAccNum">Account Number</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByEmail" name="newLookupSearchBy" value="EmailAddress"/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByEmail">Email Address</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySiteName" name="newLookupSearchBy" value="SiteName"/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchBySiteName">Site Name</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchBySubNum" name="newLookupSearchBy" value="ZuoraSubscription"/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchBySubNum">Subscription Number</label>
+                    </p>
+                    <p>
+                        <input type="radio" id="glcMainUIDisplayPageNewLookupSearchByIITID" name="newLookupSearchBy" value="IITID"/>
+                        <label for="glcMainUIDisplayPageNewLookupSearchByIITID">IITID</label>
+                    </p>
+                </div>
+                <h3>Search for:</h3>
+                <input type="text" name="newLookupSearchFor">
+                <input type="submit" value="Search">
+                <p id="glcMainUINewLookupStatus"></p>
+            </form>
+        </div>
+        <div class="glcMainUIDisplayPage flexColumnContainer vertFill hidden" id="glcMainUIDisplayPageDetails">
+        </div>
+    </div>
+</div>
+<div class="pageContainer hidden" id="glacierConfig">
+    <div class="container400px flexColumnContainer flexTopCentered">
+        <div id="jnkSrvCfgList">
+        </div>
+        <div class="flexRow">
+            <button id="jnkSrvCfgFinishedButton">Finished</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
