@@ -13,10 +13,10 @@ function actBackup(backupText, database) {
 
     function parseBackupText() {
         backup.fileName = findString(backupText, "{filename=", "}");
-        if (filename) {
+        if (backup.fileName) {
             // Since this will only make sense if you can see a file name, I'll break down an example:
             // ust1-ust1-actsql-09-A7618204128-201807230200-full.bak
-            var fileNameSplitAfterDBName = fileName.split(backup.database.name + "-")[1];
+            var fileNameSplitAfterDBName = backup.fileName.split(backup.database.name + "-")[1];
             // 201807230200-full.bak
             var fileNameSplit = fileNameSplitAfterDBName.split("-")
             var dateTimeString = fileNameSplit[0];
@@ -40,7 +40,7 @@ function actBackup(backupText, database) {
 actBackup.prototype.addBackupListItem = function(backup, targetList, database) {
     backup.listItemHtml = actBackup.prototype.processTemplate($("#glcLookupActBackupListItemTpl").html(), backup);
     $(targetList).append(backup.listItemHtml);
-    var listItem = $("#glcLookupActBackupListItem" + bacup.number);
+    var listItem = $("#glcLookupActBackupListItem" + backup.number);
     listItem.on("click", function() {
         actDatabase.prototype.setSelectedBackup(database, backup);
         actBackup.prototype.switchToBackup(backup);
@@ -52,6 +52,7 @@ actBackup.prototype.switchToBackup = function(backup) {
     $("#glcLookupBackupDetails").html(backup.detailsHtml);
 
     actBackup.prototype.addButtonBindings(backup);
+    addExpandoButtonFunction($("#glcLookupBackupDetails"));
 
     var listItem = $("#glcLookupActBackupListItem" + backup.number);
     listItem.prop("checked", true);
@@ -59,15 +60,9 @@ actBackup.prototype.switchToBackup = function(backup) {
 
 actBackup.prototype.processTemplate = function(html, backup) {
     htmlAltered = html;
-    htmlAltered = replaceAllInstances(htmlAltered, "{{loginName}}", backup.loginName);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{forcePwdChange}}", backup.forcePwdChange);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{allowPwdChange}}", backup.allowPwdChange);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{pwdNeverExpire}}", backup.pwdNeverExpire);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{role}}", backup.role);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{createDate}}", backup.createDate);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{lastLogon}}", backup.lastLogon);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{lastLogoff}}", backup.lastLogoff);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{contactName}}", backup.contactName);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{backupNumber}}", backup.number);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{fileName}}", backup.fileName);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{dateTime}}", backup.dateTime);
     return htmlAltered;
 }
 

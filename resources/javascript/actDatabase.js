@@ -50,6 +50,13 @@ actDatabase.prototype.addButtonBindings = function(database) {
 
         e.preventDefault();
     })
+
+    $("#glcDatabaseDetailsBackupsTab").on("click", function(e) {
+        if (!database.backupLoadTriggered) {
+            actDatabase.prototype.getBackups(database);
+            database.backupLoadTriggered = true;
+        }
+    })
 }
 
 actDatabase.prototype.setScreenSelectionPage = function(database) {
@@ -208,9 +215,9 @@ actDatabase.prototype.getBackups = function(database) {
     }
 
     function alterUI(haveBackups, message) {
-        var giveBackupsPlz = $("#glcLookupActBackupDetailsGetting");
-        var helloYesIHaveBackupsWhatDo = $("#glcLookupActBackupDetailsFound");
-        var justALonelyH3OnTheLonelyRoad = $("#glcLookupActBackupDetailsGettingStatus");
+        var giveBackupsPlz = $("#glcLookupActBackupGetting");
+        var helloYesIHaveBackupsWhatDo = $("#glcLookupActBackupFound");
+        var justALonelyH3OnTheLonelyRoad = $("#glcLookupActBackupGettingStatus");
     
         if (haveBackups) {
             hide(giveBackupsPlz);
