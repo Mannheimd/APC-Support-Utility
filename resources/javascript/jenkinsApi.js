@@ -84,6 +84,16 @@ jenkinsApi.prototype.getDatabaseBackups = function(url, id, databaseName, sqlSer
     });
 }
 
+jenkinsApi.prototype.copyDatabaseBackup = function(url, id, destinationServer, fileName, callback) {
+    var parameters = {};
+    parameters.DestinationServer = destinationServer;
+    parameters.Backup = fileName;
+
+    this.buildAndGetResponse(url, id, "/job/CloudOps1-CopyCustomerDatabaseBackup-M/buildWithParameters", parameters, function(response) {
+        callback(response);
+    });
+}
+
 jenkinsApi.prototype.getCurrentUser = function(url, id, callback) {
     this.getRequest(url, id, "/me/api/json", function(response) {
         callback(response);

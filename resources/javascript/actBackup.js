@@ -1,7 +1,7 @@
 var backupCount = 0;
 
 function actBackup(backupText, database) {
-    backup = {};
+    var backup = {};
     backup.number = backupCount;
     backupCount++;
 
@@ -71,11 +71,74 @@ actBackup.prototype.addButtonBindings = function(backup) {
         backup.screenSelectionPageId = $(e.target).attr("data-pageId");
         actBackup.prototype.setScreenSelectionPage(backup);
     })
+        
+    $("#glcLookupRetainBackupForm").on("submit", function(e) {
+        var params = $("#" + e.target.id).serializeArray();
+
+        // params left in for future compatibility, but not needed here
+        if (checkFormFieldsComplete(params, 0)) {
+            actBackup.prototype.retainBackup(backup);
+        }
+
+        e.preventDefault();
+    })
 }
 
 actBackup.prototype.setScreenSelectionPage = function(backup) {
     if (backup.screenSelectionPageId) {
         changePage("glcBackupDetailsScreenSelection", backup.screenSelectionPageId);
         changeTab("glcBackupDetailsScreenSelection", backup.screenSelectionPageId);
+    }
+}
+
+actBackup.prototype.retainBackup = function(backup) {
+    alterUI(true, "Copying backup. This may take a while, don't leave this page.");
+    if (backup.type == "diff") {
+        handleRequest(backup.full, function(response) {
+            if (response.data.indexOf("marked build as failure") != -1) {
+                alterUI(false, "Failed to copy backup. Please try again.");
+            } else {
+                handleRequest(backup, function(response) {
+                    if (response.data.indexOf("marked build as failure") != -1) {
+                        alterUI(false, "Failed to copy backup. Please try again.");
+                    } else {
+                        alterUI(false, "Backup files retained. Raise a CloudOps escalation to request a restore, including these file names:</br>" + 
+                                        backup.full.fileName + "</br>" +
+                                        backup.fileName);
+                        return;
+                    }
+                })
+            }
+        })
+    } else if (backup.type = "full") {
+        handleRequest(backup, function(response) {
+            if (response.data.indexOf("marked build as failure") != -1) {
+                alterUI(false, "Failed to copy backup. Please try again.");
+            } else {
+                alterUI(false, "Backup file retained. Raise a CloudOps escalation to request a restore, including this file name:</br>" + 
+                                backup.fileName);
+                return;
+            }
+        })
+    }
+
+    function handleRequest(backupToCopy, callback) {
+        jenkinsApi.prototype.copyDatabaseBackup(backupToCopy.database.jenkinsServer.url, backupToCopy.database.jenkinsServer.id, backupToCopy.database.server, backupToCopy.fileName, function(response) {
+            callback(response);
+        })
+    }
+
+    function alterUI(disabled, message) {
+        if (disabled) {
+            $("#glcLookupRetainBackupForm input").prop("disabled", true);
+        } else {
+            $("#glcLookupRetainBackupForm input").prop("disabled", false);
+        }
+
+        if (message) {
+            $("#glcLookupRetainBackupStatus").html(message);
+        } else {
+            $("#glcLookupRetainBackupStatus").html("");
+        }
     }
 }

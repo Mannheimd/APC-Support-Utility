@@ -1,7 +1,7 @@
 var databaseCount = 0;
 
 function actDatabase(databaseInfo) {
-    data = databaseInfo;
+    var data = databaseInfo;
     data.number = databaseCount;
     databaseCount++;
 
