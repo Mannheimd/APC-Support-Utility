@@ -270,7 +270,7 @@ jenkinsLookup.prototype.addButtonBindings = function(lookup) {
         e.preventDefault();
     })
         
-    $("#glcLookupChangeinactivityTimeoutForm").on("submit", function(e) {
+    $("#glcLookupChangeInactivityTimeoutForm").on("submit", function(e) {
         var params = $("#" + e.target.id).serializeArray();
 
         if (checkFormFieldsComplete(params, 1)) {
@@ -330,7 +330,7 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
     alterUI(true, "Changing...");
 
     if (newTimeout.match(/^[0-9]+$/)) {
-        jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, newTimeout, function(response) {
+        jenkinsApi.prototype.changeInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteInfo[0].siteName, lookup.siteInfo[0].iisServer, newTimeout, function(response) {
             handleResponse(response);
         })
     } else {
@@ -364,7 +364,7 @@ jenkinsLookup.prototype.changeInactivityTimeout = function(lookup, newTimeout) {
 jenkinsLookup.prototype.getInactivityTimeout = function(lookup) {
     alterUI("Checking...");
 
-    jenkinsApi.prototype.getInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteName, lookup.iisServer, function(response) {
+    jenkinsApi.prototype.getInactivityTimeout(lookup.jenkinsServer.url, lookup.jenkinsServer.id, lookup.siteInfo[0].siteName, lookup.siteInfo[0].iisServer, function(response) {
         handleResponse(response);
     })
 
@@ -388,10 +388,10 @@ jenkinsLookup.prototype.getInactivityTimeout = function(lookup) {
     function alterUI(message) {
         if (message) {
             $("#glcLookupDetailsInactivityTimeout").html(message);
-            $("#glcLookupChangeInactivityTimeoutStatus").html(message);
+            $("#glcLookupChangeInactivityTimeoutCurrent").html(message);
         } else {
             $("#glcLookupDetailsInactivityTimeout").html("");
-            $("#glcLookupChangeInactivityTimeoutStatus").html("");
+            $("#glcLookupChangeInactivityTimeoutCurrent").html("");
         }
     }
 }

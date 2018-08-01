@@ -34,7 +34,7 @@ jenkinsApi.prototype.resendWelcomeEmail = function(url, id, iitID, email, callba
 
 jenkinsApi.prototype.changeInactivityTimeout = function(url, id, siteName, iisServer, newTimeout, callback) {
     var parameters = {};
-    parameters.siteName = siteName;
+    parameters.SiteName = siteName;
     parameters.IISServer = iisServer;
     parameters.Timeout = newTimeout;
 
@@ -45,7 +45,7 @@ jenkinsApi.prototype.changeInactivityTimeout = function(url, id, siteName, iisSe
 
 jenkinsApi.prototype.getInactivityTimeout = function(url, id, siteName, iisServer, callback) {
     var parameters = {};
-    parameters.siteName = siteName;
+    parameters.SiteName = siteName;
     parameters.IISServer = iisServer;
 
     this.buildAndGetResponse(url, id, "/job/CloudOps1-ListExistingClientTimeout/buildWithParameters", parameters, function(response) {
