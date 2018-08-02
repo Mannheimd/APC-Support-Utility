@@ -149,7 +149,7 @@ jenkinsLookup.prototype.processTemplate = function(html, lookup) {
     htmlAltered = replaceAllInstances(htmlAltered, "{{lookupNumber}}", lookup.lookupNumber);
     htmlAltered = replaceAllInstances(htmlAltered, "{{accountName}}", lookup.accountName);
     htmlAltered = replaceAllInstances(htmlAltered, "{{zuoraAccount}}", lookup.zuoraAccount);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{product}}", lookup.product);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{product}}", getFriendlyProductName());
     htmlAltered = replaceAllInstances(htmlAltered, "{{email}}", lookup.email);
     htmlAltered = replaceAllInstances(htmlAltered, "{{locale}}", lookup.locale);
     htmlAltered = replaceAllInstances(htmlAltered, "{{loginUrl}}", lookup.siteInfo[0].url);
@@ -160,7 +160,7 @@ jenkinsLookup.prototype.processTemplate = function(html, lookup) {
     htmlAltered = replaceAllInstances(htmlAltered, "{{trialOrPaid}}", lookup.trialOrPaid);
     htmlAltered = replaceAllInstances(htmlAltered, "{{serialNumber}}", lookup.serialNumber);
     htmlAltered = replaceAllInstances(htmlAltered, "{{seatCount}}", lookup.seatCount);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{accountStatus}}", determineAccountStatus);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{accountStatus}}", determineAccountStatus());
     return htmlAltered;
 
     function determineAccountStatus() {
@@ -168,6 +168,13 @@ jenkinsLookup.prototype.processTemplate = function(html, lookup) {
         else if (lookup.archiveStatus == "Archived") {return "Archived"}
         else if (lookup.suspendStatus == "Suspended") {return "Suspended"}
         else {return "Active"}
+    }
+
+    function getFriendlyProductName() {
+        if (lookup.product == "ActPremiumCloud") {return "Act! Premium"}
+        else if (lookup.product == "ActPremiumCloudPlus") {return "Act! Premium Plus (Private)"}
+        else {return ""}
+        // Legacy product names stored in SPS (managed by DevOps), may not match with current product line
     }
 }
 
