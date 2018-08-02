@@ -71,6 +71,11 @@ input[type="submit"]:hover {
     color: white;
 }
 
+input[type="submit"]:disabled {
+    background: #ebebe4;
+    color: #FE5000;
+}
+
 input[type="radio"] {
     position: absolute;
     display: hidden;
@@ -140,6 +145,10 @@ button:hover {
     border: 2px solid #FE5000;
     background: #FE5000;
     color: white;
+}
+
+button:disabled {
+    background: #ebebe4;
 }
 
 button.stencil {
