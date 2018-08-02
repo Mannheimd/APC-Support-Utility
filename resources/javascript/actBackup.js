@@ -62,7 +62,7 @@ actBackup.prototype.processTemplate = function(html, backup) {
     htmlAltered = html;
     htmlAltered = replaceAllInstances(htmlAltered, "{{backupNumber}}", backup.number);
     htmlAltered = replaceAllInstances(htmlAltered, "{{fileName}}", backup.fileName);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{dateTime}}", backup.dateTime);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{dateTime}}", backup.dateTime.format("E d NNN yyyy" + "</br>" + backup.dateTime.format("hh:mm UTC")));
     return htmlAltered;
 }
 
