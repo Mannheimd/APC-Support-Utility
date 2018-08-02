@@ -107,7 +107,7 @@
             <div class="flexRowContainer flexGrow hidden" id="glcLookupActUserDetailsFound">
                 <div class="radioList blue" id="glcLookupUserList">
                 </div>
-                <div class="flexColumnContainer flexGrow" id="glcLookupUserDetails">
+                <div class="flexColumnContainer flexGrow scrollAuto" id="glcLookupUserDetails">
                 </div>
             </div>
         </div>
@@ -142,8 +142,8 @@
         </div>
     </script>
     <script type="text/html" id="glcLookupActUserDetailsTpl">
-        <header>
-            <table>
+        <div class="glcUserDetailsScreenSelection flexColumnContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionInfo">
+            <table class="flexRowContainer">
                 <tr>
                     <td>Contact Name:</td>
                     <td>{{contactName}}</td>
@@ -152,16 +152,12 @@
                     <td>Role:</td>
                     <td>{{role}}</td>
                 </tr>
-            </table>
-            <nav class="tabBar" id="glcUserDetailsScreenSelection">
-                <ul>
-                    <li data-pageId="glcUserDetailsScreenSelectionInfo" class="tabBarSelected">Details</li>
-                    <li data-pageId="glcUserDetailsScreenSelectionTasks">Tasks</li>
-                </ul>
-            </nav>
-        </header>
-        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer" id="glcUserDetailsScreenSelectionInfo">
-            <table>
+                <tr>
+                    <td>
+                </tr>
+                <tr>
+                    <td>
+                </tr>
                 <tr>
                     <td>Login Name:</td>
                     <td>{{loginName}}</td>
@@ -183,8 +179,6 @@
                     <td>{{pwdNeverExpire}}</td>
                 </tr>
             </table>
-        </div>
-        <div class="glcUserDetailsScreenSelection flexRowContainer flexGrow radioListWithResultContainer hidden" id="glcUserDetailsScreenSelectionTasks">
             <div class="expandoButton">
                 <button>
                     Reset Password
@@ -220,6 +214,7 @@
                 <ul>
                     <li data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
                     <li data-pageId="glcLookupResultScreenSelectionDatabases">Databases
+                        <!-- When this was handed over to Jon Taylor, he was told on no uncertain terms to make this database selection thing not shit. If it's still shit, moan at him. ~Chris Manders -->
                         <select id="glcLookupDatabaseList">
                             <i class="fas fa-caret-down"></i>
                         </select>

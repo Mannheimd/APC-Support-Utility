@@ -49,11 +49,6 @@ td:first-child {
     font-weight: bold;
 }
 
-.hideOverflow {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 input[type="text"] {
     font-size: 16px;
     padding: 10px;
@@ -177,6 +172,17 @@ button.stencil {
 
 button.stencil:hover {
     color: #da4c1f;
+}
+
+.scrollAuto {
+    overflow: auto;
+    min-width: max-content;
+    min-height: max-content;
+}
+
+.hideOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .expandoButton {
