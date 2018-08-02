@@ -9,6 +9,16 @@ body {
     outline-offset: none;
 }
 
+a {
+    color: #328CC3;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #328CC3;
+    text-decoration: underline;
+}
+
 p {
     margin: 5px;
 }
