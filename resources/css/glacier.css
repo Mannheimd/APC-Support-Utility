@@ -391,7 +391,7 @@ nav.tabBar select:hover {
 }
 
 .radioList {
-    overflow: auto;
+    overflow-y: auto;
     background: transparent;
     margin: 5px;
     font-weight: bold;
@@ -401,7 +401,7 @@ nav.tabBar select:hover {
 }
 
 .radioList.blue {
-    overflow: auto;
+    overflow-y: auto;
     background: transparent;
     margin: 5px;
     font-weight: bold;
@@ -476,4 +476,8 @@ nav.tabBar select:hover {
 
 #glcMainUINewLookupStatus {
     text-align: center;
+}
+
+#glcLookupUserList {
+    overflow-y: scroll;
 }
