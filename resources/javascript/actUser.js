@@ -40,13 +40,10 @@ function actUser(userText, database) {
         user.role = findString(userText, "{displayname=", "}");
 
         var createDateText = findString(userText, "{createdate=", "}");
-        user.createDate = Date.parseString(createDateText.substring(0, 20), "yyyy-MM-dd HH:mm:ss");
+        user.createDate = Date.parseString(createDateText.substring(0, 19), "yyyy-MM-dd HH:mm:ss");
 
         var logonDateText = findString(userText, "{logondate=", "}");
-        user.lastLogon = Date.parseString(logonDateText.substring(0, 20), "yyyy-MM-dd HH:mm:ss");
-
-        var logoffDateText = findString(userText, "{logoffdate=", "}");
-        user.lastLogoff = Date.parseString(logoffDateText.substring(0, 20), "yyyy-MM-dd HH:mm:ss");
+        user.lastLogon = Date.parseString(logonDateText.substring(0, 19), "yyyy-MM-dd HH:mm:ss");
 
         user.contactName = findString(userText, "{fullname=", "}");
     }
@@ -89,9 +86,8 @@ actUser.prototype.processTemplate = function(html, user) {
     htmlAltered = replaceAllInstances(htmlAltered, "{{allowPwdChange}}", user.allowPwdChange);
     htmlAltered = replaceAllInstances(htmlAltered, "{{pwdNeverExpire}}", user.pwdNeverExpire);
     htmlAltered = replaceAllInstances(htmlAltered, "{{role}}", user.role);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{createDate}}", user.createDate);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{lastLogon}}", user.lastLogon);
-    htmlAltered = replaceAllInstances(htmlAltered, "{{lastLogoff}}", user.lastLogoff);
+    htmlAltered = replaceAllInstances(htmlAltered, "{{createDate}}", user.createDate.format("E d NNN yyyy, hh:mm UTC"));
+    htmlAltered = replaceAllInstances(htmlAltered, "{{lastLogon}}", user.lastLogon.format("E d NNN yyyy, hh:mm UTC"));
     htmlAltered = replaceAllInstances(htmlAltered, "{{contactName}}", user.contactName);
     return htmlAltered;
 }
