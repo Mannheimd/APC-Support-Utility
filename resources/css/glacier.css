@@ -39,6 +39,11 @@ td:first-child {
     font-weight: bold;
 }
 
+.hideOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 input[type="text"] {
     font-size: 16px;
     padding: 10px;
@@ -377,6 +382,7 @@ nav.tabBar select:hover {
 }
 
 .radioList {
+    overflow: auto;
     background: transparent;
     margin: 5px;
     font-weight: bold;
@@ -386,24 +392,22 @@ nav.tabBar select:hover {
 }
 
 .radioList.blue {
+    overflow: auto;
     background: transparent;
     margin: 5px;
     font-weight: bold;
-    border: 2px solid #328CC3;
     border-radius: 24px;
     color: #328CC3;
 }
 
 .radioList label > div {
     padding: 14px 16px 12px 16px;
-    margin: -2px;
     text-align: center;
     transition: 0.1s;
 }
 
 .radioList.blue label > div {
     padding: 14px 16px 12px 16px;
-    margin: -2px;
     text-align: center;
     transition: 0.1s;
 }
