@@ -102,8 +102,8 @@ actBackup.prototype.retainBackup = function(backup) {
                     if (response.data.indexOf("marked build as failure") != -1) {
                         alterUI(false, "Failed to copy backup. Please try again.");
                     } else {
-                        alterUI(false, "Backup files retained. Raise a CloudOps escalation to request a restore, including these file names:</br>" + 
-                                        backup.full.fileName + "</br>" +
+                        alterUI(false, "Backup files retained. Raise a CloudOps escalation to request a restore, including these file names:</br></br>" + 
+                                        backup.full.fileName + "</br></br>" +
                                         backup.fileName);
                         return;
                     }
