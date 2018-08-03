@@ -66,6 +66,7 @@ function changeTab(tabBarId, pageId) {
 
 function resetLookup() {
     $("#glcMainUIDisplayPageNewLookupServers").empty();
+    $("#glcNewLookupSearchFor").val("");
     populateJenkinsServers();
     resetLookupByRadio();
 
