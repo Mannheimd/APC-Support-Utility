@@ -210,6 +210,8 @@
     <script type="text/html" id="glcLookupResultTpl">
         <header>
             <h3>{{accountName}}</h3>
+            <h4>{{zuoraAccount}}</h4>
+            <h4>{{email}}</h4>
             <nav class="tabBar" id="glcLookupResultScreenSelection">
                 <ul>
                     <li data-pageId="glcLookupResultScreenSelectionDetails" class="tabBarSelected">Details</li>
@@ -227,10 +229,6 @@
         <div class="glcLookupResultScreenSelection" id="glcLookupResultScreenSelectionDetails">
             <table>
                 <tr>
-                    <td>Account Number:</td>
-                    <td>{{zuoraAccount}}</td>
-                </tr>
-                <tr>
                     <td>Account Status:</td>
                     <td>{{accountStatus}}</td>
                 </tr>
@@ -245,10 +243,6 @@
                 <tr>
                     <td>Product:</td>
                     <td>{{product}}</td>
-                </tr>
-                <tr>
-                    <td>Primary Email:</td>
-                    <td>{{email}}</td>
                 </tr>
                 <tr>
                     <td>Login URL:</td>

@@ -27,6 +27,10 @@ h3 {
     margin: 10px;
 }
 
+h4 {
+    margin: 10px;
+}
+
 form {
     margin: 0;
 }
@@ -225,6 +229,12 @@ header {
 }
 
 header > h3 {
+    margin-left: 16px;
+    background: transparent;
+    color: #374650;
+}
+
+header > h4 {
     margin-left: 16px;
     background: transparent;
     color: #374650;
